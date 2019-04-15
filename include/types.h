@@ -10,6 +10,15 @@
 
 #pragma once
 
+#define __int8 char
+#define __int16 short
+#define __int32 int
+#define __int64 long long
+#define _QWORD __int64
+#define _DWORD __int32
+#define _WORD __int16
+#define _BYTE char
+
 typedef int8_t              s8;
 typedef int16_t             s16;
 typedef int32_t             s32;

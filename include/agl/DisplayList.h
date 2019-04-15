@@ -6,7 +6,7 @@
 #pragma once
 
 #include "types.h"
-#include "GPUMemAddr.h"
+#include "agl/gpu.h"
 #include "sead/Heap.h"
 
 namespace agl

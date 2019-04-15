@@ -6,7 +6,7 @@
 #pragma once
 
 #include "types.h"
-#include "util.h"
+#include "agl/util.h"
 
 class NVNtextureBuilder;
 class NVNtexture;

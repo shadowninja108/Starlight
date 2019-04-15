@@ -14,7 +14,7 @@ namespace agl
     namespace detail
     {
         class GPUMemBlockMgrHeapEx;
-        typedef u64 MemoryPoolType;
+        //typedef u64 MemoryPoolType;
 
         class MemoryPoolHeap
         {

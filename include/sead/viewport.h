@@ -17,7 +17,7 @@ namespace sead
         Viewport(f32, f32, f32, f32);
 
         void project(sead::Vector2<f32> *, sead::Vector3<f32> const &) const;
-        void project(sead::Vector2<f32> *, sead::Vector3<f32> const &) const;
+       // void project(sead::Vector2<f32> *, sead::Vector3<f32> const &) const;
 
         f32 _8;
         f32 _C;
