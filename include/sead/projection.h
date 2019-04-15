@@ -15,7 +15,7 @@
 
 namespace sead
 {
-    class Graphics { public: enum DevicePosture; };
+    class Graphics { public: enum DevicePosture {}; };
 
     class Projection
     {
