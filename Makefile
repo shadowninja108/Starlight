@@ -32,7 +32,7 @@ CFLAGS	:=	-g -Wall -ffunction-sections \
 
 CFLAGS	+=	$(INCLUDE) -D__SWITCH__ -Wunused-variable
 
-CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -fpermissive
+CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -fpermissive -Wunused-variable
 
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS  =  -specs=../switch.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)

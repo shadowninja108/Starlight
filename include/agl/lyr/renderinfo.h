@@ -14,16 +14,20 @@ namespace agl {
 
       class RenderInfo {
         public:
-        RenderInfo(agl::DrawContext *a2, char a3, agl::RenderBuffer *a4);
-        RenderInfo(agl::DrawContext *drawContext, char a3, int a4, agl::RenderBuffer *renderBuffer, char a6, agl::lyr::Layer *layer);
+        RenderInfo(agl::DrawContext *drawContext, char a2, agl::RenderBuffer *renderBuffer);
+        RenderInfo(agl::DrawContext *drawContext, char a2, int a3, agl::RenderBuffer *renderBuffer, char a5, agl::lyr::Layer *layer);
+
+        virtual agl::RenderBuffer* getFrameBuffer();
+        virtual void bindFrameBufferAndApplyViewport(agl::DrawContext *drawContext);
+        virtual void setUpPrimitiveRenderer();
 
         _BYTE byte8;
         agl::RenderBuffer *renderBuffer;
         agl::lyr::Layer *layer;
-        Lp::Sys::DbgTextWriter::Info *dword20;
-        _QWORD camera;
+        Lp::Sys::DbgTextWriter::Info *dbgInfo;
+        sead::Camera *camera;
         sead::Projection *renderProjection;
-        sead::Viewport *qword38;
+        sead::Viewport *viewport;
         _BYTE byte40;
         agl::DrawContext *drawContext;
       };
