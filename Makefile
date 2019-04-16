@@ -30,9 +30,9 @@ ARCH	:=	-march=armv8-a -mtune=cortex-a57 -mtp=soft -fPIE
 CFLAGS	:=	-g -Wall -ffunction-sections \
 			$(ARCH) $(DEFINES)
 
-CFLAGS	+=	$(INCLUDE) -D__SWITCH__ -Wunused-variable
+CFLAGS	+=	$(INCLUDE) -D__SWITCH__
 
-CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -fpermissive -Wunused-variable
+CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -fpermissive
 
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS  =  -specs=../switch.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
