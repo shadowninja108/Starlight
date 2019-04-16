@@ -9,7 +9,7 @@ namespace agl {
     namespace utl {
         class DevTools{
             public:
-            void static drawTriangleImm(agl::DrawContext* drawContext, sead::Vector3<float>* p1, sead::Vector3<float>* p2, sead::Vector3<float>* p3, sead::Color4f* color);
+            void static drawTriangleImm(agl::DrawContext*, sead::Vector3<float> const&, sead::Vector3<float> const&, sead::Vector3<float> const&, sead::Color4f const&);
         };
     };
 };
