@@ -1,8 +1,10 @@
 #include "main.hpp"
 
 // hook for Lp::Sys::GfxLayer2D::drawUser
-void render(Lp::Sys::GfxLayer2D *layer, agl::DrawContext* drawContext)
-{    
+void render(Lp::Sys::GfxLayer2D *layer, agl::lyr::RenderInfo *renderInfo)
+{
+    agl::DrawContext* drawContext = renderInfo->drawContext;
+     
     sead::Vector3<float>* p1 = new sead::Vector3<float>();
     p1->mX = 0.0;
     p1->mY = 0.0;
