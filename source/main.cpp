@@ -1,4 +1,5 @@
 #include "main.hpp"
+__attribute__((section(".bss"))) rtld::ModuleObject __nx_module_runtime; // to appease rtld
 
 // hook for Lp::Sys::GfxLayer2D::drawUser
 void render(Lp::Sys::GfxLayer2D *layer, agl::lyr::RenderInfo *renderInfo)
