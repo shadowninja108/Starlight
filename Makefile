@@ -78,8 +78,9 @@ else
 #---------------------------------------------------------------------------------
 endif
 #---------------------------------------------------------------------------------
-
-export OFILES_BIN	:=	$(addsuffix .o,$(BINFILES))
+export OFILES_BIN   := ../bin/rocrt.o
+export OFILES_BIN	+=	$(addsuffix .o,$(BINFILES))
+export OFILES_BIN 	+= ../bin/crtend.o
 export OFILES_SRC	:=	$(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o)
 export OFILES 	:=	$(OFILES_BIN) $(OFILES_SRC)
 export HFILES_BIN	:=	$(addsuffix .h,$(subst .,_,$(BINFILES)))
@@ -135,7 +136,7 @@ DEPENDS	:=	$(OFILES:.o=.d)
 #---------------------------------------------------------------------------------
 # main targets
 #---------------------------------------------------------------------------------
-all	:	$(OUTPUT).nso
+all	: $(OUTPUT).nso
 
 $(OUTPUT).elf	:	$(OFILES)
 
