@@ -2,9 +2,10 @@
 __attribute__((section(".bss"))) rtld::ModuleObject __nx_module_runtime; // to appease rtld
 
 // hook for Lp::Sys::GfxLayer2D::drawUser
-void render(agl::lyr::Layer *layer, agl::lyr::RenderInfo *renderInfo)
+void render(__int64 layer, agl::lyr::RenderInfo *renderInfo)
 {
     agl::DrawContext* drawContext = renderInfo->drawContext;
+    //renderInfo->layer->setVisible(false);
 
     sead::Vector3<float> p1;
     p1.mX = 0.0;

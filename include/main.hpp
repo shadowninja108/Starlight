@@ -4,4 +4,4 @@
 #include "agl/utl/devtools.h"
 #include "ModuleObject.hpp"
 
-void render(agl::lyr::Layer *layer, agl::lyr::RenderInfo *renderInfo);
+void render(__int64, agl::lyr::RenderInfo *renderInfo);

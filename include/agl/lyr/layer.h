@@ -63,6 +63,8 @@ namespace agl {
         _BYTE byte57B;
         _WORD word57C;
         _BYTE byte57E;
+
+        void setVisible(bool visible);
       };
   };
 };
