@@ -9,4 +9,4 @@ libnx - Makefile creation
 
 Retr0id - Linker creation
 
-Thog - Help in cooperating with rtld 
+Thog - Help in cooperating with rtld

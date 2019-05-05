@@ -26,7 +26,7 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
     agl::utl::DevTools::drawTriangleImm(drawContext, p1, p2, p3, c);
     textWriter->printf("Welcome to Starlight!\n");
     textWriter->printf("This is a demonstration of C/C++ code running in the context of a Switch game!\n");
-    textWriter->printf("Credit to shiboleet, Khangaroo, Dax, Retr0id, and the libnx maintainers!\n");
+    textWriter->printf("Credit to shiboleet, Khangaroo, Thog, Retr0id, and the libnx maintainers!\n");
     
     Cmn::StaticMem *staticMem = Cmn::StaticMem::sInstance;
 
