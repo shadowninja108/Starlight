@@ -36,8 +36,6 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
         c.b = 1.0;
         c.a = 0.5;
 
-        const char lmao[15] = {0, 0, 0x80, 0x3F, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-
         agl::utl::DevTools::beginDrawImm(drawContext, sead::Matrix34<float>::ident, sead::Matrix44<float>::ident);
         agl::utl::DevTools::drawTriangleImm(drawContext, p1, p2, p3, c);
         agl::utl::DevTools::drawTriangleImm(drawContext, p3, p4, p2, c);
