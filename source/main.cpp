@@ -13,21 +13,21 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
         int width = fullWidth/2;
         int height = fullHeight;
 
-        sead::Vector3<float> p1;
+        sead::Vector3<float> p1; // top left
         p1.mX = -1.0;
         p1.mY = 1.0;
         p1.mZ = 0.0;
-        sead::Vector3<float> p2;
+        sead::Vector3<float> p2; // top right
         p2.mX = (width/fullWidth);
         p2.mY = 1.0;
         p2.mZ = 0.0;
-        sead::Vector3<float> p3;
+        sead::Vector3<float> p3; // bottom left
         p3.mX = -1.0;
-        p3.mY = 1-(height/fullHeight);
+        p3.mY = (height/fullHeight)-2;
         p3.mZ = 0.0;
-        sead::Vector3<float> p4;
+        sead::Vector3<float> p4; // bottom right
         p4.mX = (width/fullWidth);
-        p4.mY = 1-(height/fullHeight);
+        p4.mY = (height/fullHeight)-2;
         p4.mZ = 0.0;
 
         sead::Color4f c;
@@ -35,8 +35,6 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
         c.g = 1.0;
         c.b = 1.0;
         c.a = 0.5;
-
-        const char lmao[15] = {0, 0, 0x80, 0x3F, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
         agl::utl::DevTools::beginDrawImm(drawContext, sead::Matrix34<float>::ident, sead::Matrix44<float>::ident);
         agl::utl::DevTools::drawTriangleImm(drawContext, p1, p2, p3, c);
@@ -75,7 +73,7 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
             }
             textWriter->printf(" ");
         }
-        textWriter->printf("\n");
+        textWriter->printf("\r\n");
 
         Cmn::StaticMem *staticMem = Cmn::StaticMem::sInstance;
 

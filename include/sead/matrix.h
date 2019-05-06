@@ -13,7 +13,7 @@ namespace sead
     class Matrix34
     {
         public:
-        static Matrix34 ident; 
+        static Matrix34<float> ident; 
         T matrix[3][4];
     };
 
@@ -21,7 +21,7 @@ namespace sead
     class Matrix44
     {
         public:
-        static Matrix44 ident; 
+        static Matrix44<float> ident; 
         T matrix[4][4];
     };
 };

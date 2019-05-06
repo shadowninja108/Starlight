@@ -5,6 +5,7 @@
 #include "sead/textwriter.h"
 #include "sead/string.h"
 #include "sead/heap.h"
+#include "sead/matrix.h"
 #include "Cmn/StaticMem.h"
 #include "Cmn/PlayerInfoUtil.h"
 #include "Cmn/PlayerCtrl.h"
