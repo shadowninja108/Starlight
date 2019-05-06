@@ -70,7 +70,7 @@ for template_key, template_value in template_json.items():
             # contents are little-endian
             # patches[patchlist_value['name']] = bytearray.fromhex(patchlist_value['items'].replace('0x', ''))
             try:
-                patch_offset = int(patchlist_value['offset'])
+                patch_offset = int(patchlist_value['offset'].replace('0x', ''), 16)
             except ValueError:
                 # try and get the offset from defs if it's not hex
                 if not patchlist_value['offset'] in defs:
@@ -87,12 +87,12 @@ with open(sys.argv[3], 'w') as pchtxt:
     pchtxt.write('@little-endian\n')
     pchtxt.write('@nsobid-' + template_json['build_id'] + '\n')
     pchtxt.write('@flag offset_shift 0x100\n')
-    pchtxt.write('\n')
     for patchlist in patchlists:
+        pchtxt.write('\n')
         pchtxt.write('// ' + patchlist.name + '\n')
         pchtxt.write('@enabled\n')
         for patch in patchlist.patches:
-            offset_hex = hex(patch.offset).replace('0x', '')
+            offset_hex = hex(patch.offset).replace('0x', '').upper()
             if len(offset_hex) > 8:
                 print('Offset ' + hex(patch.offset) + ' is too large!')
                 sys.exit(7)
