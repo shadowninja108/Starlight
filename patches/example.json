@@ -1,0 +1,11 @@
+{
+    "build_id": "8F461D62E4461B7C89CC337B671FF126",
+    "patchlist": {
+        "name": "Example Patch 1",
+        "patch1": {
+            "type": "hex_le",
+            "offset": "EXAMPLE_OFFSET_1",
+            "contents": "0xDEADBEEF"
+        }
+    }
+}
