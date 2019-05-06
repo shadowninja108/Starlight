@@ -67,5 +67,13 @@ namespace sead
         f32 a; // _C
 
         static sead::Color4f cBlack;
+        static sead::Color4f cGray;
+        static sead::Color4f cWhite;
+        static sead::Color4f cRed;
+        static sead::Color4f cGreen;
+        static sead::Color4f cBlue;
+        static sead::Color4f cYellow;
+        static sead::Color4f cMagenta;
+        static sead::Color4f cCyan;
     };
 };

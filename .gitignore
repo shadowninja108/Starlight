@@ -2,6 +2,7 @@
 *.i64
 *.id0
 *.id1
+*.id2
 *.idb
 *.nso
 *.pfs0
@@ -13,10 +14,11 @@
 *.txt
 *.til
 .vscode/
-build/
+build*/
 debug/
 release/
 lib/
+linkerscripts/symstemp.ld
 
 Starlight.nso.bak
 Starlight.id2

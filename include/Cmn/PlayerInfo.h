@@ -13,7 +13,7 @@ namespace Cmn
         _BYTE gap4[16];
         _BYTE field_14;
         _BYTE field_15;
-        __attribute__((packed)) __attribute__((aligned(1))) char *name;
+        __attribute__((packed)) __attribute__((aligned(1))) char16_t *name;
         _BYTE gap1E[26];
         __int64 modelType;
         __int32 hairId;
@@ -42,5 +42,8 @@ namespace Cmn
         _DWORD dword150;
         __attribute__((aligned(8))) _DWORD dword158;
         __attribute__((aligned(8))) Cmn::Def::MMR mmr3;
+
+        void setPlayerRank(int);
+        void dbgSetPlayerName(sead::SafeStringBase<char> const&);
     };
 };
