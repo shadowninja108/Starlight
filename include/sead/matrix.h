@@ -12,12 +12,16 @@ namespace sead
     template<typename T>
     class Matrix34
     {
-        
+        public:
+        static Matrix34 ident; 
+        T matrix[3][4];
     };
 
     template<typename T>
     class Matrix44
     {
-        T _0[0x10];
+        public:
+        static Matrix44 ident; 
+        T matrix[4][4];
     };
 };
