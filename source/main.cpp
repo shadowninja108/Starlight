@@ -2,14 +2,14 @@
 __attribute__((section(".bss"))) rtld::ModuleObject __nx_module_runtime; // to appease rtld
 
 static __int64 lastInputs = 0x200;
-static bool showMenu;
+static bool showMenu, showInputs;
 
 // hook for gsys::SystemTask::invokeDrawTV_
 void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
 {
     Lp::Sys::Ctrl* controller =  Lp::Utl::getCtrl(0);
 
-    if(isTriggered(controller, Minus1))
+    if(isTriggered(controller, Minus1Button))
         showMenu = !showMenu;
     lastInputs = controller->data;
 
@@ -54,8 +54,11 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
         textWriter->printf("This is a demonstration of C/C++ code running in the context of a Switch game!\n");
         textWriter->printf("Credit to shibboleet, Khangaroo, Thog, Retr0id, and the libnx maintainers!\n");
         
+        if(isTriggered(controller, Plus1Button))
+            showInputs = !showInputs;
+
         Cmn::PlayerCtrl *playerCtrl = Cmn::PlayerCtrl::sInstance;
-        if(playerCtrl != NULL){
+        if(playerCtrl != NULL && showInputs){
             Game::PlayerGamePadData::FrameInput input;
             input.record();
             textWriter->printf("Left stick | x: %f | y: %f\n", input.leftStick.mX, input.leftStick.mY);
@@ -67,7 +70,6 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
         }
 
         Cmn::StaticMem *staticMem = Cmn::StaticMem::sInstance;
-
         if(staticMem != NULL){
             textWriter->printf("StaticMem ptr: 0x%x\n", staticMem);
             sead::SafeStringBase<char> *stageName = &staticMem->stageName;
@@ -82,19 +84,18 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
                     textWriter->printf("PlayerInfo[0] ptr: 0x%x\n", playerInfo);
                     textWriter->printf("PlayerInfo[0] weapon ID: 0x%x\n", playerInfo->weapon.id);
                     textWriter->printf("PlayerInfo[0] weapon turf inked: 0x%x\n", playerInfo->weapon.turfInked);
-                    textWriter->printf("PlayerInfo[0] unk 14: 0x%x\n", playerInfo->field_14);
-                    textWriter->printf("PlayerInfo[0] unk 15: 0x%x\n", playerInfo->field_15);
-                    textWriter->printf("PlayerInfo[0] unk CC: 0x%x\n", playerInfo->dwordCC);
-                    textWriter->printf("PlayerInfo[0] unk D0: 0x%x\n", playerInfo->dwordD0);
-                    textWriter->printf("PlayerInfo[0] unk D4: 0x%x\n", playerInfo->dwordD4);
-                    textWriter->printf("PlayerInfo[0] unk D8: 0x%x\n", playerInfo->dwordD8);
+
                     textWriter->printf("PlayerInfo[0] unk FC: 0x%x\n", playerInfo->dwordFC);
-                    textWriter->printf("PlayerInfo[0] unk 150: 0x%x\n", playerInfo->dword150);
-                    textWriter->printf("PlayerInfo[0] unk 154: 0x%x\n", playerInfo->dword158);
-                    //sead::SafeStringBase<char> newName;
-                    //newName.mCharPtr = "Gamer";
-                    //playerInfo->dbgSetPlayerName(newName);
                 }
+            }
+        }
+
+        Game::PlayerMgr *playerMgr = Game::PlayerMgr::sInstance;
+        if(playerMgr != NULL){
+            if(playerMgr->players != NULL){
+                Game::Player *player = playerMgr->players[0];
+                if(controller->data & LSButton)
+                    player->start_MissionAppear();
             }
         }
     }

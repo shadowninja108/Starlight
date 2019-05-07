@@ -12,7 +12,7 @@
 #include "Lp/Utl.h"
 #include "Lp/Sys/ctrl.h"
 #include "Game/PlayerGamePadData/FrameInput.h"
-#include <list>
+#include "Game/PlayerMgr.h"
 #include "ModuleObject.hpp"
 
 void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter);
@@ -20,20 +20,21 @@ bool isTriggered(Lp::Sys::Ctrl *controller, unsigned long id);
 
 enum
 {
-    LS = 1 << 0,
-    RS = 1 << 1,
-    ZR = 1 << 2,
-    X = 1 << 3,
-    Y = 1 << 4,
-    ZL = 1 << 5,
-    A = 1 << 6,
-    B = 1 << 7,
-    Unk1 = 1 << 8,
-    Minus1 = 1 << 9,
-    Plus1 = 1 << 10,
-    Plus2 = 1 << 11,
-    Minus2 = 1 << 12,
-    L = 1 << 13,
-    R = 1 << 14,
-    Unk2 = 1 << 15,
+    BButton = 1 << 0,
+    AButton = 1 << 1,
+    ZLButton = 1 << 2,
+    YButton = 1 << 3,
+    XButton = 1 << 4,
+    ZRButton = 1 << 5,
+    RSButton = 1 << 6,
+    LSButton = 1 << 7,
+
+    Unk1Button = 1 << 8,
+    Minus1Button = 1 << 9,
+    Plus1Button = 1 << 10,
+    Plus2Button = 1 << 11,
+    Minus2Button = 1 << 12,
+    LButton = 1 << 13,
+    RButton = 1 << 14,
+    Unk2Button = 1 << 15,
 } Buttons;

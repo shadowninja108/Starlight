@@ -32,7 +32,7 @@ namespace Cmn
         __int32 rank;
         __int32 starRank;
         __int32 udemaeGrade[6];
-        _DWORD dwordFC;
+        char *dwordFC;
         Cmn::Def::MMR mmr1;
         Cmn::Def::MMR mmr2;
         _BYTE gap120[4];
