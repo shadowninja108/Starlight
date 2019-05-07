@@ -1,13 +1,20 @@
 #include "main.hpp"
 __attribute__((section(".bss"))) rtld::ModuleObject __nx_module_runtime; // to appease rtld
 
+static __int64 lastInputs = 0x200;
+static bool showMenu;
 
 // hook for gsys::SystemTask::invokeDrawTV_
 void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
 {
     Lp::Sys::Ctrl* controller =  Lp::Utl::getCtrl(0);
 
-    if(controller->data[1] & 0x2){
+    if(isTriggered(controller, Minus1))
+        showMenu = !showMenu;
+    lastInputs = controller->data;
+
+    if(showMenu){
+
         int fullWidth = 1280;
         int fullHeight = 720;
         int width = fullWidth/2;
@@ -40,12 +47,7 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
         agl::utl::DevTools::drawTriangleImm(drawContext, p1, p2, p3, c);
         agl::utl::DevTools::drawTriangleImm(drawContext, p3, p4, p2, c);
         
-        float size = 60;
-        size /= 120;
-        size *= 10;
-        size += 10;
-
-        textWriter->setScaleFromFontHeight(size);
+        textWriter->setScaleFromFontHeight(20);
         sead::TextWriter::setupGraphics(drawContext); // re-setup context
 
         textWriter->printf("Welcome to Starlight!\n");
@@ -63,17 +65,6 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
             textWriter->printf("Posture y | x: %f | y: %f | z: %f\n", input.postureY.mX, input.postureY.mY, input.postureY.mZ);
             textWriter->printf("Posture z | x: %f | y: %f | z: %f\n", input.postureZ.mX, input.postureZ.mY, input.postureZ.mZ);
         }
-
-        char* data = controller->data;
-        for(int i = 0; i < 4; i++){
-            char j = data[i];
-            for(int k = 0; k < 8; k++){
-                textWriter->printf("%i", j & 1);
-                j >>= 1;
-            }
-            textWriter->printf(" ");
-        }
-        textWriter->printf("\r\n");
 
         Cmn::StaticMem *staticMem = Cmn::StaticMem::sInstance;
 
@@ -106,14 +97,12 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
                 }
             }
         }
-        textWriter->printf("Font size: %f\n", size);
     }
 }
 
-bool isHold(Cmn::PlayerCtrl *playerCtrl, unsigned long id){
-    unsigned long read = playerCtrl->isHold(id & 0xC0);
-    read |= playerCtrl->isHold(id & 0x3F);
-    return read;
+bool isTriggered(Lp::Sys::Ctrl *controller, unsigned long id){
+    bool buttonHeld = controller->data & id;
+    return buttonHeld & !(controller->data & lastInputs & id);
 }
 
 int main(int argc, char **argv) 

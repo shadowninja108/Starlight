@@ -14,7 +14,7 @@ namespace Lp
           __int32 dword0;
           __int32 dword4;
           __int64 qword8;
-          _BYTE data[4];
+          __int64 data;
       };
   };
 };
