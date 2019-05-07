@@ -11,6 +11,8 @@ namespace Lp {
 
       class Actor{
         public:
+          Actor();
+          virtual ~Actor();
           _QWORD qword8;
           sead::TreeNode treeNodes[2];
           _BYTE data[180];
@@ -32,6 +34,7 @@ namespace Lp {
           _QWORD qword2D0;
           _QWORD qword2D8;
           _QWORD qword2E0;
+
       };
   };
 };

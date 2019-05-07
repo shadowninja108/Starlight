@@ -3,6 +3,7 @@ __attribute__((section(".bss"))) rtld::ModuleObject __nx_module_runtime; // to a
 
 static __int64 lastInputs = 0x200;
 static bool showMenu, showInputs;
+static long scroll = 0x600;
 
 // hook for gsys::SystemTask::invokeDrawTV_
 void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
@@ -11,7 +12,6 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
 
     if(isTriggered(controller, Minus1Button))
         showMenu = !showMenu;
-    lastInputs = controller->data;
 
     if(showMenu){
 
@@ -92,13 +92,22 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
 
         Game::PlayerMgr *playerMgr = Game::PlayerMgr::sInstance;
         if(playerMgr != NULL){
-            if(playerMgr->players != NULL){
-                Game::Player *player = playerMgr->players[0];
-                if(controller->data & LSButton)
-                    player->start_MissionAppear();
+            Game::Player *player = playerMgr->getControlledPerformer();
+            if(player != NULL)
+            {
+                textWriter->printf("Controlled player ptr: 0x%x", player);
+                if(isTriggered(controller, LSButton))
+                    player->change_DemoPlaceAnim(Game::Player::ResultAnim::Win, 0);
             }
+            /*
+
+            textWriter->printf("PlayerMgr ptr: 0x%x\n", playerMgr);
+            for(int i = scroll; i < scroll + 22; i++){
+                textWriter->printf("PlayerMgr[%x]: %x\n", i, ((__int64*) playerMgr)[i]);
+            }*/
         }
     }
+    lastInputs = controller->data;
 }
 
 bool isTriggered(Lp::Sys::Ctrl *controller, unsigned long id){

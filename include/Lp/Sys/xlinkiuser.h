@@ -9,6 +9,8 @@ namespace Lp {
 
       class XLinkIUser {
         public:
+          XLinkIUser();
+          virtual char* getLinkName();
           _QWORD qword8;
           _QWORD qword10;
           _QWORD qword18;

@@ -18,8 +18,7 @@
 void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter);
 bool isTriggered(Lp::Sys::Ctrl *controller, unsigned long id);
 
-enum
-{
+enum Buttons {
     BButton = 1 << 0,
     AButton = 1 << 1,
     ZLButton = 1 << 2,
@@ -37,4 +36,18 @@ enum
     LButton = 1 << 13,
     RButton = 1 << 14,
     Unk2Button = 1 << 15,
-} Buttons;
+
+    UpDpadButton = 1 << 16,
+    DownDpadButton = 1 << 17,
+    LeftDpadButton = 1 << 18,
+    RightDpadButton = 1 << 19,
+    UpLStickOrdinal = 1 << 20,
+    DownLStickOrdinal = 1 << 21,
+    LeftLStickOrdinal = 1 << 22,
+    RightLStickOrdinal = 1 << 23,
+    
+    UpRStickOrdinal = 1 << 24,
+    DownRStickOrdinal = 1 << 25,
+    LeftRStickOrdinal = 1 << 26,
+    RightRStickOrdinal = 1 << 27,
+};
