@@ -12,6 +12,7 @@
 #include "Lp/Utl.h"
 #include "Lp/Sys/ctrl.h"
 #include "Game/PlayerGamePadData/FrameInput.h"
+#include "Game/Player/PlayerMotion.h"
 #include "Game/PlayerMgr.h"
 #include "ModuleObject.hpp"
 

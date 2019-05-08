@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-#include "Player.h"
+#include "Player/Player.h"
 
 namespace Game {
     class PlayerMgr {
