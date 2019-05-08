@@ -100,6 +100,9 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
 
                 textWriter->printf("PlayerMotion ptr: 0x%x\n", playerMotion);
 
+                sead::Vector3<float> *playerPos = &player->position;
+                textWriter->printf("Player position | x: %f | y: %f | z: %f", playerPos->mX, playerPos->mY, playerPos->mZ);
+
                 if(isTriggered(controller, UpDpadButton))
                     scroll++;
                 if(isTriggered(controller, DownDpadButton))
