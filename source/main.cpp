@@ -92,6 +92,14 @@ void handleStaticMem(Cmn::StaticMem *staticMem){
     Cmn::PlayerInfoAry *playerInfoAry = staticMem->playerInfoArray;
     if(playerInfoAry != NULL){
         mTextWriter->printf("PlayerInfoAry ptr: 0x%x\n", playerInfoAry);
+
+        if(mode == Modes::PLAYER_SWITCHER){
+            for(int i = 1; i < 0xA; i++){
+                Cmn::PlayerInfo *info = playerInfoAry->infos[i];
+                Cmn::PlayerInfoUtil::setPlayerInfoByDummy(info, Cmn::Def::Mode::cNone);
+            }
+        }
+
         Cmn::PlayerInfo* playerInfo = /*playerInfoAry->infos[0]*/ NULL;
         if(playerInfo != NULL){
             mTextWriter->printf("PlayerInfo[0] ptr: 0x%x\n", playerInfo);
@@ -134,6 +142,10 @@ void handlePlayerMgr(Game::PlayerMgr* playerMgr){
             if(isTriggered(mController, Buttons::LStick))
                 playerMotion->startEventAnim((Game::PlayerMotion::AnimID) scroll, 0, 1.0);
         } else if(mode == Modes::PLAYER_SWITCHER){
+
+            playerMgr->validAmountOfPlayers = 0xA;
+            playerMgr->validInfoNum = 0xA;
+            
             signed int currentPlayer = playerMgr->currentPlayerIndex;
             mTextWriter->printf("Current player: %i\n", currentPlayer);
 
@@ -146,7 +158,7 @@ void handlePlayerMgr(Game::PlayerMgr* playerMgr){
             if(playerMgr->validAmountOfPlayers <= currentPlayer)
                 currentPlayer = 0;
             
-            playerMgr->updateAllControlledPlayer_(currentPlayer);
+            playerMgr->currentPlayerIndex = currentPlayer;
         }
     }
 }
