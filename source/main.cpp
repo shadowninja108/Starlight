@@ -31,7 +31,7 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
 
         if(isTriggered(mController, Buttons::RSButton))
             mode++;
-        if(mode > 2)
+        if(mode > 3)
             mode = 0;
         textWriter->printf("Current mode: %s\n", modeToText(mode));
 
@@ -46,6 +46,9 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
         Cmn::PlayerCtrl *playerCtrl = Cmn::PlayerCtrl::sInstance;
         if(playerCtrl != NULL)
             handlePlayerControl(playerCtrl);
+        else if(mode == 3){
+            mTextWriter->printf("Information not available.\n");
+        }
     }
     lastInputs = mController->data;
 }
@@ -145,10 +148,7 @@ void handlePlayerControl(Cmn::PlayerCtrl* playerCtrl){
 
     static bool showInputs = false;
 
-    if(isTriggered(mController, Plus1Button))
-        showInputs = !showInputs;
-
-    if(showInputs){
+    if(mode == 3){
         mTextWriter->printf("Left stick | x: %f | y: %f\n", input.leftStick.mX, input.leftStick.mY);
         mTextWriter->printf("Right stick | x: %f | y: %f\n", input.rightStick.mX, input.rightStick.mY);
         mTextWriter->printf("Angle vel | x: %f | y: %f | z: %f\n", input.angleVel.mX, input.angleVel.mY, input.angleVel.mZ);
@@ -157,29 +157,37 @@ void handlePlayerControl(Cmn::PlayerCtrl* playerCtrl){
         mTextWriter->printf("Posture z | x: %f | y: %f | z: %f\n", input.postureZ.mX, input.postureZ.mY, input.postureZ.mZ);
     }
 
+    static bool entered = false;
     if(mode == 1 && mCurrentPlayer != NULL){
         static float x, y, z;
         sead::Vector3<float> *playerPos = &mCurrentPlayer->position;
-        x = playerPos->mX;
-        y = playerPos->mY;
-        z = playerPos->mZ;
+        if(!entered){
+            x = playerPos->mX;
+            y = playerPos->mY;
+            z = playerPos->mZ;
+        }
+
+        int speed = 10;
 
         if(mController->data & Buttons::UpDpadButton)
-            y+=20;
+            y+=speed;
         if(mController->data & Buttons::DownDpadButton)
-            y-=20;
+            y-=speed;
         if(mController->data & Buttons::LeftDpadButton)
-            x+=20;
+            x+=speed;
         if(mController->data & Buttons::RightDpadButton)
-            x-=20;
+            x-=speed;
         if(mController->data & Buttons::RightRStickOrdinal)
-            z+=20;
+            z+=speed;
         if(mController->data & Buttons::LeftRStickOrdinal)
-            z-=20;
+            z-=speed;
 
         playerPos->mX = x;
         playerPos->mY = y;
         playerPos->mZ = z;
+        entered = true;
+    } else {
+        entered = false;
     }
 }
 
@@ -196,6 +204,8 @@ char* modeToText(int mode){
             return "Fly";
         case 2:
             return "Event viewer";
+        case 3:
+            return "Gyro/stick input viewer";
         default:
             return "None";
     }
