@@ -16,7 +16,7 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
     mTextWriter = textWriter;
     mController =  Lp::Utl::getCtrl(0);
 
-    if(isTriggered(mController, Minus1Button))
+    if(isTriggered(mController, Buttons::Minus1))
         showMenu = !showMenu;
 
     if(showMenu){
@@ -29,9 +29,9 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
         textWriter->printf("This is a demonstration of C/C++ code running in the context of a Switch game!\n");
         textWriter->printf("Credit to shibboleet, Khangaroo, Thog, Retr0id, and the libnx maintainers!\n");
 
-        if(isTriggered(mController, Buttons::RSButton))
+        if(isTriggered(mController, Buttons::RStick))
             mode++;
-        if(mode > 3)
+        if(mode > Modes::END)
             mode = 0;
         textWriter->printf("Current mode: %s\n", modeToText(mode));
 
@@ -46,7 +46,7 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
         Cmn::PlayerCtrl *playerCtrl = Cmn::PlayerCtrl::sInstance;
         if(playerCtrl != NULL)
             handlePlayerControl(playerCtrl);
-        else if(mode == 3){
+        else if(mode == Modes::INPUT_VIEWER){
             mTextWriter->printf("Information not available.\n");
         }
     }
@@ -54,11 +54,6 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
 }
 
 void drawBackground(){
-    float fullWidth = 1280;
-    float fullHeight = 720;
-    float width = fullWidth/2;
-    float height = fullHeight;
-
     sead::Vector3<float> p1; // top left
     p1.mX = -1.0;
     p1.mY = 1.0;
@@ -118,26 +113,40 @@ void handlePlayerMgr(Game::PlayerMgr* playerMgr){
 
         mTextWriter->printf("PlayerMotion ptr: 0x%x\n", playerMotion);
 
-        if(mode == 2) {
+        if(mode == Modes::EVENT_VIEWER) {
             static long scroll = 0;
 
-            if(isTriggered(mController, UpDpadButton))
+            if(isTriggered(mController, Buttons::UpDpad))
                 scroll++;
-            if(isTriggered(mController, DownDpadButton))
+            if(isTriggered(mController, Buttons::DownDpad))
                 scroll--;
 
-            if(isTriggered(mController, LeftDpadButton))
+            if(isTriggered(mController, Buttons::LeftDpad))
                 scroll-=0x10;
-            if(isTriggered(mController, RightDpadButton))
+            if(isTriggered(mController, Buttons::RightDpad))
                 scroll+=0x10;
 
             if(scroll < 0)
                 scroll = 0;
 
-            mTextWriter->printf("Animation ID: 0x%x\n", scroll);
+            mTextWriter->printf("Event ID: 0x%x\n", scroll);
 
-            if(isTriggered(mController, LSButton))
+            if(isTriggered(mController, Buttons::LStick))
                 playerMotion->startEventAnim((Game::PlayerMotion::AnimID) scroll, 0, 1.0);
+        } else if(mode == Modes::PLAYER_SWITCHER){
+            unsigned int currentPlayer = playerMgr->currentPlayerIndex;
+            mTextWriter->printf("Current player: %i\n", currentPlayer);
+
+            if(isTriggered(mController, Buttons::UpDpad))
+                currentPlayer++;
+            if(isTriggered(mController, Buttons::DownDpad))
+                currentPlayer--;
+            if(currentPlayer < 0)
+                currentPlayer = playerMgr->validAmountOfPlayers;
+            if(playerMgr->validAmountOfPlayers <= currentPlayer)
+                currentPlayer = 0;
+            
+            playerMgr->updateAllControlledPlayer_(currentPlayer);
         }
     }
 }
@@ -146,9 +155,7 @@ void handlePlayerControl(Cmn::PlayerCtrl* playerCtrl){
     Game::PlayerGamePadData::FrameInput input;
     input.record(); // grab input data
 
-    static bool showInputs = false;
-
-    if(mode == 3){
+    if(mode == Modes::INPUT_VIEWER){
         mTextWriter->printf("Left stick | x: %f | y: %f\n", input.leftStick.mX, input.leftStick.mY);
         mTextWriter->printf("Right stick | x: %f | y: %f\n", input.rightStick.mX, input.rightStick.mY);
         mTextWriter->printf("Angle vel | x: %f | y: %f | z: %f\n", input.angleVel.mX, input.angleVel.mY, input.angleVel.mZ);
@@ -169,13 +176,13 @@ void handlePlayerControl(Cmn::PlayerCtrl* playerCtrl){
 
         int speed = 10;
 
-        if(mController->data & Buttons::UpDpadButton)
+        if(mController->data & Buttons::UpDpad)
             y+=speed;
-        if(mController->data & Buttons::DownDpadButton)
+        if(mController->data & Buttons::DownDpad)
             y-=speed;
-        if(mController->data & Buttons::LeftDpadButton)
+        if(mController->data & Buttons::LeftDpad)
             x+=speed;
-        if(mController->data & Buttons::RightDpadButton)
+        if(mController->data & Buttons::RightDpad)
             x-=speed;
         if(mController->data & Buttons::RightRStickOrdinal)
             z+=speed;
@@ -196,16 +203,18 @@ bool isTriggered(Lp::Sys::Ctrl *controller, unsigned long id){
     return buttonHeld & !(controller->data & lastInputs & id);
 }
 
-char* modeToText(int mode){
+char* modeToText(Modes mode){
     switch(mode){
-        case 0:
+        case Modes::NONE:
             return "None";
-        case 1:
+        case Modes::FLY:
             return "Fly";
-        case 2:
+        case Modes::EVENT_VIEWER:
             return "Event viewer";
-        case 3:
+        case Modes::INPUT_VIEWER:
             return "Gyro/stick input viewer";
+        case Modes::PLAYER_SWITCHER:
+            return "Player switcher";
         default:
             return "None";
     }
