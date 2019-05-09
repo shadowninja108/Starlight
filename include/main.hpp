@@ -19,6 +19,13 @@
 void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter);
 bool isTriggered(Lp::Sys::Ctrl *controller, unsigned long id);
 
+void drawBackground();
+void handleStaticMem(Cmn::StaticMem *staticMem);
+void handlePlayerMgr(Game::PlayerMgr* playerMgr);
+void handlePlayerControl(Cmn::PlayerCtrl* playerCtrl);
+
+char* modeToText(int);
+
 enum Buttons {
     BButton = 1 << 0,
     AButton = 1 << 1,

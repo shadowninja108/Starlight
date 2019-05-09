@@ -2,50 +2,25 @@
 __attribute__((section(".bss"))) rtld::ModuleObject __nx_module_runtime; // to appease rtld
 
 static __int64 lastInputs = 0x200;
-static bool showMenu, showInputs;
-static long scroll = 0;
+static bool showMenu;
+static agl::DrawContext *mDrawContext;
+static sead::TextWriter *mTextWriter;
+static Lp::Sys::Ctrl *mController;
+static Game::Player* mCurrentPlayer;
+static int mode;
 
 // hook for gsys::SystemTask::invokeDrawTV_
 void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
 {
-    Lp::Sys::Ctrl* controller =  Lp::Utl::getCtrl(0);
+    mDrawContext = drawContext;
+    mTextWriter = textWriter;
+    mController =  Lp::Utl::getCtrl(0);
 
-    if(isTriggered(controller, Minus1Button))
+    if(isTriggered(mController, Minus1Button))
         showMenu = !showMenu;
 
     if(showMenu){
-
-        int fullWidth = 1280;
-        int fullHeight = 720;
-        int width = fullWidth/2;
-        int height = fullHeight;
-
-        sead::Vector3<float> p1; // top left
-        p1.mX = -1.0;
-        p1.mY = 1.0;
-        p1.mZ = 0.0;
-        sead::Vector3<float> p2; // top right
-        p2.mX = (width/fullWidth);
-        p2.mY = 1.0;
-        p2.mZ = 0.0;
-        sead::Vector3<float> p3; // bottom left
-        p3.mX = -1.0;
-        p3.mY = (height/fullHeight)-2;
-        p3.mZ = 0.0;
-        sead::Vector3<float> p4; // bottom right
-        p4.mX = (width/fullWidth);
-        p4.mY = (height/fullHeight)-2;
-        p4.mZ = 0.0;
-
-        sead::Color4f c;
-        c.r = 1.0;
-        c.g = 1.0;
-        c.b = 1.0;
-        c.a = 0.5;
-
-        agl::utl::DevTools::beginDrawImm(drawContext, sead::Matrix34<float>::ident, sead::Matrix44<float>::ident);
-        agl::utl::DevTools::drawTriangleImm(drawContext, p1, p2, p3, c);
-        agl::utl::DevTools::drawTriangleImm(drawContext, p3, p4, p2, c);
+        drawBackground();
         
         textWriter->setScaleFromFontHeight(20);
         sead::TextWriter::setupGraphics(drawContext); // re-setup context
@@ -53,79 +28,165 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
         textWriter->printf("Welcome to Starlight!\n");
         textWriter->printf("This is a demonstration of C/C++ code running in the context of a Switch game!\n");
         textWriter->printf("Credit to shibboleet, Khangaroo, Thog, Retr0id, and the libnx maintainers!\n");
-        
-        if(isTriggered(controller, Plus1Button))
-            showInputs = !showInputs;
 
-        Cmn::PlayerCtrl *playerCtrl = Cmn::PlayerCtrl::sInstance;
-        if(playerCtrl != NULL && showInputs){
-            Game::PlayerGamePadData::FrameInput input;
-            input.record();
-            textWriter->printf("Left stick | x: %f | y: %f\n", input.leftStick.mX, input.leftStick.mY);
-            textWriter->printf("Right stick | x: %f | y: %f\n", input.rightStick.mX, input.rightStick.mY);
-            textWriter->printf("Angle vel | x: %f | y: %f | z: %f\n", input.angleVel.mX, input.angleVel.mY, input.angleVel.mZ);
-            textWriter->printf("Posture x | x: %f | y: %f | z: %f\n", input.postureX.mX, input.postureX.mY, input.postureX.mZ);
-            textWriter->printf("Posture y | x: %f | y: %f | z: %f\n", input.postureY.mX, input.postureY.mY, input.postureY.mZ);
-            textWriter->printf("Posture z | x: %f | y: %f | z: %f\n", input.postureZ.mX, input.postureZ.mY, input.postureZ.mZ);
-        }
+        if(isTriggered(mController, Buttons::RSButton))
+            mode++;
+        if(mode > 2)
+            mode = 0;
+        textWriter->printf("Current mode: %s", modeToText(mode));
 
         Cmn::StaticMem *staticMem = Cmn::StaticMem::sInstance;
-        if(staticMem != NULL){
-            textWriter->printf("StaticMem ptr: 0x%x\n", staticMem);
-            sead::SafeStringBase<char> *stageName = &staticMem->stageName;
-            if(stageName->mCharPtr != NULL){
-                textWriter->printf("Loaded stage: %s\n", stageName->mCharPtr);
-            }
-            Cmn::PlayerInfoAry *playerInfoAry = staticMem->playerInfoArray;
-            if(playerInfoAry != NULL){
-                textWriter->printf("PlayerInfoAry ptr: 0x%x\n", playerInfoAry);
-                Cmn::PlayerInfo* playerInfo = playerInfoAry->infos[0];
-                if(playerInfo != NULL){
-                    textWriter->printf("PlayerInfo[0] ptr: 0x%x\n", playerInfo);
-                    textWriter->printf("PlayerInfo[0] weapon ID: 0x%x\n", playerInfo->weapon.id);
-                    textWriter->printf("PlayerInfo[0] weapon turf inked: 0x%x\n", playerInfo->weapon.turfInked);
-
-                    textWriter->printf("PlayerInfo[0] unk FC: 0x%x\n", playerInfo->dwordFC);
-                }
-            }
-        }
+        if(staticMem != NULL)
+            handleStaticMem(staticMem);
 
         Game::PlayerMgr *playerMgr = Game::PlayerMgr::sInstance;
-        if(playerMgr != NULL){
-            Game::Player *player = playerMgr->getControlledPerformer();
-            if(player != NULL)
-            {
-                textWriter->printf("Controlled player ptr: 0x%x\n", player);
-                Game::PlayerMotion *playerMotion = player->motion;
+        if(playerMgr != NULL)
+            handlePlayerMgr(playerMgr);
+            
+        Cmn::PlayerCtrl *playerCtrl = Cmn::PlayerCtrl::sInstance;
+        if(playerCtrl != NULL)
+            handlePlayerControl(playerCtrl);
+    }
+    lastInputs = mController->data;
+}
 
-                textWriter->printf("PlayerMotion ptr: 0x%x\n", playerMotion);
+void drawBackground(){
+    float fullWidth = 1280;
+    float fullHeight = 720;
+    float width = fullWidth/2;
+    float height = fullHeight;
 
-                if(isTriggered(controller, UpDpadButton))
-                    scroll++;
-                if(isTriggered(controller, DownDpadButton))
-                    scroll--;
+    sead::Vector3<float> p1; // top left
+    p1.mX = -1.0;
+    p1.mY = 1.0;
+    p1.mZ = 0.0;
+    sead::Vector3<float> p2; // top right
+    p2.mX = 0.0;
+    p2.mY = 1.0;
+    p2.mZ = 0.0;
+    sead::Vector3<float> p3; // bottom left
+    p3.mX = -1.0;
+    p3.mY = -1.0;
+    p3.mZ = 0.0;
+    sead::Vector3<float> p4; // bottom right
+    p4.mX = 0.0;
+    p4.mY = -1.0;
+    p4.mZ = 0.0;
 
-                if(isTriggered(controller, LeftDpadButton))
-                    scroll-=0x10;
-                if(isTriggered(controller, RightDpadButton))
-                    scroll+=0x10;
+    sead::Color4f c;
+    c.r = 1.0;
+    c.g = 1.0;
+    c.b = 1.0;
+    c.a = 0.5;
 
-                if(scroll < 0)
-                    scroll = 0;
+    agl::utl::DevTools::beginDrawImm(mDrawContext, sead::Matrix34<float>::ident, sead::Matrix44<float>::ident);
+    agl::utl::DevTools::drawTriangleImm(mDrawContext, p1, p2, p3, c);
+    agl::utl::DevTools::drawTriangleImm(mDrawContext, p3, p4, p2, c);
+}
 
-                textWriter->printf("Animation ID: 0x%x\n", scroll);
+void handleStaticMem(Cmn::StaticMem *staticMem){
+    mTextWriter->printf("StaticMem ptr: 0x%x\n", staticMem);
+    sead::SafeStringBase<char> *stageName = &staticMem->stageName;
+    if(stageName->mCharPtr != NULL){
+        mTextWriter->printf("Loaded stage: %s\n", stageName->mCharPtr);
+    }
+    
+    Cmn::PlayerInfoAry *playerInfoAry = staticMem->playerInfoArray;
+    if(playerInfoAry != NULL){
+        mTextWriter->printf("PlayerInfoAry ptr: 0x%x\n", playerInfoAry);
+        Cmn::PlayerInfo* playerInfo = playerInfoAry->infos[0];
+        if(playerInfo != NULL){
+            mTextWriter->printf("PlayerInfo[0] ptr: 0x%x\n", playerInfo);
+            mTextWriter->printf("PlayerInfo[0] weapon ID: 0x%x\n", playerInfo->weapon.id);
+            mTextWriter->printf("PlayerInfo[0] weapon turf inked: 0x%x\n", playerInfo->weapon.turfInked);
 
-                if(isTriggered(controller, LSButton))
-                    playerMotion->startEventAnim((Game::PlayerMotion::AnimID) scroll, 0, 1.0);
-            }
+            mTextWriter->printf("PlayerInfo[0] unk FC: 0x%x\n", playerInfo->dwordFC);
         }
     }
-    lastInputs = controller->data;
+}
+
+void handlePlayerMgr(Game::PlayerMgr* playerMgr){
+    Game::Player *player = playerMgr->getControlledPerformer();
+    mCurrentPlayer = player;
+    if(player != NULL)
+    {
+        mTextWriter->printf("Controlled player ptr: 0x%x\n", player);
+        Game::PlayerMotion *playerMotion = player->motion;
+
+        mTextWriter->printf("PlayerMotion ptr: 0x%x\n", playerMotion);
+
+        if(mode == 2) {
+            static long scroll = 0;
+
+            if(isTriggered(mController, UpDpadButton))
+                scroll++;
+            if(isTriggered(mController, DownDpadButton))
+                scroll--;
+
+            if(isTriggered(mController, LeftDpadButton))
+                scroll-=0x10;
+            if(isTriggered(mController, RightDpadButton))
+                scroll+=0x10;
+
+            if(scroll < 0)
+                scroll = 0;
+
+            mTextWriter->printf("Animation ID: 0x%x\n", scroll);
+
+            if(isTriggered(mController, LSButton))
+                playerMotion->startEventAnim((Game::PlayerMotion::AnimID) scroll, 0, 1.0);
+        }
+    }
+}
+
+void handlePlayerControl(Cmn::PlayerCtrl* playerCtrl){
+    Game::PlayerGamePadData::FrameInput input;
+    input.record(); // grab input data
+
+    static bool showInputs = false;
+
+    if(isTriggered(mController, Plus1Button))
+        showInputs = !showInputs;
+
+    if(showInputs){
+        mTextWriter->printf("Left stick | x: %f | y: %f\n", input.leftStick.mX, input.leftStick.mY);
+        mTextWriter->printf("Right stick | x: %f | y: %f\n", input.rightStick.mX, input.rightStick.mY);
+        mTextWriter->printf("Angle vel | x: %f | y: %f | z: %f\n", input.angleVel.mX, input.angleVel.mY, input.angleVel.mZ);
+        mTextWriter->printf("Posture x | x: %f | y: %f | z: %f\n", input.postureX.mX, input.postureX.mY, input.postureX.mZ);
+        mTextWriter->printf("Posture y | x: %f | y: %f | z: %f\n", input.postureY.mX, input.postureY.mY, input.postureY.mZ);
+        mTextWriter->printf("Posture z | x: %f | y: %f | z: %f\n", input.postureZ.mX, input.postureZ.mY, input.postureZ.mZ);
+    }
+
+    static bool enteredFly;
+    if(mode == 1 && mCurrentPlayer != NULL){
+        static float x, y, z;
+        if(!enteredFly){
+            x = mCurrentPlayer->
+        }
+
+        enteredFly = true;
+
+    } else {
+        enteredFly = false;
+    }
 }
 
 bool isTriggered(Lp::Sys::Ctrl *controller, unsigned long id){
     bool buttonHeld = controller->data & id;
     return buttonHeld & !(controller->data & lastInputs & id);
+}
+
+char* modeToText(int mode){
+    switch(mode){
+        case 0:
+            return "None";
+        case 1:
+            return "Fly";
+        case 2:
+            return "Event viewer";
+        default:
+            return "None";
+    }
 }
 
 int main(int argc, char **argv) 
