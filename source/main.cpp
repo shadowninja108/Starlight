@@ -139,9 +139,19 @@ void handlePlayerMgr(Game::PlayerMgr* playerMgr){
     }
 }
 
+<<<<<<< HEAD
 void handlePlayerControl(Cmn::PlayerCtrl* playerCtrl){
     Game::PlayerGamePadData::FrameInput input;
     input.record(); // grab input data
+=======
+                sead::Vector3<float> *playerPos = &player->position;
+                textWriter->printf("Player position | x: %f | y: %f | z: %f", playerPos->mX, playerPos->mY, playerPos->mZ);
+
+                if(isTriggered(controller, UpDpadButton))
+                    scroll++;
+                if(isTriggered(controller, DownDpadButton))
+                    scroll--;
+>>>>>>> 4b31b391927a5420eec207037e50de236447aea2
 
     static bool showInputs = false;
 
