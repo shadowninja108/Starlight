@@ -33,7 +33,7 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
             mode++;
         if(mode > Modes::END)
             mode = 0;
-        textWriter->printf("Current mode: %s\n", modeToText(mode));
+        textWriter->printf("Current mode: %s\n", modeToText((Modes)mode));
 
         Cmn::StaticMem *staticMem = Cmn::StaticMem::sInstance;
         if(staticMem != NULL)
@@ -145,7 +145,7 @@ void handlePlayerMgr(Game::PlayerMgr* playerMgr){
 
             playerMgr->validAmountOfPlayers = 0xA;
             playerMgr->validInfoNum = 0xA;
-            
+
             signed int currentPlayer = playerMgr->currentPlayerIndex;
             mTextWriter->printf("Current player: %i\n", currentPlayer);
 
@@ -215,7 +215,7 @@ bool isTriggered(Lp::Sys::Ctrl *controller, unsigned long id){
     return buttonHeld & !(controller->data & lastInputs & id);
 }
 
-char* modeToText(Modes mode){
+char const* modeToText(Modes mode){
     switch(mode){
         case Modes::NONE:
             return "None";

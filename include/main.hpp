@@ -29,7 +29,7 @@ void handleStaticMem(Cmn::StaticMem *staticMem);
 void handlePlayerMgr(Game::PlayerMgr* playerMgr);
 void handlePlayerControl(Cmn::PlayerCtrl* playerCtrl);
 
-char* modeToText(Modes);
+char const* modeToText(Modes);
 
 enum Buttons {
     B = 1 << 0,
