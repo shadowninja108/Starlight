@@ -134,7 +134,7 @@ void handlePlayerMgr(Game::PlayerMgr* playerMgr){
             if(isTriggered(mController, Buttons::LStick))
                 playerMotion->startEventAnim((Game::PlayerMotion::AnimID) scroll, 0, 1.0);
         } else if(mode == Modes::PLAYER_SWITCHER){
-            unsigned int currentPlayer = playerMgr->currentPlayerIndex;
+            signed int currentPlayer = playerMgr->currentPlayerIndex;
             mTextWriter->printf("Current player: %i\n", currentPlayer);
 
             if(isTriggered(mController, Buttons::UpDpad))
