@@ -2,12 +2,12 @@
 __attribute__((section(".bss"))) rtld::ModuleObject __nx_module_runtime; // to appease rtld
 
 static __int64 lastInputs = 0x200;
-static bool showMenu;
 static agl::DrawContext *mDrawContext;
 static sead::TextWriter *mTextWriter;
 static Lp::Sys::Ctrl *mController;
 static Game::Player* mCurrentPlayer;
 static int mode;
+static bool showMenu;
 
 // hook for gsys::SystemTask::invokeDrawTV_
 void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
@@ -33,7 +33,7 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
             mode++;
         if(mode > 2)
             mode = 0;
-        textWriter->printf("Current mode: %s", modeToText(mode));
+        textWriter->printf("Current mode: %s\n", modeToText(mode));
 
         Cmn::StaticMem *staticMem = Cmn::StaticMem::sInstance;
         if(staticMem != NULL)
@@ -94,7 +94,7 @@ void handleStaticMem(Cmn::StaticMem *staticMem){
     Cmn::PlayerInfoAry *playerInfoAry = staticMem->playerInfoArray;
     if(playerInfoAry != NULL){
         mTextWriter->printf("PlayerInfoAry ptr: 0x%x\n", playerInfoAry);
-        Cmn::PlayerInfo* playerInfo = playerInfoAry->infos[0];
+        Cmn::PlayerInfo* playerInfo = /*playerInfoAry->infos[0]*/ NULL;
         if(playerInfo != NULL){
             mTextWriter->printf("PlayerInfo[0] ptr: 0x%x\n", playerInfo);
             mTextWriter->printf("PlayerInfo[0] weapon ID: 0x%x\n", playerInfo->weapon.id);
@@ -139,19 +139,9 @@ void handlePlayerMgr(Game::PlayerMgr* playerMgr){
     }
 }
 
-<<<<<<< HEAD
 void handlePlayerControl(Cmn::PlayerCtrl* playerCtrl){
     Game::PlayerGamePadData::FrameInput input;
     input.record(); // grab input data
-=======
-                sead::Vector3<float> *playerPos = &player->position;
-                textWriter->printf("Player position | x: %f | y: %f | z: %f", playerPos->mX, playerPos->mY, playerPos->mZ);
-
-                if(isTriggered(controller, UpDpadButton))
-                    scroll++;
-                if(isTriggered(controller, DownDpadButton))
-                    scroll--;
->>>>>>> 4b31b391927a5420eec207037e50de236447aea2
 
     static bool showInputs = false;
 
@@ -167,17 +157,29 @@ void handlePlayerControl(Cmn::PlayerCtrl* playerCtrl){
         mTextWriter->printf("Posture z | x: %f | y: %f | z: %f\n", input.postureZ.mX, input.postureZ.mY, input.postureZ.mZ);
     }
 
-    static bool enteredFly;
     if(mode == 1 && mCurrentPlayer != NULL){
         static float x, y, z;
-        if(!enteredFly){
-            x = mCurrentPlayer->
-        }
+        sead::Vector3<float> *playerPos = &mCurrentPlayer->position;
+        x = playerPos->mX;
+        y = playerPos->mY;
+        z = playerPos->mZ;
 
-        enteredFly = true;
+        if(mController->data & Buttons::UpDpadButton)
+            y+=20;
+        if(mController->data & Buttons::DownDpadButton)
+            y-=20;
+        if(mController->data & Buttons::LeftDpadButton)
+            x+=20;
+        if(mController->data & Buttons::RightDpadButton)
+            x-=20;
+        if(mController->data & Buttons::RightRStickOrdinal)
+            z+=20;
+        if(mController->data & Buttons::LeftRStickOrdinal)
+            z-=20;
 
-    } else {
-        enteredFly = false;
+        playerPos->mX = x;
+        playerPos->mY = y;
+        playerPos->mZ = z;
     }
 }
 
