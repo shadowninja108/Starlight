@@ -11,6 +11,7 @@
 #include "Cmn/PlayerCtrl.h"
 #include "Lp/Utl.h"
 #include "Lp/Sys/ctrl.h"
+#include "Game/Utl.h"
 #include "Game/PlayerGamePadData/FrameInput.h"
 #include "Game/Player/PlayerMotion.h"
 #include "Game/Player/Player.h"

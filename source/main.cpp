@@ -158,7 +158,7 @@ void handlePlayerMgr(Game::PlayerMgr* playerMgr){
             if(playerMgr->validAmountOfPlayers <= currentPlayer)
                 currentPlayer = 0;
             
-            playerMgr->currentPlayerIndex = currentPlayer;
+            Game::Utl::changeControlledPlayer(currentPlayer);
         }
     }
 }
