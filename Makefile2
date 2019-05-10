@@ -153,9 +153,15 @@ DEPENDS	:=	$(OFILES:.o=.d)
 #---------------------------------------------------------------------------------
 # main targets
 #---------------------------------------------------------------------------------
+%.nso: %.elf
+	@elf2nso $< $@
+	@py $(TOPDIR)/scripts/patchNSO.py $@ # requires python installed, run pacman -S python
+	@echo built ... $(notdir $@)
+#---------------------------------------------------------------------------------
 all	: $(OUTPUT).nso
 
-$(OUTPUT).elf	:	$(OFILES)
+$(OUTPUT).elf   : $(OFILES)
+
 
 $(OFILES_SRC)	: $(HFILES_BIN)
 
