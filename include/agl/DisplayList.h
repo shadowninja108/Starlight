@@ -7,7 +7,7 @@
 
 #include "types.h"
 #include "agl/gpu.h"
-#include "sead/Heap.h"
+#include "sead/heap.h"
 
 namespace agl
 {
