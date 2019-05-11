@@ -7,7 +7,6 @@ PHDRS
   text PT_LOAD FLAGS(5);
   rodata PT_LOAD FLAGS(4);
   data PT_LOAD FLAGS(6);
-  bss PT_LOAD FLAGS(6);
   dynamic PT_DYNAMIC;
 }
 
@@ -149,7 +148,7 @@ SECTIONS
     . = ALIGN(8);
     HIDDEN(__bss_end__ = .);
     . = ALIGN(0x1000);
-  } :bss
+  } :data
 
   __argdata__ = .;
 
