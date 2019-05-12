@@ -1,7 +1,7 @@
 %rename link                old_link
 
 *link:
-%(old_link) -T ../linkerscripts/symstemp.ld -T ../linkerscripts/application.ld -init=__custom_init -fini=__custom_fini -pie -z text -z nodynamic-undefined-weak --build-id=sha1 
+%(old_link) -T ../linkerscripts/symstemp.ld -T %:getenv(DEVKITPRO /libnx/switch.ld) -pie -z text -z nodynamic-undefined-weak --build-id=sha1
 
 *startfile:
 crti%O%s crtbegin%O%s
