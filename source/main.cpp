@@ -171,7 +171,8 @@ void handlePlayerMgr(Game::PlayerMgr* playerMgr){
             if(playerMgr->validAmountOfPlayers <= currentPlayer)
                 currentPlayer = 0;
             
-            Game::Utl::changeControlledPlayer(currentPlayer);
+            playerMgr->currentPlayerIndex = currentPlayer;
+            playerMgr->onChangeControlledPlayer();
         }
     }
 }
@@ -243,7 +244,7 @@ void handleMushDataHolder(Cmn::MushDataHolder* mushDataHolder){
         for(int i = 0; i < 230; i++){
             Cmn::MushMapInfo::Data* mapData = mushDataHolder->mushMapInfo->getByMushOrder(i);
             if(mapData != NULL){
-                mapData->envBrightness = 2;
+                mapData->envHour = 2;
             }
         }
 

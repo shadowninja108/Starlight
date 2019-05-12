@@ -20,7 +20,7 @@ namespace Cmn {
             void *pvoid78;
             signed int signed80;
             _BYTE gap84[68];
-            _QWORD envBrightness;
+            _QWORD envHour;
             _DWORD effectFakePointLight;
             float miniMapScale;
             float miniMapYaw;

@@ -5,6 +5,5 @@
 namespace Game {
     class Utl {
         public:
-        static void changeControlledPlayer(int);
     };
 };
