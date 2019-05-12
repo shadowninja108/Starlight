@@ -5,7 +5,7 @@
 namespace Cmn
 {
     namespace Def {
-        enum Mode{
+        enum class Mode{
             cNone,
             cVersus,
             cCoop,

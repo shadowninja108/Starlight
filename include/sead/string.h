@@ -15,9 +15,9 @@ namespace sead
     class SafeStringBase
     {
     public:
-        virtual ~SafeStringBase();
+        virtual ~SafeStringBase() {};
         virtual sead::SafeStringBase<T> operator=(sead::SafeStringBase<T> const &);
-        virtual void assureTerminationImpl_();
+        virtual void assureTerminationImpl_() const;
 
         char* mCharPtr; // _8
     };

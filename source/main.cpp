@@ -57,6 +57,10 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
         else if(mode == Modes::INPUT_VIEWER){
             mTextWriter->printf("Information not available.\n");
         }
+
+        Cmn::MushDataHolder* mushData = Cmn::MushDataHolder::sInstance;
+        if(mushData != NULL)
+            handleMushDataHolder(mushData);
     }
     lastInputs = mController->data;
 }
@@ -108,7 +112,7 @@ void handleStaticMem(Cmn::StaticMem *staticMem){
             }
         }*/
 
-        Cmn::PlayerInfo* playerInfo = /*playerInfoAry->infos[0]*/ NULL;
+        Cmn::PlayerInfo* playerInfo = playerInfoAry->infos[0];
         if(playerInfo != NULL){
             mTextWriter->printf("PlayerInfo[0] ptr: 0x%x\n", playerInfo);
             mTextWriter->printf("PlayerInfo[0] weapon ID: 0x%x\n", playerInfo->weapon.id);
@@ -219,6 +223,35 @@ void handlePlayerControl(Cmn::PlayerCtrl* playerCtrl){
     }
 }
 
+void handleMushDataHolder(Cmn::MushDataHolder* mushDataHolder){
+    mTextWriter->printf("MushDataHolder ptr: 0x%x\n", mushDataHolder);
+    mTextWriter->printf("MushWeaponInfo ptr: 0x%x\n", mushDataHolder->mushWeaponInfo);
+    
+    static bool entered = false;
+
+    if(!entered){
+        for(int i = 0; i < 29001; i++){
+            Cmn::WeaponData* data = mushDataHolder->mushWeaponInfo->getById(Cmn::Def::WeaponKind::cMain, i);
+            if(data != NULL){
+                data->price = 0;
+                data->rank = 0;
+                data->specialCost = 0;
+                data->lock = 0;
+            }
+        }
+
+        for(int i = 0; i < 230; i++){
+            Cmn::MushMapInfo::Data* mapData = mushDataHolder->mushMapInfo->getByMushOrder(i);
+            if(mapData != NULL){
+                mapData->envBrightness = 2;
+            }
+        }
+
+        entered = true;
+    }
+
+}
+
 bool isTriggered(Lp::Sys::Ctrl *controller, unsigned long id){
     bool buttonHeld = controller->data & id;
     return buttonHeld & !(controller->data & lastInputs & id);
@@ -239,4 +272,9 @@ char const* modeToText(Modes mode){
         default:
             return "None";
     }
+}
+
+
+int main( int argc, const char* argv[] ){
+    
 }

@@ -20,6 +20,3 @@ debug/
 release/
 lib/
 linkerscripts/symstemp.ld
-
-Starlight.nso.bak
-Starlight.id2
