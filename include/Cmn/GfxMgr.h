@@ -5,7 +5,7 @@
 #include "sead/heap.h"
 
 namespace Cmn{
-    class GfxMgr : sead::Disposer {
+    class GfxMgr : sead::IDisposer {
         public:
         gsys::ModelScene *modelScene;
         sead::BufferedSafeStringBase qword38;
