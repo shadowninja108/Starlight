@@ -18,6 +18,7 @@
 #include "Game/Player/PlayerMotion.h"
 #include "Game/Player/Player.h"
 #include "Game/PlayerMgr.h"
+#include "Game/MainMgr.h"
 #include "ModuleObject.hpp"
 
 enum Modes {

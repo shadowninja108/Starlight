@@ -4,7 +4,7 @@
 
 #include "Cmn/Actor.h"
 
-namespace Cmn {
+namespace Game {
     class MainMgr : Cmn::Actor{
         public:
         __int64 scene; //Lp::Sys::Scene *scene;
