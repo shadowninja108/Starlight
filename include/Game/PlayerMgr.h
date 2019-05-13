@@ -39,5 +39,6 @@ namespace Game {
         Game::Player* getPerformerAt(unsigned int) const;
         Game::Player* getAllKindPlayerAt(unsigned int) const;
         void updateAllControlledPlayer_(int);
+        void onChangeControlledPlayer();
     };
 };

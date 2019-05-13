@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "sead/vector.h"
+#include "PlayerMotion.h"
 
 namespace Game {
     class Player {
@@ -17,6 +18,5 @@ namespace Game {
         sead::Vector3<float> position;
         _BYTE morestuff[0x82C];
         Game::PlayerMotion *motion;
-
     };
 };

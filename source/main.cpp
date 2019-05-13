@@ -1,5 +1,13 @@
 #include "main.hpp"
-__attribute__((section(".bss"))) rtld::ModuleObject __nx_module_runtime; // to appease rtld
+
+// rtld working object
+__attribute__((section(".bss"))) rtld::ModuleObject __nx_module_runtime;
+
+// Needed on old versions of rtld that doesn't check for DT_INIT existance.
+extern "C" void __custom_init(void) {}
+
+// DT_FINI here for completeness.
+extern "C" void __custom_fini(void) {}
 
 static __int64 lastInputs = 0x200;
 static agl::DrawContext *mDrawContext;
@@ -49,6 +57,10 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
         else if(mode == Modes::INPUT_VIEWER){
             mTextWriter->printf("Information not available.\n");
         }
+
+        Cmn::MushDataHolder* mushData = Cmn::MushDataHolder::sInstance;
+        if(mushData != NULL)
+            handleMushDataHolder(mushData);
     }
     lastInputs = mController->data;
 }
@@ -100,7 +112,7 @@ void handleStaticMem(Cmn::StaticMem *staticMem){
             }
         }*/
 
-        Cmn::PlayerInfo* playerInfo = /*playerInfoAry->infos[0]*/ NULL;
+        Cmn::PlayerInfo* playerInfo = playerInfoAry->infos[0];
         if(playerInfo != NULL){
             mTextWriter->printf("PlayerInfo[0] ptr: 0x%x\n", playerInfo);
             mTextWriter->printf("PlayerInfo[0] weapon ID: 0x%x\n", playerInfo->weapon.id);
@@ -159,7 +171,8 @@ void handlePlayerMgr(Game::PlayerMgr* playerMgr){
             if(playerMgr->validAmountOfPlayers <= currentPlayer)
                 currentPlayer = 0;
             
-            Game::Utl::changeControlledPlayer(currentPlayer);
+            playerMgr->currentPlayerIndex = currentPlayer;
+            playerMgr->onChangeControlledPlayer();
         }
     }
 }
@@ -211,6 +224,35 @@ void handlePlayerControl(Cmn::PlayerCtrl* playerCtrl){
     }
 }
 
+void handleMushDataHolder(Cmn::MushDataHolder* mushDataHolder){
+    mTextWriter->printf("MushDataHolder ptr: 0x%x\n", mushDataHolder);
+    mTextWriter->printf("MushWeaponInfo ptr: 0x%x\n", mushDataHolder->mushWeaponInfo);
+    
+    static bool entered = false;
+
+    if(!entered){
+        for(int i = 0; i < 29001; i++){
+            Cmn::WeaponData* data = mushDataHolder->mushWeaponInfo->getById(Cmn::Def::WeaponKind::cMain, i);
+            if(data != NULL){
+                data->price = 0;
+                data->rank = 0;
+                data->specialCost = 0;
+                data->lock = 0;
+            }
+        }
+
+        for(int i = 0; i < 230; i++){
+            Cmn::MushMapInfo::Data* mapData = mushDataHolder->mushMapInfo->getByMushOrder(i);
+            if(mapData != NULL){
+                mapData->envHour = 2;
+            }
+        }
+
+        entered = true;
+    }
+
+}
+
 bool isTriggered(Lp::Sys::Ctrl *controller, unsigned long id){
     bool buttonHeld = controller->data & id;
     return buttonHeld & !(controller->data & lastInputs & id);
@@ -233,11 +275,7 @@ char const* modeToText(Modes mode){
     }
 }
 
-int main(int argc, char **argv) 
-{
-    // this is to ensure that this isn't being ran by the HBL
-    if (svcGetSystemTick() > 0) 
-    {
-        return 0;
-    }
+
+int main( int argc, const char* argv[] ){
+    
 }

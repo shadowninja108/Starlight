@@ -2,7 +2,7 @@
 
 #include "sead/heap.h"
 #include "agl/RenderBuffer.h"
-#include "agl/texturedata.h"
+#include "agl/TextureData.h"
 #include "agl/g3d/restexturedataex.h"
 
 #pragma once

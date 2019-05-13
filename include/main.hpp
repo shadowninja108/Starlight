@@ -9,6 +9,7 @@
 #include "Cmn/StaticMem.h"
 #include "Cmn/PlayerInfoUtil.h"
 #include "Cmn/PlayerCtrl.h"
+#include "Cmn/Mush/MushDataHolder.h"
 #include "Lp/Utl.h"
 #include "Lp/Sys/ctrl.h"
 #include "Game/Utl.h"
@@ -29,6 +30,7 @@ void drawBackground();
 void handleStaticMem(Cmn::StaticMem *staticMem);
 void handlePlayerMgr(Game::PlayerMgr* playerMgr);
 void handlePlayerControl(Cmn::PlayerCtrl* playerCtrl);
+void handleMushDataHolder(Cmn::MushDataHolder* mushDataHolder);
 
 char const* modeToText(Modes);
 
