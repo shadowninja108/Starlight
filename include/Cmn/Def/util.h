@@ -23,7 +23,7 @@ namespace Cmn
 
             virtual ~Instance();
 
-            u64 sceneIdToMode(s32) const;
+            Cmn::Def::Mode sceneIdToMode(s32) const;
 
             u8 _0[0x30];
             s32 mAppVersion; // _30 (0x1D means has octo expansion)
@@ -38,10 +38,10 @@ namespace Cmn
         void setRomType(Cmn::Def::RomType);
         nn::ApplicationId getApplicationId(Cmn::Def::RomType);
         bool isDevelopSeq();
-        u64 sceneIdToMode(s32);
-        u64 getCurMode();
-        u64 getLastMode();
-        u64 getNextMode();
+        Cmn::Def::Mode sceneIdToMode(s32);
+        Cmn::Def::Mode getCurMode();
+        Cmn::Def::Mode getLastMode();
+        Cmn::Def::Mode getNextMode();
         bool isMissionOrWorld(Cmn::Def::Mode);
         bool isMissionOrOcta(Cmn::Def::Mode);
         bool isCurModeMissionOrOcta();
