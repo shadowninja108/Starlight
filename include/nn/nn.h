@@ -5,6 +5,13 @@
 
 #pragma once
 
+#include "types.h"
+
+namespace nn
+{
+    typedef u64 ApplicationId;
+};
+
 #ifdef __cplusplus
 extern "C" {
 #endif
