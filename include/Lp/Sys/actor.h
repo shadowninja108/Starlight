@@ -13,6 +13,7 @@ namespace Lp {
         public:
           Actor();
           virtual ~Actor();
+
           _QWORD qword8;
           sead::TreeNode treeNodes[2];
           _BYTE data[180];
@@ -26,7 +27,7 @@ namespace Lp {
           __int64 array[16];
           _BYTE gap1D0[136];
           _DWORD dword258;
-          _QWORD qword260;
+          u64 mSystemTick; // _260
           _QWORD qword268;
           sead::BufferedSafeStringBase<char> str;
           _BYTE gap288[64];
@@ -34,7 +35,6 @@ namespace Lp {
           _QWORD qword2D0;
           _QWORD qword2D8;
           _QWORD qword2E0;
-
       };
   };
 };

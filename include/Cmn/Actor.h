@@ -5,16 +5,15 @@
 #include "Lp/Sys/actor.h"
 #include "Lp/Sys/xlinkiuser.h"
 
-namespace  Cmn
+namespace Cmn
 {
-  class Actor {
+  class Actor : public Lp::Sys::Actor, Lp::Sys::XLinkIUser
+  {
       public:
-        Lp::Sys::Actor lpActor;
-        Lp::Sys::XLinkIUser xlinkUser;
-        _QWORD qword320;
-        _DWORD dword328;
-        _QWORD qword330;
-        _QWORD qword338;
-        _QWORD qword340;
+        u64* _320; // Lp::Sys::XLink*
+        u64 _328;
+        u64* _330; // Cmn::ComponentHolder*
+        u64 _338;
+        u64* _340; // Lp::Utl::StateMachine*
   };
 };
