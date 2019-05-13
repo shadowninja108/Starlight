@@ -7,8 +7,8 @@
 namespace Cmn{
     class GfxMgr : sead::IDisposer {
         public:
-        gsys::ModelScene *modelScene;
-        sead::BufferedSafeStringBase qword38;
+        __int64 *modelScene; // gsys::ModelScene*
+        sead::BufferedSafeStringBase<char> qword38;
         _BYTE gap50[32];
         _QWORD qword70;
         char *pchar78;
@@ -18,9 +18,9 @@ namespace Cmn{
         _BYTE gapAC[4];
         _QWORD qwordB0;
         _QWORD qwordB8;
-        Cmn::GPUPerfController *gpuPerfController;
+        __int64 *gpuPerfController;// Cmn::GPUPerfController*
         _QWORD qwordC8;
-        agl::utl::DebugTexturePage debugTexturePage;
+        __int64 debugTexturePage; // agl::utl::DebugTexturePage*
         _BYTE byte310;
     };
 };

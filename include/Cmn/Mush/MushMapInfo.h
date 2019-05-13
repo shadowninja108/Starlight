@@ -52,6 +52,6 @@ namespace Cmn {
             _DWORD dword230;
         };
 
-        Cmn::MushMapInfo::Data* Cmn::MushMapInfo::getByMushOrder(int) const;
+        Cmn::MushMapInfo::Data* getByMushOrder(int) const;
     };
 };

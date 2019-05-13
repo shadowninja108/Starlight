@@ -10,6 +10,7 @@
 #include "Cmn/PlayerInfoUtil.h"
 #include "Cmn/PlayerCtrl.h"
 #include "Cmn/Mush/MushDataHolder.h"
+#include "Cmn/Def/util.h"
 #include "Lp/Utl.h"
 #include "Lp/Sys/ctrl.h"
 #include "Game/Utl.h"

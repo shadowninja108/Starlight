@@ -275,7 +275,6 @@ char const* modeToText(Modes mode){
     }
 }
 
+int main(int arg, char **argv){
 
-int main( int argc, const char* argv[] ){
-    
 }

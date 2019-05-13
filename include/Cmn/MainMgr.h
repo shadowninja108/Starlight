@@ -4,7 +4,7 @@
 
 #include "Cmn/Actor.h"
 
-namespace Game {
+namespace Cmn {
     class MainMgr : Cmn::Actor{
         public:
         __int64 scene; //Lp::Sys::Scene *scene;
@@ -31,5 +31,7 @@ namespace Game {
         _BYTE gap45C[4];
         _QWORD qword460;
         _BYTE byte468;
+
+        unsigned int getPaintGameFrame();
     };
 };

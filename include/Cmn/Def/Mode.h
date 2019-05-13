@@ -5,8 +5,8 @@
 
 namespace Cmn {
     namespace Def {
-        class Mode {
-            enum {
+        struct Mode {
+            enum : int {
                 cNone,
                 cVersus,
                 cCoop,
@@ -35,7 +35,7 @@ namespace Cmn {
                 cDevOther
             };
 
-            static sead::SafeStringBase<char>* text_();
+            static sead::SafeStringBase<char>* text_(int);
         };
     };
 };
