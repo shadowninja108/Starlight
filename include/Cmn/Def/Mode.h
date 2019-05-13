@@ -1,5 +1,6 @@
 #pragma once
 
+#include "sead/string.h"
 #include "types.h"
 
 namespace Cmn {
