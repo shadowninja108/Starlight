@@ -53,7 +53,6 @@ namespace Cmn
         };
         Cmn::MushMapInfo::Data* getByMushOrder(int) const;
     
-        void *__vftable;
         int MushMapInfo_x8;
         int MushMapInfo_xC;
         Data *mMapInfoArray;
