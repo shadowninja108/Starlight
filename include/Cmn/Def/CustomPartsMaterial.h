@@ -2,7 +2,8 @@
 
 #include "types.h"
 
-namespace Cmn {
+namespace Cmn
+{
     namespace Def
     {
         enum class CustomPartsMaterial
@@ -19,6 +20,5 @@ namespace Cmn {
             Yoroi = 0x9,
             PoweredSuits = 0xA,
         };
-
     };
 };
