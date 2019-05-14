@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "sead/string.h"
+#include "sead/time.h"
 #include "Cmn/PlayerInfoAry.h"
 
 namespace Cmn
