@@ -2,56 +2,65 @@
 
 #include "types.h"
 
-namespace Cmn {
-    class MushMapInfo {
+namespace Cmn
+{
+    class MushMapInfo
+    {
+    public:
+        class Data
+        {
         public:
-        class Data {
-            public:
-            _DWORD dword0;
-            _QWORD qword4;
-            _DWORD msnAreaNo;
-            _DWORD msnStageNo;
-            _DWORD msnMainWeaponId;
-            _QWORD qword18;
-            void *pvoid20;
-            signed int signed28;
-            _BYTE gap2C[68];
-            _QWORD qword70;
-            void *pvoid78;
-            signed int signed80;
-            _BYTE gap84[68];
-            _QWORD envHour;
-            _DWORD effectFakePointLight;
-            float miniMapScale;
-            float miniMapYaw;
-            _DWORD miniMapPitch;
-            _DWORD miniMapTrans;
-            _DWORD dwordE4;
-            _DWORD qwordE8;
-            int miniMapBravoInvType;
-            _QWORD qwordF0;
-            void *fixTeamColor;
-            signed int signed100;
-            _BYTE gap104[68];
-            _QWORD qword148;
-            void *bgmType;
-            signed int signed158;
-            _BYTE gap15C[68];
-            _QWORD qword1A0;
-            void *pvoid1A8;
-            signed int signed1B0;
-            _BYTE gap1B4[68];
-            _WORD word1F8;
-            __attribute__((aligned(4))) _QWORD qword1FC;
-            _BYTE gap204[4];
-            _QWORD qword208;
-            _QWORD qword210;
-            _QWORD qword218;
-            _QWORD qword220;
-            _DWORD dword228;
-            _DWORD dword230;
+            int Id;
+            int Data_x4;
+            int Data_x8;
+            int mMsnAreaNo;
+            int mMsnStageNo;
+            int mMsnMainWeaponId;
+            sead::BufferedSafeStringBase<char> mStr1;
+            char mStr1Data[64];
+            sead::BufferedSafeStringBase<char> Str2;
+            char mStr2Data[64];
+            int mEnvHour;
+            float mMiniMapScale;
+            float mMiniMapYaw;
+            float mMiniMapPitch;
+            int mMiniMapTrans;
+            float Data_xDC;
+            int mData_xE0;
+            int mMiniMapBravoInvType;
+            sead::BufferedSafeStringBase<char> mFixTeamColor;
+            char mFixTeamColorData[64];
+            sead::BufferedSafeStringBase<char> mBGMType;
+            char mBGMTypeData[64];
+            sead::BufferedSafeStringBase<char> mSndSceneEnv;
+            char mSndSceneEnvData[64];
+            bool mBakeLightForceEnable;
+            bool mOnlyObjPaint;
+            u64 padd;
+            float mAbnormalYPos;
+            int mCoopAddition;
+            int mPrivateMatchOrder;
+            int mMsnLyr_Shooter;
+            int mMsnLyr_Roller;
+            int mMsnLyr_Charger;
+            int mMsnLyr_Twins;
+            int mMsnLyr_Umbrella;
+            int mMsnLyr_Spinner;
+            int mMsnLyr_Blaster;
+            int mMsnLyr_Slosher;
+            int mMsnLyr_Brush;
+            int Data_x224;
         };
-
         Cmn::MushMapInfo::Data* getByMushOrder(int) const;
+    
+        void *__vftable;
+        int MushMapInfo_x8;
+        int MushMapInfo_xC;
+        Data *mMapInfoArray;
+        u32 mMapInfoArrayCount;
+        int MushMapInfo_x1C;
+        int MushMapInfo_x20;
+        int MushMapInfo_x24;
+        Data mDefaultData;
     };
 };
