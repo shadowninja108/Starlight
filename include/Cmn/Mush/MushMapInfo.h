@@ -54,7 +54,7 @@ namespace Cmn
         Cmn::MushMapInfo::Data* getByMushOrder(int) const;
         
         
-        const char* getDevName();
+        virtual const char* getDevName();
     
         int MushMapInfo_x8;
         int MushMapInfo_xC;
