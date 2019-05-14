@@ -3,8 +3,11 @@
 #include "types.h"
 #include "sead/string.h"
 #include "sead/time.h"
+#include "sead/array.h"
 #include "Cmn/PlayerInfoAry.h"
 #include "Cmn/Def/AmiiboData.h"
+#include "Cmn/Def/Mission/WorldAreaVolatileSave.h"
+#include "Lp/Net/FriendListHolder.h"
 
 namespace Cmn
 {
