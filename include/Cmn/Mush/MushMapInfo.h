@@ -52,6 +52,9 @@ namespace Cmn
             int Data_x224;
         };
         Cmn::MushMapInfo::Data* getByMushOrder(int) const;
+        
+        
+        getDevName(void)
     
         int MushMapInfo_x8;
         int MushMapInfo_xC;
