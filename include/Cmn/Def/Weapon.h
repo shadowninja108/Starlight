@@ -4,8 +4,10 @@
 
 namespace Cmn
 {
-    namespace Def{
-        class Weapon {
+    namespace Def
+    {
+        class Weapon
+        {
             public:
             Cmn::Def::WeaponKind mWeaponKinds[4];
         };
