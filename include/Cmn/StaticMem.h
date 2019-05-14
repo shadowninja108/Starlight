@@ -9,7 +9,7 @@ namespace Cmn
     class StaticMem
     {
         public:
-        ~StaticMem();
+        virtual ~StaticMem();
         
         static StaticMem* sInstance;
 
