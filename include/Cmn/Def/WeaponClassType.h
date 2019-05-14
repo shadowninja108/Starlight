@@ -2,7 +2,8 @@
 
 #include "types.h"
 
-namespace Cmn {
+namespace Cmn
+{
     namespace Def
     {
         enum class WeaponClassType
