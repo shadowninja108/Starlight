@@ -9,6 +9,8 @@ namespace Cmn
     class StaticMem
     {
         public:
+        ~StaticMem();
+        
         static StaticMem* sInstance;
 
         u64 staticMem_x8;
