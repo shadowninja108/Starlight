@@ -1,10 +1,13 @@
 #pragma once
 
 #include "types.h"
+#include "Cmn/Def/WeaponClassType.h"
+#include "Cmn/Def/CustomPartsMaterial.h"
 
 namespace Cmn {
     class WeaponData
     {
+        public:
         enum class DoubleType
         {
             None = 0x0,

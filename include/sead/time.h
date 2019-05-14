@@ -3,7 +3,5 @@
 #include "types.h"
 
 namespace sead {
-    class DateTime {
-        __int64 timestamp;
-    };
+    typedef u64 DateTime;
 };
