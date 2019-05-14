@@ -3,47 +3,71 @@
 #include "types.h"
 
 namespace Cmn {
-    class WeaponData {
-        public:
-        _DWORD id;
-        _DWORD index;
-        sead::BufferedSafeStringBase<char> name;
-        _BYTE gap20[64];
-        sead::BufferedSafeStringBase<char> modelName;
-        _BYTE gap78[64];
-        sead::BufferedSafeStringBase<char> arcName;
-        _BYTE gapD0[64];
-        _QWORD qword110;
-        signed __int64 signed118;
-        _QWORD qword120;
-        _DWORD dword128;
-        _BYTE gap12C[4];
-        sead::BufferedSafeStringBase<char> sub;
-        _BYTE gap148[64];
-        sead::BufferedSafeStringBase<char> special;
-        _BYTE gap1A0[64];
-        _DWORD specialCost;
-        _DWORD price;
-        _DWORD rank;
-        _DWORD lock;
-        _DWORD coopAddition;
-        _DWORD uiRefId;
-        _BYTE isPressRelease;
-        _BYTE gap1F9[7];
-        sead::BufferedSafeStringBase<char> unkStr200;
-        _BYTE gap218[64];
-        _DWORD dword258;
-        _BYTE gap25C[4];
-        sead::BufferedSafeStringBase<char> unkStr260;
-        _BYTE gap278[64];
-        _DWORD dword2B8;
-        _BYTE gap2BC[4];
-        sead::BufferedSafeStringBase<char> unkStr2C0;
-        _BYTE gap2D8[64];
-        _DWORD dword318;
-        _BYTE gap31C[4];
-        _DWORD cl;
-        int cm;
-        int cs;
-    };
+    class WeaponData
+    {
+        enum class DoubleType
+        {
+            None = 0x0,
+            Each = 0x1,
+            Same = 0x2,
+            Mirror = 0x3,
+        };
+        enum class ParamLevel
+        {
+            Low = 0x0,
+            Middle = 0x1,
+            High = 0x2,
+        };
+        enum class LockType
+        {
+            Bcat = 0x1,
+            NotForSale = 0x2,
+            Mission = 0x3,
+            MissionBcat = 0x4,
+        };
+
+        struct ParamEntry //unofficial name
+        {
+            sead::BufferedSafeStringBase<char> mParamName;
+            char mParamNameData[64];
+            int mParamValue;
+            int padd;
+        };
+
+    public:
+        int mId;
+        Cmn::Def::WeaponKind mWeaponKind;
+        sead::BufferedSafeStringBase<char> mName;
+        char mNameData[64];
+        sead::BufferedSafeStringBase<char> mModelName;
+        char mModelNameData[64];
+        sead::BufferedSafeStringBase<char> mArcName;
+        char mArcNameData[64];
+        Cmn::Def::CustomPartsMaterial mCustomPartsMaterial;
+        Cmn::Def::WeaponClassType mWeaponClassType;
+        int WeaponData_x118;
+        int WeaponData_x11C;
+        DoubleType mDoubleType;
+        ParamLevel mInkSaverLv;
+        ParamLevel mMoveVelLv;
+        int WeaponData_x12C;
+        sead::BufferedSafeStringBase<char> mSub;
+        char mSubData[64];
+        sead::BufferedSafeStringBase<char> mSpecial;
+        char mSpecialData[64];
+        int mSpecialCost;
+        int mPrice;
+        int mRank;
+        LockType mLockType;
+        int mCoopAddition;
+        int mUIRefId;
+        bool mIsPressRelease;
+        char padd[3];
+        int WeaponData_x1FC;
+        ParamEntry mParams[3];
+        int CL;
+        int CM;
+        int CS;
+    } PACKED;
+
 };
