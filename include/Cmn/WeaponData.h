@@ -73,6 +73,6 @@ namespace Cmn {
         int CL;
         int CM;
         int CS;
-    } PACKED;
+    };
 
 };
