@@ -3,10 +3,13 @@
 #include "types.h"
 
 #include "Cmn/Actor.h"
+#include "Game/GfxMgr.h"
 
 namespace Game {
-    class MainMgr : Cmn::Actor{
+    class MainMgr : Cmn::Actor {
         public:
+        static Game::MainMgr* sInstance;
+
         __int64 scene; //Lp::Sys::Scene *scene;
         _QWORD gfxLayer3d;
         _QWORD qword378;
@@ -16,7 +19,7 @@ namespace Game {
         __int64 field; //Game::Field *field;
         Lp::Sys::Actor *managers[20];
         __int64 cloneObjMgr; //Game::CloneObjMgr *cloneObjMgr;
-        __int64 gfxMgr; //Game::GfxMgr *gfxMgr;
+        Game::GfxMgr* gfxMgr; //Game::GfxMgr *gfxMgr;
         signed __int32 gap408;
         _BYTE gap454[12];
         _QWORD twoShotParamsHolder;

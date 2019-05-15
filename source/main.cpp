@@ -61,6 +61,11 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
         Cmn::MushDataHolder* mushData = Cmn::MushDataHolder::sInstance;
         if(mushData != NULL)
             handleMushDataHolder(mushData);
+
+        Game::MainMgr* mainMgr = Game::MainMgr::sInstance;
+        if(mainMgr != NULL){
+            handleMainMgr(mainMgr);
+        }
     }
     lastInputs = mController->data;
 }
@@ -251,6 +256,13 @@ void handleMushDataHolder(Cmn::MushDataHolder* mushDataHolder){
         entered = true;
     }
 
+}
+
+void handleMainMgr(Game::MainMgr* mainMgr) {
+    Game::GfxMgr* gfxMgr = mainMgr->gfxMgr;
+    if(gfxMgr != NULL){
+        gfxMgr->hour = 2;
+    }
 }
 
 bool isTriggered(Lp::Sys::Ctrl *controller, unsigned long id){
