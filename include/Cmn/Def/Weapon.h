@@ -1,14 +1,13 @@
 #pragma once
 
 #include "types.h"
+#include "Cmn/Def/WeaponKind.h"
 
-namespace Cmn
-{
-    namespace Def{
+namespace Cmn {
+    namespace Def {
         class Weapon {
             public:
-            _DWORD id;
-            __int64 turfInked;
+            Cmn::Def::WeaponKind mWeaponKinds[4];
         };
     };
 };

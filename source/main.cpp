@@ -101,12 +101,12 @@ void drawBackground(){
 
 void handleStaticMem(Cmn::StaticMem *staticMem){
     mTextWriter->printf("StaticMem ptr: 0x%x\n", staticMem);
-    sead::SafeStringBase<char> *stageName = &staticMem->stageName;
+    sead::SafeStringBase<char> *stageName = &staticMem->mMapFileName1;
     if(stageName->mCharPtr != NULL){
         mTextWriter->printf("Loaded stage: %s\n", stageName->mCharPtr);
     }
     
-    Cmn::PlayerInfoAry *playerInfoAry = staticMem->playerInfoArray;
+    Cmn::PlayerInfoAry *playerInfoAry = staticMem->mPlayerInfoAry;
     if(playerInfoAry != NULL){
         mTextWriter->printf("PlayerInfoAry ptr: 0x%x\n", playerInfoAry);
 
@@ -120,9 +120,6 @@ void handleStaticMem(Cmn::StaticMem *staticMem){
         Cmn::PlayerInfo* playerInfo = playerInfoAry->infos[0];
         if(playerInfo != NULL){
             mTextWriter->printf("PlayerInfo[0] ptr: 0x%x\n", playerInfo);
-            mTextWriter->printf("PlayerInfo[0] weapon ID: 0x%x\n", playerInfo->weapon.id);
-            mTextWriter->printf("PlayerInfo[0] weapon turf inked: 0x%x\n", playerInfo->weapon.turfInked);
-
             mTextWriter->printf("PlayerInfo[0] unk FC: 0x%x\n", playerInfo->dwordFC);
         }
     }
@@ -239,17 +236,17 @@ void handleMushDataHolder(Cmn::MushDataHolder* mushDataHolder){
         for(int i = 0; i < 29001; i++){
             Cmn::WeaponData* data = mushDataHolder->mushWeaponInfo->getById(Cmn::Def::WeaponKind::cMain, i);
             if(data != NULL){
-                data->price = 0;
-                data->rank = 0;
-                data->specialCost = 0;
-                data->lock = 0;
+                data->mPrice = 0;
+                data->mRank = 0;
+                data->mSpecialCost = 0;
+                data->mLockType = Cmn::WeaponData::LockType::NotForSale;
             }
         }
 
         for(int i = 0; i < 230; i++){
             Cmn::MushMapInfo::Data* mapData = mushDataHolder->mushMapInfo->getByMushOrder(i);
             if(mapData != NULL){
-                mapData->envHour = 2;
+                mapData->mEnvHour = 2;
             }
         }
 
@@ -287,7 +284,6 @@ char const* modeToText(Modes mode){
     }
 }
 
+int main(int arg, char **argv){
 
-int main( int argc, const char* argv[] ){
-    
 }
