@@ -23,10 +23,12 @@ namespace Cmn {
         };
         enum class LockType
         {
+            None = 0x0,
             Bcat = 0x1,
             NotForSale = 0x2,
             Mission = 0x3,
             MissionBcat = 0x4,
+            Other = 0x5
         };
 
         struct ParamEntry //unofficial name
