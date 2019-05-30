@@ -38,10 +38,6 @@ def initConfig():
                 patchConfig[curConfigName][configNSO] = configValue
 
 def getSymAddrFromMap(regexStr, symStr):
-    mapFilePath = os.path.join("build" + buildVersion, "starlight" + buildVersion + ".map")
-    with open(mapFilePath, 'r') as f:
-        mapFile = f.read()
-
     def getFoundPosAddr(start):
         regexMatch = re.search(regexStr, mapFile[start:])
         if not regexMatch:
@@ -93,7 +89,8 @@ def resolveAddress(target, symbolStr):
         funcStr = symbolStr + r'\('
         try:
             addrInStarlight = getSymAddrFromMap(funcStr, symbolStr)
-            resolvedAddr +=  + addrInStarlight
+            # if no exception, then symbolStr is found is starlight
+            resolvedAddr += addrInStarlight
             return resolvedAddr
         except:
             pass
@@ -116,6 +113,10 @@ def resolveAddress(target, symbolStr):
 
     return resolvedAddr
 
+def getPatchBin(patchValueStr):
+    print(patchValueStr)
+    return bytearray() #placeholder
+
 def addPatchFromFile(patchFilePath):
     PATCH_VERSION_ALL = "all"
     patchVars = {
@@ -125,8 +126,18 @@ def addPatchFromFile(patchFilePath):
 
     with open(patchFilePath) as patchFile:
         fileLinesIter = iter(patchFile)
-        for line in fileLinesIter:
-            line = line.split('/', 1)[0]
+        isInMultiPatch = False
+        while True:
+            if isInMultiPatch:
+                # multiPatch check already read new line
+                isInMultiPatch = False
+            else:
+                try:
+                    line = next(fileLinesIter)
+                except StopIteration:
+                    break
+
+            line = line.split('/', 1)[0].strip()
 
             patchVarLineMatch = re.match(r'\[(.+)\]', line)
             if patchVarLineMatch:
@@ -136,16 +147,35 @@ def addPatchFromFile(patchFilePath):
                 continue
 
             addressSplit = line.split(' ', 1)
-            isMultiPatch = addressSplit[0].endswith(':')
-            if len(addressSplit) < 2 and not isMultiPatch:
+            isInMultiPatch = addressSplit[0].endswith(':')
+            if len(addressSplit) < 2 and not isInMultiPatch:
                 continue
             
             patchAddress = resolveAddress(patchVars["target"],
-                addressSplit[0] if not isMultiPatch else addressSplit[0][:-1])
-            print(addressSplit[0], "resovled to", hex(patchAddress))
+                addressSplit[0] if not isInMultiPatch else addressSplit[0][:-1])
+            patchContent = bytearray()
+
+            if isInMultiPatch:
+                try:
+                    line = next(fileLinesIter).split('/', 1)[0]
+                    ident = re.search(r'\s+', line).group()
+                    while True:
+                        patchContent += getPatchBin(line.strip())
+                        line = next(fileLinesIter).split('/', 1)[0]
+                        if not line.startswith(ident):
+                            break
+                except StopIteration:
+                    break
+            else:
+                patchContent = getPatchBin(addressSplit[1])
+
+            if patchVars["target"] not in patchList:
+                patchList[patchVars["target"]] = []
+            patchList[patchVars["target"]].append(Patch(
+                patchAddress - int(patchConfig["nso_load_addr"][patchVars["target"]], 16),
+                len(patchContent), patchContent ))
 
             # UNFINISHED
-
 
 if len(sys.argv) < 2:
     print('Usage: ' + sys.argv[0] + ' [version]')
@@ -153,6 +183,9 @@ if len(sys.argv) < 2:
 
 buildVersion = sys.argv[1]
 initConfig()
+mapFilePath = os.path.join("build" + buildVersion, "starlight" + buildVersion + ".map")
+with open(mapFilePath, 'r') as f:
+    mapFile = f.read()
 
 for file in os.listdir(PATCH_DIR):
     if file.endswith(PATCH_EXTENSION):
