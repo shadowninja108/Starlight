@@ -16,11 +16,11 @@ namespace Cmn
         u32 mPlayerIndex;
         u16 unk; //Always 1
         char16_t mPlayerName[17];
-        int mTeam;
-        int mModelType;
-        int mModelId;
-        int mSkinColorId;
-        int mEyeColorId;
+        Cmn::Def::Team mTeam;
+        u32 mModelType;
+        u32 mModelId;
+        u32 mSkinColorId;
+        u32 mEyeColorId;
         Cmn::Def::Weapon mWeapon;
         int PlayerInfo_x5C;
         int PlayerInfo_x60;
