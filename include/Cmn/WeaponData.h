@@ -1,10 +1,13 @@
 #pragma once
 
 #include "types.h"
+#include "Cmn/Def/WeaponClassType.h"
+#include "Cmn/Def/CustomPartsMaterial.h"
 
 namespace Cmn {
     class WeaponData
     {
+        public:
         enum class DoubleType
         {
             None = 0x0,
@@ -20,10 +23,12 @@ namespace Cmn {
         };
         enum class LockType
         {
+            None = 0x0,
             Bcat = 0x1,
             NotForSale = 0x2,
             Mission = 0x3,
             MissionBcat = 0x4,
+            Other = 0x5
         };
 
         struct ParamEntry //unofficial name
@@ -68,6 +73,6 @@ namespace Cmn {
         int CL;
         int CM;
         int CS;
-    } PACKED;
+    };
 
 };

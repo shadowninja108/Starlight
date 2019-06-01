@@ -33,6 +33,7 @@ void handleStaticMem(Cmn::StaticMem *staticMem);
 void handlePlayerMgr(Game::PlayerMgr* playerMgr);
 void handlePlayerControl(Cmn::PlayerCtrl* playerCtrl);
 void handleMushDataHolder(Cmn::MushDataHolder* mushDataHolder);
+void handleMainMgr(Game::MainMgr* mainMgr);
 
 char const* modeToText(Modes);
 
