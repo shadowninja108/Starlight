@@ -9,11 +9,11 @@
 *.nacp
 *.nam
 *.nro
-*.map
 *.o
 *.txt
 *.til
 *.pchtxt
+*.ips
 .vscode/
 build*/
 debug/
