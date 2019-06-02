@@ -9,10 +9,10 @@ namespace Cmn
 {
     class PlayerInfo {
         public:
-        int PlayerInfo_x0;
-        int PlayerInfo_x4;
-        int PlayerInfo_x8;
-        int PlayerInfo_xC;
+        u32 PlayerInfo_x0;
+        u32 PlayerInfo_x4;
+        u32 PlayerInfo_x8;
+        u32 PlayerInfo_xC;
         u32 mPlayerIndex;
         u16 unk; //Always 1
         char16_t mPlayerName[17];
@@ -22,17 +22,17 @@ namespace Cmn
         u32 mSkinColorId;
         u32 mEyeColorId;
         Cmn::Def::Weapon mWeapon;
-        int PlayerInfo_x5C;
-        int PlayerInfo_x60;
+        u32 PlayerInfo_x5C;
+        u32 PlayerInfo_x60;
         Cmn::Def::Gear mGears[3];
-        int PlayerInfo_xC4;
+        u32 PlayerInfo_xC4;
         u32 mBottomId;
         sead::Color4f mColor; //Only used for the plaza NPCs ?
         u32 mPlayerRank;
         u32 mStarRank;
         u32 mUdemaeGrades[5];
-        int PlayerInfo_xF8;
-        int PlayerInfo_xFC;
+        u32 PlayerInfo_xF8;
+        u32 PlayerInfo_xFC;
         Cmn::Def::MMR mMMR1;
         Cmn::Def::MMR mMMR2;
         char gap_x120[0x80];
