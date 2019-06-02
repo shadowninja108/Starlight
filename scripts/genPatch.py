@@ -1,4 +1,5 @@
 import os, sys, re, ctypes, struct
+from keystone import *
 
 class Patch:
     def __init__(self, offset, length, content):
@@ -28,7 +29,6 @@ patchConfig = {
 patchList = {}
 
 mapFile = None
-
 
 def initConfig():
     configPath = os.path.join(PATCH_CONFIG_DIR, buildVersion + PATCH_CONFIG_EXTENSION)
@@ -121,7 +121,7 @@ def resolveAddress(target, symbolStr):
 
     return resolvedAddr
 
-def getPatchBin(patchValueStr):
+def getPatchBin(target, patchAddress, patchValueStr):
     # bytes patch
     try:
         patchBin = bytearray.fromhex(patchValueStr)
@@ -134,7 +134,21 @@ def getPatchBin(patchValueStr):
         return bytearray(bytes(stringMatch.group(1), 'utf-8').decode('unicode_escape') + '\0', 'utf-8')
 
     # asm patch
-    return bytearray() #placeholder
+    branchNeedResolveMatch = re.match(r'([Bb][Ll]?\s+)([^\#]+$)', patchValueStr)
+    if branchNeedResolveMatch:
+        patchValueStr = (branchNeedResolveMatch.group(1) + '#' +
+            hex(resolveAddress(target, branchNeedResolveMatch.group(2)) - patchAddress))
+
+    ks = Ks(KS_ARCH_ARM64, KS_MODE_LITTLE_ENDIAN)
+    encodedBytes, insCount = ks.asm(patchValueStr)
+    return bytearray(encodedBytes)
+
+def addPatchToPatchlist(target, patchAddress, patchContent):
+    if target not in patchList:
+        patchList[target] = []
+    patchList[target].append(Patch(
+        patchAddress - int(patchConfig["nso_load_addr"][target], 16) + NSO_HEADER_LEN, 
+        len(patchContent), patchContent ))
 
 def addPatchFromFile(patchFilePath):
     PATCH_VERSION_ALL = "all"
@@ -179,20 +193,18 @@ def addPatchFromFile(patchFilePath):
                     line = next(fileLinesIter).split('/', 1)[0]
                     ident = re.search(r'\s+', line).group()
                     while True:
-                        patchContent += getPatchBin(line.strip())
+                        patchContent += getPatchBin(
+                            patchVars["target"], patchAddress + len(patchContent), line.strip())
                         line = next(fileLinesIter).split('/', 1)[0]
                         if not line.startswith(ident):
                             break
                 except StopIteration:
+                    addPatchToPatchlist(patchVars["target"], patchAddress, patchContent)
                     break
             else:
-                patchContent = getPatchBin(addressSplit[1])
+                patchContent = getPatchBin(patchVars["target"], patchAddress, addressSplit[1])
 
-            if patchVars["target"] not in patchList:
-                patchList[patchVars["target"]] = []
-            patchList[patchVars["target"]].append(Patch(
-                patchAddress - int(patchConfig["nso_load_addr"][patchVars["target"]], 16),
-                len(patchContent), patchContent ))
+            addPatchToPatchlist(patchVars["target"], patchAddress, patchContent)
 
 if len(sys.argv) < 2:
     print('Usage: ' + sys.argv[0] + ' [version]')
@@ -223,3 +235,4 @@ for nso in patchList:
             ipsFile.write(struct.pack('>H', patch.length))
             ipsFile.write(patch.content)
         ipsFile.write(IPS_EOF_MAGIC)
+    print("genPatch.py:", nso, "complete")
