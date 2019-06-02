@@ -1,4 +1,4 @@
-import os, sys, re, ctypes
+import os, sys, re, ctypes, struct
 
 class Patch:
     def __init__(self, offset, length, content):
@@ -6,14 +6,20 @@ class Patch:
         self.length = length
         self.content = content
 
+# consts
 PATCH_DIR = "patches"
 PATCH_EXTENSION = ".slpatch"
 
+NSO_HEADER_LEN = 0x100
 PATCH_CONFIG_DIR = os.path.join(PATCH_DIR, "configs")
 PATCH_CONFIG_EXTENSION = ".config"
 
-NSO_HEADER_LEN = 0x100
+IPS_OUT_DIR_NAME = "starlight_patch_{}"
+IPS_FORMAT = ".ips"
+IPS_HEADER_MAGIC = bytes("IPS32", 'ASCII')
+IPS_EOF_MAGIC = bytes("EEOP", 'ASCII')
 
+# globals
 buildVersion = None
 patchConfig = {
     "build_id" : {},
@@ -23,11 +29,13 @@ patchList = {}
 
 mapFile = None
 
+
 def initConfig():
     configPath = os.path.join(PATCH_CONFIG_DIR, buildVersion + PATCH_CONFIG_EXTENSION)
     with open(configPath) as configFile:
         curConfigName = None
         for line in configFile:
+            line = line.strip()
             configNameLineMatch = re.match(r'\[(.+)\]', line)
             if configNameLineMatch:
                 curConfigName = configNameLineMatch.group(1)
@@ -114,7 +122,18 @@ def resolveAddress(target, symbolStr):
     return resolvedAddr
 
 def getPatchBin(patchValueStr):
-    print(patchValueStr)
+    # bytes patch
+    try:
+        patchBin = bytearray.fromhex(patchValueStr)
+        return patchBin
+    except ValueError:
+        pass
+    # string patch
+    stringMatch = re.search(r'"(.+)"', patchValueStr)
+    if stringMatch:
+        return bytearray(bytes(stringMatch.group(1), 'utf-8').decode('unicode_escape') + '\0', 'utf-8')
+
+    # asm patch
     return bytearray() #placeholder
 
 def addPatchFromFile(patchFilePath):
@@ -175,8 +194,6 @@ def addPatchFromFile(patchFilePath):
                 patchAddress - int(patchConfig["nso_load_addr"][patchVars["target"]], 16),
                 len(patchContent), patchContent ))
 
-            # UNFINISHED
-
 if len(sys.argv) < 2:
     print('Usage: ' + sys.argv[0] + ' [version]')
     sys.exit(-1)
@@ -186,9 +203,23 @@ initConfig()
 mapFilePath = os.path.join("build" + buildVersion, "starlight" + buildVersion + ".map")
 with open(mapFilePath, 'r') as f:
     mapFile = f.read()
+ipsOutDir = IPS_OUT_DIR_NAME.format(buildVersion)
 
 for file in os.listdir(PATCH_DIR):
     if file.endswith(PATCH_EXTENSION):
         addPatchFromFile(os.path.join(PATCH_DIR, file))
 
-# UNFINISHED
+try:
+    os.mkdir(ipsOutDir)
+except FileExistsError:
+    pass
+
+for nso in patchList:
+    ipsOutPath = os.path.join(ipsOutDir, patchConfig["build_id"][nso] + IPS_FORMAT)
+    with open(ipsOutPath, 'wb') as ipsFile:
+        ipsFile.write(IPS_HEADER_MAGIC)
+        for patch in patchList[nso]:
+            ipsFile.write(struct.pack('>I', patch.offset))
+            ipsFile.write(struct.pack('>H', patch.length))
+            ipsFile.write(patch.content)
+        ipsFile.write(IPS_EOF_MAGIC)
