@@ -13,13 +13,11 @@ namespace Cmn
 
             void resetExpAndExSkillAll();
 
-            s32 mGearID; // _0
-            u32 _4;
+            u32 mId;
+            u32 mUnlockedSlotCount;
             u32 _8;
-            u32 _C;
-            u32 _10; // ExSkillID
-            u32 _14; // ^^
-            u32 _18; // ^^
+            u32 mMainSkill;
+            u32 mSkills[3];
             u32 _1C;
         };
     };

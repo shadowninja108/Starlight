@@ -9,39 +9,33 @@ namespace Cmn
 {
     class PlayerInfo {
         public:
-        int vtable;
-        _BYTE gap4[16];
-        _BYTE field_14;
-        _BYTE field_15;
-        __attribute__((packed)) __attribute__((aligned(1))) char16_t *name;
-        _BYTE gap1E[26];
-        __int64 modelType;
-        __int32 hairId;
-        __int32 skinColor;
-        __int32 eyeColor;
-        __attribute__((packed)) __attribute__((aligned(1))) Cmn::Def::Weapon weapon;
-        _WORD word5C;
-        _BYTE gap5E[6];
-        Cmn::Def::Gear gear[3];
-        __int32 tankId;
-        __int32 bottomInfo;
-        _DWORD dwordCC;
-        _DWORD dwordD0;
-        _DWORD dwordD4;
-        float dwordD8;
-        __int32 rank;
-        __int32 starRank;
-        __int32 udemaeGrade[6];
-        char *dwordFC;
-        Cmn::Def::MMR mmr1;
-        Cmn::Def::MMR mmr2;
-        _BYTE gap120[4];
-        __attribute__((packed)) __attribute__((aligned(1))) _QWORD qword124;
-        __attribute__((packed)) __attribute__((aligned(1))) _QWORD qword12C;
-        _BYTE gap134[28];
-        _DWORD dword150;
-        __attribute__((aligned(8))) _DWORD dword158;
-        __attribute__((aligned(8))) Cmn::Def::MMR mmr3;
+        u32 PlayerInfo_x0;
+        u32 PlayerInfo_x4;
+        u32 PlayerInfo_x8;
+        u32 PlayerInfo_xC;
+        u32 mPlayerIndex;
+        u16 unk; //Always 1
+        char16_t mPlayerName[17];
+        Cmn::Def::Team mTeam;
+        u32 mModelType;
+        u32 mModelId;
+        u32 mSkinColorId;
+        u32 mEyeColorId;
+        Cmn::Def::Weapon mWeapon;
+        u32 PlayerInfo_x5C;
+        u32 PlayerInfo_x60;
+        Cmn::Def::Gear mGears[3];
+        u32 PlayerInfo_xC4;
+        u32 mBottomId;
+        sead::Color4f mColor; //Only used for the plaza NPCs ?
+        u32 mPlayerRank;
+        u32 mStarRank;
+        u32 mUdemaeGrades[5];
+        u32 PlayerInfo_xF8;
+        u32 PlayerInfo_xFC;
+        Cmn::Def::MMR mMMR1;
+        Cmn::Def::MMR mMMR2;
+        char gap_x120[0x80];
 
         void setPlayerRank(int);
         void dbgSetPlayerName(sead::SafeStringBase<char> const&);

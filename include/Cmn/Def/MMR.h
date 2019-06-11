@@ -7,9 +7,9 @@ namespace Cmn
     namespace Def{
         class MMR {
             public:
-            float float0;
-            float float4;
-            float float8;
+            float mRate;
+            float mRD;
+            float mVolatility;
             float byteC;
         };
     };
