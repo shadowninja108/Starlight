@@ -6,6 +6,7 @@
 #include "sead/array.h"
 #include "Cmn/PlayerInfoAry.h"
 #include "Cmn/Def/AmiiboData.h"
+#include "Cmn/Def/Team.h"
 #include "Cmn/Def/Mission/WorldAreaVolatileSave.h"
 #include "Lp/Net/FriendListHolder.h"
 
@@ -22,7 +23,7 @@ namespace Cmn
         sead::IDisposer mDisposer;
         u64 staticMem_x30;
         Cmn::PlayerInfoAry *mPlayerInfoAry;
-        u32 mTeam;
+        Cmn::Def::Team mTeam;
         u32 staticMem_x44;
         sead::BufferedSafeStringBase<char> mMapFileName1;
         char mMapFileNameData1[0x100];

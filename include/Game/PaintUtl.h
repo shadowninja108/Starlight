@@ -5,7 +5,8 @@
 
 namespace Game {
     class PaintUtl {
-        void requestAllPaintFloor(unsigned int, Cmn::Def::Team);
-        void requestAllPaintWall(unsigned int, Cmn::Def::Team);
+        public:
+        static void requestAllPaintFloor(unsigned int, Cmn::Def::Team);
+        static void requestAllPaintWall(unsigned int, Cmn::Def::Team);
     };
 };

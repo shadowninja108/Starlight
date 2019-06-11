@@ -20,3 +20,5 @@ debug/
 release/
 lib/
 linkerscripts/symstemp.ld
+starlight_patch*/
+scripts/.idea/*

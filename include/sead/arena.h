@@ -6,6 +6,7 @@
 #pragma once
 
 #include "nn/os.h"
+#include "sead/heap.h"
 #include "types.h"
 
 namespace sead
@@ -19,7 +20,7 @@ namespace sead
         void initialize(u64 size);
         void destroy();
 
-        u64 _0;
+        sead::Heap* heap;
         u64 mSize; // _8
         u8 mIsNotFreed; // _10
         u8 _11; // padding?

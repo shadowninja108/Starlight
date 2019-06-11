@@ -35,6 +35,6 @@ namespace Game {
         _QWORD qword460;
         _BYTE byte468;
 
-        unsigned int getPaintGameFrame();
+        unsigned int getPaintGameFrame() const;
     };
 };

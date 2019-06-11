@@ -6,10 +6,13 @@
 #include "sead/string.h"
 #include "sead/heap.h"
 #include "sead/matrix.h"
+#include "sead/arena.h"
 #include "Cmn/StaticMem.h"
 #include "Cmn/PlayerInfoUtil.h"
 #include "Cmn/PlayerCtrl.h"
 #include "Cmn/Mush/MushDataHolder.h"
+#include "Cmn/GfxSetting.h"
+#include "Cmn/AppUBOMgr.h"
 #include "Cmn/Def/util.h"
 #include "Lp/Utl.h"
 #include "Lp/Sys/ctrl.h"
@@ -19,10 +22,11 @@
 #include "Game/Player/Player.h"
 #include "Game/PlayerMgr.h"
 #include "Game/MainMgr.h"
+#include "Game/PaintUtl.h"
 #include "ModuleObject.hpp"
 
 enum Modes {
-    NONE, FLY, EVENT_VIEWER, INPUT_VIEWER,  PLAYER_SWITCHER, END
+    NONE, FLY, EVENT_VIEWER, INPUT_VIEWER,  PLAYER_SWITCHER, PAINT_ALL, END
 };
 
 void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter);

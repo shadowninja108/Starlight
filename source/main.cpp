@@ -17,7 +17,6 @@ static Game::Player* mCurrentPlayer;
 static int mode;
 static bool showMenu;
 
-// hook for gsys::SystemTask::invokeDrawTV_
 void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
 {
     mDrawContext = drawContext;
@@ -66,8 +65,10 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
         if(mainMgr != NULL){
             handleMainMgr(mainMgr);
         }
+        
     }
     lastInputs = mController->data;
+    //sead::HeapMgr::sInstance->setCurrentHeap_(NULL);
 }
 
 void drawBackground(){
@@ -239,7 +240,7 @@ void handleMushDataHolder(Cmn::MushDataHolder* mushDataHolder){
                 data->mPrice = 0;
                 data->mRank = 0;
                 data->mSpecialCost = 0;
-                data->mLockType = Cmn::WeaponData::LockType::NotForSale;
+                data->mLockType = Cmn::WeaponData::LockType::None;
             }
         }
 
@@ -260,6 +261,16 @@ void handleMainMgr(Game::MainMgr* mainMgr) {
     if(gfxMgr != NULL){
         gfxMgr->hour = 2;
     }
+    if(mode == Modes::PAINT_ALL){
+        if(isTriggered(mController, Buttons::LStick)){
+            unsigned int paintGameFrame = mainMgr->getPaintGameFrame();
+            Cmn::Def::Team team = Cmn::Def::Team::Alpha;
+            if(Cmn::StaticMem::sInstance != NULL)
+                team = Cmn::StaticMem::sInstance->mTeam;
+            Game::PaintUtl::requestAllPaintFloor(paintGameFrame, team);
+            Game::PaintUtl::requestAllPaintWall(paintGameFrame, team);
+        }
+    }
 }
 
 bool isTriggered(Lp::Sys::Ctrl *controller, unsigned long id){
@@ -279,6 +290,8 @@ char const* modeToText(Modes mode){
             return "Gyro/stick input viewer";
         case Modes::PLAYER_SWITCHER:
             return "Player switcher";
+        case Modes::PAINT_ALL:
+            return "Paint all";
         default:
             return "None";
     }

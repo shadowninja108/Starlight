@@ -26,9 +26,9 @@ namespace sead
     class BufferedSafeStringBase : public sead::SafeStringBase<T>
     {
     public:
-        virtual ~BufferedSafeStringBase();
-        virtual sead::BufferedSafeStringBase<T> operator=(sead::BufferedSafeStringBase<T> const &);
-        virtual void assureTerminationImpl_();
+        virtual ~BufferedSafeStringBase() {};
+        virtual sead::SafeStringBase<T> operator=(sead::SafeStringBase<T> const &);
+        virtual void assureTerminationImpl_() const;
 
         s32 formatImpl_(T *, s32, T const *, s32);
         s32 formatV(T const *, s32);
