@@ -4,6 +4,7 @@
 #include "Cmn/Def/MMR.h"
 #include "Cmn/Def/Gear.h"
 #include "Cmn/Def/Weapon.h"
+#include "Cmn/Def/Team.h"
 
 namespace Cmn
 {
