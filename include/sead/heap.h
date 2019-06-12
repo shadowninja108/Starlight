@@ -293,6 +293,7 @@ namespace sead
         static sead::HeapMgr* sInstance;
         static sead::HeapMgr* sInstancePtr;
         static sead::Heap* sRootHeaps;
+        static sead::Heap** sRootHeapsPtr;
         static sead::Arena* sArena;
         static sead::Arena* sDefaultArena;
         static s64 sSleepSpanAtRemoveCacheFailure;
