@@ -1,5 +1,18 @@
 from ftplib import FTP
 import os
+import sys
+
+titleIdLookup = {
+    "JP": '01003C700009C000',
+    "US": '01003BC0000A0000',
+    "EU": '0100F8F0000A2000',
+    'EveJP': '0100D070040F8000',
+    'EveUS': '01003870040FA000',
+    'EveEU': '010086F0040FC000',
+    'TrialUS': '01006BB00D45A000',
+    'ShowDL': '010000A00218E000'
+}
+
 
 def listdirs(connection,_path):
     file_list, dirs, nondirs = [], [], []
@@ -17,13 +30,24 @@ def listdirs(connection,_path):
             nondirs.append(name)
     return dirs
 
-def ensuredirectory(connection,root, path):
+
+def ensuredirectory(connection,root,path):
     print(f'Ensuring {os.path.join(root, path)} exists...')
     if path not in listdirs(connection, root):
         connection.mkd(f'{root}/{path}')
 
 
-consoleIP = "10.4.1.79"
+consoleIP = sys.argv[1]
+if len(sys.argv) < 3:
+    romType = 'US'
+else:
+    romType = sys.argv[2]
+
+if len(sys.argv) < 4:
+    version = '310'
+else:
+    version = sys.argv[3]
+
 consolePort = 5000
 
 curDir = os.curdir
@@ -35,7 +59,7 @@ print('Connected!')
 
 patchDirectories = []
 
-root, dirs, _ = next(os.walk(f'{curDir}/..'))
+root, dirs, _ = next(os.walk(curDir))
 for dir in dirs:
     if dir.startswith("starlight_patch_"):
         patchDirectories.append((os.path.join(root, dir), dir))
@@ -54,3 +78,13 @@ for patchDir in patchDirectories:
             sdPath = f'/atmosphere/exefs_patches/{dirName}/{file}'
             print(f'Sending {sdPath}')
             ftp.storbinary(f'STOR {sdPath}', open(fullPath, 'rb'))
+
+ensuredirectory(ftp, '/atmosphere', 'titles')
+ensuredirectory(ftp, '/atmosphere/titles', titleIdLookup[romType])
+ensuredirectory(ftp, f'/atmosphere/titles/{titleIdLookup[romType]}', 'exefs')
+
+if os.path.isfile(f'Starlight{version}.nso'):
+    sdPath = f'/atmosphere/titles/{titleIdLookup[romType]}/exefs/subsdk0'
+    print(f'Sending {sdPath}')
+    ftp.storbinary(f'STOR {sdPath}', open(f'Starlight{version}.nso', 'rb'))
+
