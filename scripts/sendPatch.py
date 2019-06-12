@@ -38,6 +38,12 @@ def ensuredirectory(connection,root,path):
 
 
 consoleIP = sys.argv[1]
+if '.' not in consoleIP:
+    print(sys.argv[0], "ERROR: Please specify with `IP=[Your console's IP]`")
+    sys.exit(-1)
+
+consolePort = 5000
+
 if len(sys.argv) < 3:
     romType = 'US'
 else:
@@ -48,12 +54,10 @@ if len(sys.argv) < 4:
 else:
     version = sys.argv[3]
 
-consolePort = 5000
-
 curDir = os.curdir
 
 ftp = FTP()
-print('Connecting to console...')
+print(f'Connecting to {consoleIP}... ', end='')
 ftp.connect(consoleIP, consolePort)
 print('Connected!')
 
@@ -87,4 +91,3 @@ if os.path.isfile(f'Starlight{version}.nso'):
     sdPath = f'/atmosphere/titles/{titleIdLookup[romType]}/exefs/subsdk0'
     print(f'Sending {sdPath}')
     ftp.storbinary(f'STOR {sdPath}', open(f'Starlight{version}.nso', 'rb'))
-
