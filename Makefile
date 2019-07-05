@@ -5,7 +5,7 @@
 
 S2VER ?= 310
 S2VERSTR ?= 3.1.0
-S2ROMTYPE ?= US
+S2ROMTYPE ?= EU
 
 all: starlight
 
@@ -19,7 +19,7 @@ starlight_patch_$(S2VER)/*.ips: patches/*.slpatch patches/configs/$(S2VER).confi
 	python3 scripts/genPatch.py $(S2VER)
 
 send: all
-	python3.7 scripts/sendPatch.py $(IP) $(S2ROMTYPE) $(S2VER)
+	python3 scripts/sendPatch.py $(IP) $(S2ROMTYPE) $(S2VER)
 
 clean:
 	$(MAKE) clean -f MakefileNSO
