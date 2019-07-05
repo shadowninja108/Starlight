@@ -5,7 +5,7 @@
 
 S2VER ?= 310
 S2VERSTR ?= 3.1.0
-S2ROMTYPE ?= EU
+S2ROMTYPE ?= US
 
 all: starlight
 

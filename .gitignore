@@ -22,3 +22,4 @@ lib/
 linkerscripts/symstemp.ld
 starlight_patch*/
 scripts/.idea/*
+!exported.txt
