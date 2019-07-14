@@ -15,7 +15,7 @@ namespace sead
     {
         public:
 
-        template<typename T, typename T2>
+        template <template<class> class T, class T2>
         class OutImpl
         {
         public:   
