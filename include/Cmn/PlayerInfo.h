@@ -40,5 +40,6 @@ namespace Cmn
 
         void setPlayerRank(int);
         void dbgSetPlayerName(sead::SafeStringBase<char> const&);
+        void setPlayerName(char16_t const*);
     };
 };
