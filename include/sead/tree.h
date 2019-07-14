@@ -31,8 +31,9 @@ namespace sead
 
         sead::TreeNode* mRoot; // _0
         sead::TreeNode* mChildNode; // _8
-        u64 _10;
+        sead::TreeNode* mParent;
         u64 _18;
+        u64 mValue;
     };
 
     class MethodTreeNode : public sead::IDisposer
