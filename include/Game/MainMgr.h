@@ -4,9 +4,10 @@
 
 #include "Cmn/Actor.h"
 #include "Game/GfxMgr.h"
+#include "Game/Field.h"
 
 namespace Game {
-    class MainMgr : Cmn::Actor {
+    class MainMgr : public Cmn::Actor, public sead::IDisposer {
         public:
         static Game::MainMgr* sInstance;
 
@@ -16,7 +17,7 @@ namespace Game {
         _QWORD plazaGfxLayer3d;
         __int64 mudata; //Cmn::MuData *mudata;
         __int64 seqMgr; //Game::SeqMgrCoop *seqMgr;
-        __int64 field; //Game::Field *field;
+        Game::Field* field;
         Lp::Sys::Actor *managers[20];
         __int64 cloneObjMgr; //Game::CloneObjMgr *cloneObjMgr;
         Game::GfxMgr* gfxMgr; //Game::GfxMgr *gfxMgr;

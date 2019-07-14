@@ -1,6 +1,9 @@
+#pragma once
+
 #include "types.h"
 
-#pragma once
+#include "gsys/model.h"
+#include "sead/string.h"
 
 namespace Lp {
 
@@ -11,12 +14,13 @@ namespace Lp {
         public:
           XLinkIUser();
           virtual char* getLinkName();
-          _QWORD qword8;
-          _QWORD qword10;
-          _QWORD qword18;
-          _QWORD qword20;
-          _QWORD qword28;
-          _QWORD qword30;
+          
+          u64 XLinkIUser_ModelCount;
+          gsys::Model **XLinkIUser_ModelArryPtr;
+          u64 XLinkIUser_ActionSlotCount;
+          sead::SafeStringBase<char> **XLinkIUser_ActionSlotArryPtr;
+          u64 XLinkIUser_LocalPropertiesCount;
+          u64 XLinkIUser_LocalPropertiesArryPtr;
       };
   };
 };

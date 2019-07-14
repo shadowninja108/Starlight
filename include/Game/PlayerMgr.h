@@ -2,31 +2,34 @@
 
 #include "types.h"
 
-#include "Player/Player.h"
+#include "Game/Player/Player.h"
+
+#ifndef GAME_PLAYERMGR_H
+#define GAME_PLAYERMGR_H
 
 namespace Game {
-    class PlayerMgr {
+    class Player;
+
+    class PlayerMgr : public Cmn::Actor, public sead::IDisposer {
         public:
         
         static Game::PlayerMgr *sInstance;
-        void *actor;
-        char field_8[864];
-        __int64 *field_368;
+        __int64 *mModelResource; // Game::PlayerModelResource *
         char field_370[72];
         __int32 field_3B8;
         char field_3BC[4];
-        __int64 *field_3C0;
+        __int64 *halfModelArcs;
         char field_3C8[64];
-        __int32 field_408;
+        __int32 squidModelArcCount;
         char field_40C[4];
-        __int64 *field_410;
+        __int64 *squidModelArcs;
         char field_418[224];
-        __int32 field_4F8;
+        __int32 squidAnimArcCount;
         char field_4FC[4];
-        __int64 *field_500;
+        __int64 *squidAnimArcs;
         char field_508[192];
         signed int currentPlayerIndex;
-        _DWORD gap5CC[10];
+        __int32 field_5CC[10];
         __int32 field_5F4[2];
         __int32 field_5FC[10];
         _DWORD validInfoNum;
@@ -42,3 +45,5 @@ namespace Game {
         void onChangeControlledPlayer();
     };
 };
+
+#endif
