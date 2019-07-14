@@ -6,9 +6,9 @@
 namespace Cmn {
     class TeamColorSet {
         public:
-        sead::Color4f alpha;
-        sead::Color4f bravo;
-        sead::Color4f neutral;
-        sead::Color4f unk;
+        sead::Color4f mAlpha;
+        sead::Color4f mBravo;
+        sead::Color4f mNeutral;
+        sead::Color4f mEx;
     };
 };

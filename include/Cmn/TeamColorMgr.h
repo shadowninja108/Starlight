@@ -33,13 +33,17 @@ namespace Cmn {
 
         struct TeamColorParamEntry
         {
-            __int64 params; //Cmn::TeamColorParam *
-            _QWORD count;
-            _QWORD selectedIndex;
+            #pragma pack(push, 1)
+            Cmn::TeamColorParam *mParamLookup;
+            u32 mStart;
+            s32 mBeginningOfLookup;
+            s32 mLengthOfLookup;
+            u32 unk;
+            #pragma pack(pop)
         };
 
     
-        _QWORD qword8;
+        char somethin[0x10];
         TeamColorParamEntry entries[10];
         _BYTE gap100[24];
         float gap118[12];
