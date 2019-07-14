@@ -242,7 +242,7 @@ if len(sys.argv) < 2:
 
 buildVersion = sys.argv[1]
 initConfig()
-SLMapFilePath = os.path.join("build" + buildVersion, "starlight" + buildVersion + ".map")
+SLMapFilePath = os.path.join("build" + buildVersion, os.path.basename(os.getcwd()) + buildVersion + ".map")
 with open(SLMapFilePath, 'r') as f:
     SLMapFile = f.read()
 

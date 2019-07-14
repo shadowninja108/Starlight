@@ -14,7 +14,7 @@ starlight:
 	$(MAKE) starlight_patch_$(S2VER)/*.ips
 
 starlight_patch_$(S2VER)/*.ips: patches/*.slpatch patches/configs/$(S2VER).config patches/maps/$(S2VER)/*.map \
-								build$(S2VER)/starlight310.map scripts/genPatch.py
+								build$(S2VER)/$(shell basename $(CURDIR))$(S2VER).map scripts/genPatch.py
 	@rm -f starlight_patch_$(S2VER)/*.ips
 	python3 scripts/genPatch.py $(S2VER)
 
