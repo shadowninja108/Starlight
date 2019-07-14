@@ -18,6 +18,7 @@ namespace sead
             void printf(char const*, ...);
             void printf(char16_t const*, ...);
             void setScaleFromFontHeight(float);
+            void beginDraw();
             static void setupGraphics(sead::DrawContext*);
     };
 };
