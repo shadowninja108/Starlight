@@ -20,14 +20,16 @@ namespace sead
         static s8 sInitialized;
     };
 
-    class HashCRC32
-    {
-    public:
-        static void Initialize();
-        static s32 calcHash(void const *data, u32);
-        static s32 calcStringHash(char const *str);
+    namespace HashCRC32 {
+        class Context
+        {
+        public:
+            static void Initialize();
+            static s32 calcHash(void const *data, u32);
+            static s32 calcStringHash(char const *str);
 
-        static s8 sTable[0x10000];
-        static s8 sInitialized;
+            static s8 sTable[0x10000];
+            static s8 sInitialized;
+        };
     };
 };
