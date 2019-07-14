@@ -19,6 +19,11 @@
 #define _WORD __int16
 #define _BYTE char
 
+#define ushort unsigned short
+#define uchar unsigned char
+#define ulong unsigned long
+#define uint unsigned int
+
 typedef int8_t              s8;
 typedef int16_t             s16;
 typedef int32_t             s32;
