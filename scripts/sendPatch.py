@@ -32,7 +32,7 @@ def listdirs(connection,_path):
 
 
 def ensuredirectory(connection,root,path):
-    print(f'Ensuring {os.path.join(root, path)} exists...')
+    print(f"Ensuring {os.path.join(root, path)} exists...")
     if path not in listdirs(connection, root):
         connection.mkd(f'{root}/{path}')
 
@@ -87,7 +87,8 @@ ensuredirectory(ftp, '/atmosphere', 'titles')
 ensuredirectory(ftp, '/atmosphere/titles', titleIdLookup[romType])
 ensuredirectory(ftp, f'/atmosphere/titles/{titleIdLookup[romType]}', 'exefs')
 
-if os.path.isfile(f'Starlight{version}.nso'):
+binaryPath = f'{os.path.basename(os.getcwd())}{version}.nso'
+if os.path.isfile(binaryPath):
     sdPath = f'/atmosphere/titles/{titleIdLookup[romType]}/exefs/subsdk0'
     print(f'Sending {sdPath}')
-    ftp.storbinary(f'STOR {sdPath}', open(f'Starlight{version}.nso', 'rb'))
+    ftp.storbinary(f'STOR {sdPath}', open(binaryPath, 'rb'))
