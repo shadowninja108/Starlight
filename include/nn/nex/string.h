@@ -14,6 +14,20 @@ namespace nn
         class String : public nn::nex::RootObject 
         { 
         public:
+            String();
+            String(const char*);
+            String(const wchar_t*);
+            String(const char16_t*);
+            String(const String &);
+            String(String &&);
+
+            String& operator=(String&&);
+            String& operator=(const char*);
+            String& operator=(const wchar_t*);
+            String& operator=(const String&);
+            String& operator=(const char16_t*);
+            String& operator+=(const String&);
+            String operator==(const String&);
             bool operator<(nn::nex::String const &);
 
             void Truncate(u64) const;
