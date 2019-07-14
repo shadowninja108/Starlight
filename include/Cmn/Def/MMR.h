@@ -10,7 +10,7 @@ namespace Cmn
             float mRate;
             float mRD;
             float mVolatility;
-            float byteC;
+            float unk;
         };
     };
 };
