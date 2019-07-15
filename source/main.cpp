@@ -1,8 +1,5 @@
 #include "main.hpp"
 
-// rtld working object
-__attribute__((section(".bss"))) rtld::ModuleObject __nx_module_runtime;
-
 // Needed on old versions of rtld that doesn't check for DT_INIT existance.
 extern "C" void __custom_init(void) {}
 
@@ -121,7 +118,7 @@ void handleStaticMem(Cmn::StaticMem *staticMem){
         Cmn::PlayerInfo* playerInfo = playerInfoAry->infos[0];
         if(playerInfo != NULL){
             mTextWriter->printf("PlayerInfo[0] ptr: 0x%x\n", playerInfo);
-            mTextWriter->printf("PlayerInfo[0] unk FC: 0x%x\n", playerInfo->dwordFC);
+            mTextWriter->printf("PlayerInfo[0] unk FC: 0x%x\n", playerInfo->PlayerInfo_xFC);
         }
     }
 }
