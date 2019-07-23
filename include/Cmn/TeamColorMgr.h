@@ -6,7 +6,7 @@
 #include "sead/array.h"
 #include "Cmn/Def/Team.h"
 #include "Cmn/TeamColorSet.h"
-//#include "Cmn/TeamColorParam.h"
+#include "Cmn/TeamColorParam.h"
 
 namespace Cmn {
     class TeamColorMgr {
