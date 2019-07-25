@@ -15,7 +15,7 @@ namespace Cmn
         u32 PlayerInfo_x8;
         u32 PlayerInfo_xC;
         u32 mPlayerIndex;
-        u16 unk; //Always 1
+        u16 mValid;
         char16_t mPlayerName[17];
         Cmn::Def::Team mTeam;
         u32 mModelType;
@@ -26,7 +26,7 @@ namespace Cmn
         u32 PlayerInfo_x5C;
         u32 PlayerInfo_x60;
         Cmn::Def::Gear mGears[3];
-        u32 PlayerInfo_xC4;
+        u32 mTankId;
         u32 mBottomId;
         sead::Color4f mColor; //Only used for the plaza NPCs ?
         u32 mPlayerRank;
