@@ -6,10 +6,12 @@
 
 namespace Cmn
 {
-    class GfxSetting :sead::IDisposer {
+    class GfxSetting {
         public:
         static Cmn::GfxSetting* sInstance;
 
+        u64 mUnk;
+        sead::IDisposer mDisposer;
         Cmn::TeamColorMgr* mTeamColorMgr;
 
         void load();
