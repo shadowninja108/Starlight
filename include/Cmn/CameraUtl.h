@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "sead/vector.h"
+#include "sead/camera.h"
 
 namespace Cmn {
 
@@ -14,5 +15,8 @@ namespace Cmn {
     class CameraUtl {
         public:
         static sead::Vector3<float> worldToScreenPos(sead::Vector3<float> const&);
+        static sead::Camera* getRenderCamera();
+        static sead::Viewport* getRenderViewport();
+        static sead::Projection* getRenderProjection();
     };
 };

@@ -40,6 +40,8 @@ namespace sead
         void unproject(sead::Vector3<f32> *, sead::Vector3<f32> const &, sead::Camera const &) const;
         void unprojectRay(sead::Ray<sead::Vector3<f32>> *, sead::Vector3<f32> const &, sead::Camera const &) const;
         void doUpdateDeviceMatrix(sead::Matrix44<f32> *, sead::Matrix44<f32> const &, sead::Graphics::DevicePosture) const;
+        void cameraPosToScreenPos(sead::Vector3<float> *,sead::Vector3<float> const&) const;
+        sead::Matrix34<float>* getProjectionMatrix() const;
 
         u8 _8;
         u8 _9;
