@@ -12,24 +12,29 @@ namespace agl {
 
   namespace lyr {
 
+      enum FrameworkType : int {
+        FRAMEWORK_DEFAULT = 0
+      };
+
       class RenderInfo {
         public:
-        RenderInfo(agl::DrawContext *drawContext, char a2, agl::RenderBuffer *renderBuffer);
-        RenderInfo(agl::DrawContext *drawContext, char a2, int a3, agl::RenderBuffer *renderBuffer, char a5, agl::lyr::Layer *layer);
+
+        RenderInfo(agl::DrawContext*, int, agl::RenderBuffer const*);
+        RenderInfo(agl::DrawContext*, int, FrameworkType, agl::RenderBuffer const*, bool, agl::lyr::Layer const*);
 
         virtual agl::RenderBuffer* getFrameBuffer();
         virtual void bindFrameBufferAndApplyViewport(agl::DrawContext *drawContext);
         virtual void setUpPrimitiveRenderer();
 
-        _BYTE byte8;
-        agl::RenderBuffer *renderBuffer;
-        agl::lyr::Layer *layer;
-        Lp::Sys::DbgTextWriter::Info *dbgInfo;
-        sead::Camera *camera;
-        sead::Projection *renderProjection;
-        sead::Viewport *viewport;
-        _BYTE byte40;
-        agl::DrawContext *drawContext;
+        char RenderInfo_x8;
+        agl::RenderBuffer *mRenderBuffer;
+        agl::lyr::Layer *mLayer;
+        Lp::Sys::DbgTextWriter::Info *mDbgInfo;
+        sead::Camera *mCamera;
+        sead::Projection *mRenderProjection;
+        sead::Viewport *mViewport;
+        char RenderInfo_x40;
+        agl::DrawContext *mDrawContext;
       };
   };
   
