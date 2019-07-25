@@ -10,13 +10,13 @@ namespace Cmn {
         public:
         static Cmn::MushDataHolder* sInstance;
 
-        _BYTE gap0[32];
-        sead::Heap *heap;
-         Cmn::MushMapInfo* mushMapInfo;
-        __int64 mushHairInfo;// Cmn::MushHairInfo *
-        __int64 mushGearInfo;// Cmn::MushGearInfo *
-        __int64 mushTankInfo;// Cmn::MushTankInfo *
-        __int64 mushBottomInfo;// Cmn::MushBottomInfo *
-        Cmn::MushWeaponInfo *mushWeaponInfo;
+        sead::IDisposer mDisposer;
+        sead::Heap *mHeap;
+        Cmn::MushMapInfo* mMushMapInfo;
+        __int64 mMushHairInfo;// Cmn::MushHairInfo *
+        __int64 mMushGearInfo;// Cmn::MushGearInfo *
+        __int64 mMushTankInfo;// Cmn::MushTankInfo *
+        __int64 mMushBottomInfo;// Cmn::MushBottomInfo *
+        Cmn::MushWeaponInfo *mMushWeaponInfo;
     };
 }

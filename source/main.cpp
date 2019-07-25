@@ -226,13 +226,13 @@ void handlePlayerControl(Cmn::PlayerCtrl* playerCtrl){
 
 void handleMushDataHolder(Cmn::MushDataHolder* mushDataHolder){
     mTextWriter->printf("MushDataHolder ptr: 0x%x\n", mushDataHolder);
-    mTextWriter->printf("MushWeaponInfo ptr: 0x%x\n", mushDataHolder->mushWeaponInfo);
+    mTextWriter->printf("MushWeaponInfo ptr: 0x%x\n", mushDataHolder->mMushWeaponInfo);
     
     static bool entered = false;
 
     if(!entered){
         for(int i = 0; i < 29001; i++){
-            Cmn::WeaponData* data = mushDataHolder->mushWeaponInfo->getById(Cmn::Def::WeaponKind::cMain, i);
+            Cmn::WeaponData* data = mushDataHolder->mMushWeaponInfo->getById(Cmn::Def::WeaponKind::cMain, i);
             if(data != NULL){
                 data->mPrice = 0;
                 data->mRank = 0;
@@ -242,7 +242,8 @@ void handleMushDataHolder(Cmn::MushDataHolder* mushDataHolder){
         }
 
         for(int i = 0; i < 230; i++){
-            Cmn::MushMapInfo::Data* mapData = mushDataHolder->mushMapInfo->getByMushOrder(i);
+            Cmn::MushMapInfo::Data* mapData = mushDataHolder->mMushMapInfo->getByMushOrder(i);
+            if(strcmp(mapData->mStr1.mCharPtr, "Fld_Plaza00_Plz") != 0) // plaza crashes when using night mode for whatever reason
             if(mapData != NULL){
                 mapData->mEnvHour = 2;
             }
