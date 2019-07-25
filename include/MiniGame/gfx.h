@@ -8,6 +8,6 @@
 namespace MiniGame {
     class Gfx {
         public:
-        static void drawLine(agl::lyr::RenderInfo const&, sead::Vector2<float>, sead::Vector2<float> const&, sead::Color4f const &);
+        static void drawLine(agl::lyr::RenderInfo const&, sead::Vector2<float> const&, sead::Vector2<float> const&, float, sead::Color4f const&);
     };
 };
