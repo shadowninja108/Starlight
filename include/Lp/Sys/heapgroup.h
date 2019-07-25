@@ -4,6 +4,7 @@
 
 #include "sead/heap.h"
 #include "sead/mutex.h"
+#include "sead/critical.h"
 
 namespace Lp {
     namespace Sys {
@@ -11,11 +12,11 @@ namespace Lp {
             public:
             static Lp::Sys::HeapGroup *sInstance;
 
-            _QWORD qword8;
-            sead::CriticalSection *mutex;
-            __int64 lock; //sead::ReadWriteLock *
-            sead::IDisposer disposer;
-            sead::Heap *heaps[7];
+            u64 HeapGroup_x8;
+            sead::CriticalSection mMutex;
+            char mRWLock[0xB8]; //sead::ReadWriteLock
+            sead::IDisposer mDisposer;
+            sead::ExpHeap *mHeaps[7];
 
             virtual ~HeapGroup();
 
