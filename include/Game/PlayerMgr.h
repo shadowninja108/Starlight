@@ -3,40 +3,30 @@
 #include "types.h"
 
 #include "Game/Player/Player.h"
-
-#ifndef GAME_PLAYERMGR_H
-#define GAME_PLAYERMGR_H
+#include "PlayerModelResource.h"
 
 namespace Game {
     class Player;
 
-    class PlayerMgr : public Cmn::Actor, public sead::IDisposer {
+    class PlayerMgr : public Cmn::Actor {
         public:
         
         static Game::PlayerMgr *sInstance;
-        __int64 *mModelResource; // Game::PlayerModelResource *
-        char field_370[72];
-        __int32 field_3B8;
-        char field_3BC[4];
-        __int64 *halfModelArcs;
-        char field_3C8[64];
-        __int32 squidModelArcCount;
-        char field_40C[4];
-        __int64 *squidModelArcs;
-        char field_418[224];
-        __int32 squidAnimArcCount;
-        char field_4FC[4];
-        __int64 *squidAnimArcs;
-        char field_508[192];
-        signed int currentPlayerIndex;
-        __int32 field_5CC[10];
-        __int32 field_5F4[2];
-        __int32 field_5FC[10];
+
+        sead::IDisposer mDisposer;
+        Game::PlayerModelResource mModelResource; // Game::PlayerModelResource
+        unsigned int mCurrentPlayerIndex;
+        signed int mControlledArray[10];
+        int PlayerMgr_x5F4[2];
+        int mPlayerIndexes[10];
+        int mTotalPlayers;
         _DWORD validInfoNum;
-        _BYTE gap628[8];
-        unsigned int validAmountOfPlayers;
-        _BYTE gap634[4];
-        Game::Player **someOtherPlayerArray;
+        sead::PtrArrayImpl mAllKindPlayerArry;
+        sead::PtrArrayImpl mCustomMgrArry;
+        sead::PtrArrayImpl mPerformerArry;
+        sead::PtrArrayImpl mTotalPlayerArry;
+        
+        __int64 cmnCamera; // Game::PlayerCmnCamera *
 
         Game::Player* getControlledPerformer() const;
         Game::Player* getPerformerAt(unsigned int) const;
@@ -45,5 +35,3 @@ namespace Game {
         void onChangeControlledPlayer();
     };
 };
-
-#endif
