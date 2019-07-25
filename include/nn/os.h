@@ -59,7 +59,7 @@ namespace nn
             u8 curState; // _0
             bool isRecursiveMutex; // _1
             s32 lockLevel; // _2
-            u8 _6[0x20-0x6];
+            u8 _6[0x20-0xE];
         };
 
         void InitializeMutex(nn::os::MutexType *, bool, s32);
