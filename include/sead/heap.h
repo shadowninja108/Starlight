@@ -87,8 +87,7 @@ namespace sead
         void checkAccessThread_();
         //void dumpTreeYAML(sead::WriteStream &, s32);
 
-        u64* _20;
-        u64* _28;
+        sead::SafeStringBase<char> mName;
         u64* _30;
         u64 mStartAddr; // _38
         u64 mSize; // _40
@@ -292,7 +291,7 @@ namespace sead
         static sead::CriticalSection* sHeapTreeLockCS;
         static sead::HeapMgr* sInstance;
         static sead::HeapMgr* sInstancePtr;
-        static sead::Heap* sRootHeaps;
+        static int sRootHeaps;
         static sead::Heap** sRootHeapsPtr;
         static sead::Arena* sArena;
         static sead::Arena* sDefaultArena;
