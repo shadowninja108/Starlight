@@ -1,8 +1,8 @@
 [version=310, target=main]
-gsys::SystemTask::invokeDrawTV_+20C NOP // enable white box (cause why not)
 gsys::SystemTask::invokeDrawTV_+284 NOP // enable display debug stuff (which is used for hook)
 gsys::SystemTask::invokeDrawTV_+390:
 	MOV X1, X0
 	MOV X0, X25
 	BL render
 	B #0x2B8
+	
