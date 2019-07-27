@@ -115,23 +115,18 @@ void handleStaticMem(Cmn::StaticMem *staticMem){
             }
         }*/
 
-        Cmn::PlayerInfo* playerInfo = playerInfoAry->infos[0];
-        if(playerInfo != NULL){
-            mTextWriter->printf("PlayerInfo[0] ptr: 0x%x\n", playerInfo);
-            mTextWriter->printf("PlayerInfo[0] unk FC: 0x%x\n", playerInfo->PlayerInfo_xFC);
+        Cmn::PlayerInfo* info = player->mPlayerInfo;
+        if(info != NULL){
+            mTextWriter->printf("Controlled player team: %x\n", info->mTeam);
+            mTextWriter->printf(u"Controlled player name: %s\n", info->mPlayerName);
+            if(info->mPlayerIndex == 0){
+                info->setPlayerName(u"Shadów");
+            }
         }
     }
 }
 
-void handlePlayerMgr(Game::PlayerMgr* playerMgr){
-    Game::Player *player = playerMgr->getControlledPerformer();
-    mCurrentPlayer = player;
-    if(player != NULL)
-    {
-        mTextWriter->printf("Controlled player ptr: 0x%x\n", player);
-        Game::PlayerMotion *playerMotion = player->motion;
-
-        mTextWriter->printf("PlayerMotion ptr: 0x%x\n", playerMotion);
+        Game::PlayerMotion *playerMotion = player->mPlayerMotion;
 
         if(mode == Modes::EVENT_VIEWER) {
             static long scroll = 0;
@@ -156,10 +151,7 @@ void handlePlayerMgr(Game::PlayerMgr* playerMgr){
 
         } else if(mode == Modes::PLAYER_SWITCHER){
 
-            //playerMgr->validAmountOfPlayers = 0xA;
-            //playerMgr->validInfoNum = 0xA;
-
-            signed int currentPlayer = playerMgr->currentPlayerIndex;
+            signed int currentPlayer = playerMgr->mCurrentPlayerIndex;
             mTextWriter->printf("Current player: %i\n", currentPlayer);
 
             if(isTriggered(mController, Buttons::UpDpad))
@@ -167,11 +159,11 @@ void handlePlayerMgr(Game::PlayerMgr* playerMgr){
             if(isTriggered(mController, Buttons::DownDpad))
                 currentPlayer--;
             if(currentPlayer < 0)
-                currentPlayer = playerMgr->validAmountOfPlayers;
-            if(playerMgr->validAmountOfPlayers <= currentPlayer)
+                currentPlayer = playerMgr->mTotalPlayerArry.mBufferSize;
+            if(playerMgr->mTotalPlayerArry.mBufferSize <= currentPlayer)
                 currentPlayer = 0;
             
-            playerMgr->currentPlayerIndex = currentPlayer;
+            playerMgr->mCurrentPlayerIndex = currentPlayer;
             playerMgr->onChangeControlledPlayer();
         }
     }
