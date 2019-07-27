@@ -1,6 +1,9 @@
+#pragma once
+
 #include "svc.h"
 #include "types.h"
 #include "agl/lyr/renderinfo.h"
+#include "agl/lyr/renderer.h"
 #include "agl/utl/devtools.h"
 #include "sead/textwriter.h"
 #include "sead/string.h"
