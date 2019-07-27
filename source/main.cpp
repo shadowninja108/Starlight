@@ -1,5 +1,7 @@
 #include "main.hpp"
 
+using namespace starlight;
+
 // Needed on old versions of rtld that doesn't check for DT_INIT existance.
 extern "C" void __custom_init(void) {}
 
@@ -9,18 +11,53 @@ extern "C" void __custom_fini(void) {}
 static __int64 lastInputs = 0x200;
 static agl::DrawContext *mDrawContext;
 static sead::TextWriter *mTextWriter;
-static Lp::Sys::Ctrl *mController;
-static Game::Player* mCurrentPlayer;
+static sead::ExpHeap* mStarlightHeap;
+static View* mView;
 static int mode;
 static bool showMenu;
 
-void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
+void renderEntrypoint(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
 {
     mDrawContext = drawContext;
     mTextWriter = textWriter;
 
-    if(isTriggered(mController, Buttons::Minus1))
-        showMenu = !showMenu;
+    mTextWriter->mColor = sead::Color4f::cWhite;
+
+    Collector::init();
+    Collector::collect();
+
+    if(mStarlightHeap == NULL)
+        allocHeap();
+    if(mStarlightHeap != NULL)
+        Collector::mHeapMgr->setCurrentHeap_(mStarlightHeap);
+
+    //if(Collector::mController.isPressed(Controller::Buttons::Minus1))
+    //    showMenu = !showMenu;
+
+    static bool init = false;
+    if(!init){
+
+        mView = new View();
+        menu::SimpleMenu* m = new menu::SimpleMenu();
+        auto renderCallback = []() {
+            return std::string("Current scene name: ") + std::string(Lp::Utl::getCurSceneName());
+        };
+        menu::SimpleMenuEntry* sceneDisplayEntry = new menu::SimpleMenuEntry();
+        sceneDisplayEntry->mRenderCallback = renderCallback; 
+        m->mEntries.push_back(sceneDisplayEntry);
+        mView->pushMenu(m);
+        
+        init = true;
+    } else
+    {
+        Collector::collect();
+    }
+
+    textWriter->printf("Current heap name: %s\n", Collector::mHeapMgr->getCurrentHeap()->mName.mCharPtr);
+    textWriter->printf("Current heap free space: 0x%x\n", Collector::mHeapMgr->getCurrentHeap()->getFreeSize());
+
+    mView->update();
+    mView->render(mTextWriter);
 
     if(showMenu){
         drawBackground();
@@ -34,39 +71,55 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
         
         textWriter->printf("Current scene name: %s\n", Lp::Utl::getCurSceneName());
 
-        if(isTriggered(mController, Buttons::RStick))
+        if(Collector::mController.isPressed(Controller::Buttons::RStick))
             mode++;
         if(mode > Modes::END)
             mode = 0;
         textWriter->printf("Current mode: %s\n", modeToText((Modes)mode));
 
-        Cmn::StaticMem *staticMem = Cmn::StaticMem::sInstance;
+        Cmn::StaticMem *staticMem = Collector::mStaticMemInstance;
         if(staticMem != NULL)
             handleStaticMem(staticMem);
 
-        Game::PlayerMgr *playerMgr = Game::PlayerMgr::sInstance;
+        Game::PlayerMgr *playerMgr = Collector::mPlayerMgrInstance;
         if(playerMgr != NULL)
             handlePlayerMgr(playerMgr);
             
-        Cmn::PlayerCtrl *playerCtrl = Cmn::PlayerCtrl::sInstance;
+        Cmn::PlayerCtrl *playerCtrl = Collector::mPlayerCtrlInstance;
         if(playerCtrl != NULL)
             handlePlayerControl(playerCtrl);
         else if(mode == Modes::INPUT_VIEWER){
             mTextWriter->printf("Information not available.\n");
         }
 
-        Cmn::MushDataHolder* mushData = Cmn::MushDataHolder::sInstance;
+        Cmn::MushDataHolder* mushData = Collector::mMushDataHolder;
         if(mushData != NULL)
             handleMushDataHolder(mushData);
 
-        Game::MainMgr* mainMgr = Game::MainMgr::sInstance;
+        Game::MainMgr* mainMgr = Collector::mMainMgrInstance;
         if(mainMgr != NULL){
             handleMainMgr(mainMgr);
         }
-        
     }
-    lastInputs = mController->data;
-    //sead::HeapMgr::sInstance->setCurrentHeap_(NULL);
+
+    Collector::mController.update();
+    Collector::mHeapMgr->setCurrentHeap_(NULL);
+}
+
+void allocHeap() {
+    Lp::Sys::HeapGroup* heapGroup = Lp::Sys::HeapGroup::sInstance;
+    if(heapGroup != NULL){
+        sead::ExpHeap* othersHeap = heapGroup->mHeaps[Lp::Sys::HeapGroup::Group::cOthers];
+        Collector::mHeapMgr->setCurrentHeap_(othersHeap);
+        sead::Heap* currentHeap = Collector::mHeapMgr->getCurrentHeap();
+
+        if(mStarlightHeap == NULL){
+            sead::SafeStringBase<char> str;
+            str.mCharPtr = (char*)"StarlightHeap";
+
+            mStarlightHeap = sead::ExpHeap::create(0, str, currentHeap, 4, sead::Heap::HeapDirection::TAIL, true);
+        }
+    }
 }
 
 void drawBackground(){
@@ -103,7 +156,7 @@ void handleStaticMem(Cmn::StaticMem *staticMem){
     if(stageName->mCharPtr != NULL){
         mTextWriter->printf("Loaded stage: %s\n", stageName->mCharPtr);
     }
-
+    
     Cmn::PlayerInfoAry *playerInfoAry = staticMem->mPlayerInfoAry;
     if(playerInfoAry != NULL){
         mTextWriter->printf("PlayerInfoAry ptr: 0x%x\n", playerInfoAry);
@@ -127,22 +180,20 @@ void handlePlayerMgr(Game::PlayerMgr* playerMgr){
     if(mode == Modes::EVENT_VIEWER) {
         static long scroll = 0;
 
-        if(isTriggered(mController, Buttons::UpDpad))
+        if(Collector::mController.isPressed(Controller::Buttons::UpDpad))
             scroll++;
-        if(isTriggered(mController, Buttons::DownDpad))
+        if(Collector::mController.isPressed(Controller::Buttons::DownDpad))
             scroll--;
-
-        if(isTriggered(mController, Buttons::LeftDpad))
-            scroll-=0x10;
-        if(isTriggered(mController, Buttons::RightDpad))
-            scroll+=0x10;
-
+            
         if(scroll < 0)
             scroll = 0;
 
+        if(Collector::mController.isPressed(Controller::Buttons::LStick))
+            playerMotion->startEventAnim((Game::PlayerMotion::AnimID) scroll, 0, 1.0);
+
         mTextWriter->printf("Event ID: 0x%x\n", scroll);
 
-        if(isTriggered(mController, Buttons::LStick))
+        if(Collector::mController.isPressed(Controller::Buttons::LStick))
             playerMotion->startEventAnim((Game::PlayerMotion::AnimID) scroll, 0, 1.0);
 
     } else if(mode == Modes::PLAYER_SWITCHER){
@@ -150,10 +201,11 @@ void handlePlayerMgr(Game::PlayerMgr* playerMgr){
         signed int currentPlayer = playerMgr->mCurrentPlayerIndex;
         mTextWriter->printf("Current player: %i\n", currentPlayer);
 
-        if(isTriggered(mController, Buttons::UpDpad))
+        if(Collector::mController.isPressed(Controller::Buttons::UpDpad))
             currentPlayer++;
-        if(isTriggered(mController, Buttons::DownDpad))
+        if(Collector::mController.isPressed(Controller::Buttons::DownDpad))
             currentPlayer--;
+
         if(currentPlayer < 0)
             currentPlayer = playerMgr->mTotalPlayerArry.mBufferSize;
         if(playerMgr->mTotalPlayerArry.mBufferSize <= currentPlayer)
@@ -178,9 +230,10 @@ void handlePlayerControl(Cmn::PlayerCtrl* playerCtrl){
     }
 
     static bool entered = false;
-    if(mode == 1 && mCurrentPlayer != NULL){
+    Game::Player* player = Collector::mControlledPlayer;
+    if(mode == 1 && player != NULL){
         static float x, y, z;
-        sead::Vector3<float> *playerPos = &mCurrentPlayer->mPosition;
+        sead::Vector3<float> *playerPos = &player->mPosition;
         if(!entered){
             x = playerPos->mX;
             y = playerPos->mY;
@@ -189,17 +242,17 @@ void handlePlayerControl(Cmn::PlayerCtrl* playerCtrl){
 
         int speed = 10;
 
-        if(mController->data & Buttons::UpDpad)
+        if(Collector::mController.isHeld(Controller::Buttons::UpDpad))
             y+=speed;
-        if(mController->data & Buttons::DownDpad)
+        if(Collector::mController.isHeld(Controller::Buttons::DownDpad))
             y-=speed;
-        if(mController->data & Buttons::LeftDpad)
+        if(Collector::mController.isHeld(Controller::Buttons::LeftDpad))
             x+=speed;
-        if(mController->data & Buttons::RightDpad)
+        if(Collector::mController.isHeld(Controller::Buttons::RightDpad))
             x-=speed;
-        if(mController->data & Buttons::RightRStickOrdinal)
+        if(Collector::mController.isHeld(Controller::Buttons::RightRStickOrdinal))
             z+=speed;
-        if(mController->data & Buttons::LeftRStickOrdinal)
+        if(Collector::mController.isHeld(Controller::Buttons::LeftRStickOrdinal))
             z-=speed;
 
         playerPos->mX = x;
@@ -243,11 +296,11 @@ void handleMainMgr(Game::MainMgr* mainMgr) {
         gfxMgr->hour = 2;
     }
     if(mode == Modes::PAINT_ALL){
-        if(isTriggered(mController, Buttons::LStick)){
+        if(Collector::mController.isPressed(Controller::Buttons::LStick)){
             unsigned int paintGameFrame = mainMgr->getPaintGameFrame();
             Cmn::Def::Team team = Cmn::Def::Team::Alpha;
-            if(Cmn::StaticMem::sInstance != NULL)
-                team = Cmn::StaticMem::sInstance->mTeam;
+            if(Collector::mControlledPlayer != NULL)
+                team = Collector::mControlledPlayer->mTeam;
             Game::PaintUtl::requestAllPaintFloor(paintGameFrame, team);
             Game::PaintUtl::requestAllPaintWall(paintGameFrame, team);
         }
