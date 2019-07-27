@@ -28,7 +28,7 @@ namespace sead
         u32 mSeed4; // _C
     };
 
-    class GlobalRandom
+    class GlobalRandom : sead::IDisposer
     {
     public:
         class SingletonDisposer_
@@ -44,7 +44,7 @@ namespace sead
         sead::GlobalRandom* createInstance(sead::Heap *);
         void deleteInstance();
 
-        sead::Random* mRandom; // _0
+        sead::Random mRandom; // _0
 
         static sead::GlobalRandom* sInstance;
     };
