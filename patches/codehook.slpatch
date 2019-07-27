@@ -3,6 +3,6 @@ gsys::SystemTask::invokeDrawTV_+284 NOP // enable display debug stuff (which is 
 gsys::SystemTask::invokeDrawTV_+390:
 	MOV X1, X0
 	MOV X0, X25
-	BL render
+	BL renderEntrypoint
 	B #0x2B8
 	

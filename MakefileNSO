@@ -33,7 +33,9 @@ include $(DEVKITPRO)/libnx/switch_rules
 #---------------------------------------------------------------------------------
 TARGET		?=	$(notdir $(CURDIR))$(S2VER)
 BUILD		?=	build$(S2VER)
-SOURCES		:=	source
+SOURCES		:= 	source \
+					source/starlight \
+					source/starlight/menu
 DATA		:=	data
 INCLUDES	:=	include
 
@@ -131,6 +133,8 @@ endif
 all: $(BUILD)
 
 $(BUILD):
+	@echo "${SOURCES}"
+	@echo "${CPPFILES}"
 	@[ -d $@ ] || mkdir -p $@
 	@cp $(LINKERSCRIPTS)/syms$(S2VER).ld $(LINKERSCRIPTS)/symstemp.ld # This is required because you can't pass a variable to the .specs
 	$(MAKE) -C $(BUILD) -f $(CURDIR)/MakefileNSO
