@@ -5,6 +5,7 @@
 #include "Cmn/Def/Gear.h"
 #include "Cmn/Def/Weapon.h"
 #include "Cmn/Def/Team.h"
+#include "sead/color.h"
 
 namespace Cmn
 {
