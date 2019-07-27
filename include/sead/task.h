@@ -271,7 +271,7 @@ namespace sead
             u32 _0; // init'd to 0x20
             u32 _4; // init'd to 0x1000
             s32 _8; // init'd to -1
-            u32 _C;
+            u32 InitializeArg_xC;
             sead::TaskBase::CreateArg* mCreateArg; // _10
             u64 _18;
             u64 _20;

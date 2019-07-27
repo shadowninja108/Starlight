@@ -16,6 +16,6 @@ namespace al
 
         u64 _0; // unused?
         f32 _8; // cosf_0(710191024C)
-        f32 _C; // sinf_0(71019102DC)
+        f32 PadRumbleParam_xC; // sinf_0(71019102DC)
     };
 };

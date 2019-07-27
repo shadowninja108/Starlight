@@ -30,7 +30,7 @@ namespace al
 
         s32 _0;
         u64 _4;
-        u64 _C;
+        u64 LocalInterpole_xC;
         u64 _14;
         u32 _1C;
     };
@@ -42,7 +42,7 @@ namespace al
 
         u64 _0;
         u32 _8;
-        f32 _C;
+        f32 LookAtInterpole_xC;
     };
 
     class EaseOutInterpole

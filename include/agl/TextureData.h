@@ -49,7 +49,7 @@ namespace agl
 
         u64 _0;
         u32 _8;
-        u32 _C;
+        u32 TextureData_xC;
         u64 _10;
         u64 _18;
         u64 _20;

@@ -16,7 +16,7 @@ namespace sead
         T _0;
         T _4;
         T _8;
-        T _C;
+        T BoundBox2_xC;
     };
 
     template<typename T>
@@ -26,7 +26,7 @@ namespace sead
         T _0;
         T _4;
         T _8;
-        T _C;
+        T BoundBox3_xC;
         T _10;
         T _14;
     };

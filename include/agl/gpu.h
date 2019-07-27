@@ -65,7 +65,7 @@ namespace agl
 
         agl::detail::MemoryPool* mMemoryPool; // _0
         u32 mAlignmentAddr; // _8
-        u32 _C; // most likely padding bytes
+        u32 GPUMemAddrBase_C; // most likely padding bytes
         agl::GPUMemBlockBase* mMemoryBlock; // _10
     };
 

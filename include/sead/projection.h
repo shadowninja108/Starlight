@@ -46,7 +46,7 @@ namespace sead
         u8 _8;
         u8 _9;
         u16 _A;
-        sead::Matrix44<f32>_C;
+        sead::Matrix44<f32>Projection_xC;
         sead::Matrix44<f32> _4C;
         s32 mDefaultDevicePosture; // _8C
         s32 mDefaultDeviceZScale; // _90

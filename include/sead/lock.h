@@ -22,7 +22,7 @@ namespace sead
         void genMessage(sead::hostio::Context *);
 
         u32 _8;
-        u32 _C;
+        u32 DrawLockContext_xC;
         sead::CriticalSection mCritical; // _10
     };
 };

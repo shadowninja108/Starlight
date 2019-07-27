@@ -76,7 +76,7 @@ namespace sead
             sead::CalendarTime::Year mYear; // _0
             sead::CalendarTime::Month mMonth; // _4
             sead::CalendarTime::Day mDay; // _8
-            u32 _C;
+            u32 Date_xC;
         };
 
         class Time

@@ -19,7 +19,7 @@ namespace sead
         virtual ~DrawContext();
 
         u32 _8;
-        u32 _C;
+        u32 DrawContext_xC;
         u64 _10;
         u8 _18[0xC0-0x18];
         u64 _C0;
@@ -41,7 +41,7 @@ namespace sead
         void genMessage(sead::hostio::Context *);
 
         u32 _8;
-        u32 _C;
+        u32 DrawLockContext_xC;
         sead::CriticalSection mContextSection; // _10
     };
 };

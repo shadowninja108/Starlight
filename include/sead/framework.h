@@ -81,7 +81,7 @@ namespace sead
         void initialize(sead::Framework::InitializeArg const &);
 
         u32 _8;
-        u32 _C;
+        u32 Framework_xC;
         void* _10;
         sead::DelegateEvent<void *>* _18;
         sead::ListNode mNode; // _20

@@ -35,7 +35,7 @@ namespace agl
         void bind_(agl::DrawContext *, u16) const;
 
         u32 _8;
-        u32 _C;
+        u32 RenderBuffer_xC;
         u64 _10;
         u32 _18;
         u32 _1C;

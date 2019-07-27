@@ -23,7 +23,7 @@ namespace al
 
         u64* _0;
         f32 _8;
-        u32 _C;
+        u32 InputStickSpinChecker_xC;
         u32 _10;
     };
 };

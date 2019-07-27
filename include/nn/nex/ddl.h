@@ -31,7 +31,7 @@ namespace nn
             void ResetDOClassIDs();
 
             u32 mNumDecsLoaded; // _8
-            u8 _C;
+            u8 DDLDeclarations_xC;
             u8 _D; // padding
             u8 _E; // ^^
             u8 _F; // ^^

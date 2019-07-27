@@ -52,7 +52,7 @@ namespace nn
             nn::nex::SystemComponent::_State Initialize();
             nn::nex::SystemComponent::_State Terminate();
 
-            u8 _C;
+            u8 SystemComponent_xC;
             u8 _D;
             u8 _E;
             u8 _F;
