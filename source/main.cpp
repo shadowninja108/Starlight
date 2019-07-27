@@ -33,6 +33,8 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
         textWriter->printf("This is a demonstration of C/C++ code running in the context of a Switch game!\n");
         textWriter->printf("Credit to shibboleet, Khangaroo, Thog, Retr0id, and the libnx maintainers!\n");
 
+        textWriter->printf("Current scene name: %s\n", Lp::Utl::getCurSceneName());
+
         if(isTriggered(mController, Buttons::RStick))
             mode++;
         if(mode > Modes::END)
