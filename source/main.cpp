@@ -8,7 +8,6 @@ extern "C" void __custom_init(void) {}
 // DT_FINI here for completeness.
 extern "C" void __custom_fini(void) {}
 
-static __int64 lastInputs = 0x200;
 static agl::DrawContext *mDrawContext;
 static sead::TextWriter *mTextWriter;
 static sead::ExpHeap* mStarlightHeap;
@@ -48,11 +47,8 @@ void renderEntrypoint(agl::DrawContext *drawContext, sead::TextWriter *textWrite
         mView->pushMenu(m);
         
         init = true;
-    } else
-    {
-        Collector::collect();
     }
-
+    
     textWriter->printf("Current heap name: %s\n", Collector::mHeapMgr->getCurrentHeap()->mName.mCharPtr);
     textWriter->printf("Current heap free space: 0x%x\n", Collector::mHeapMgr->getCurrentHeap()->getFreeSize());
 
@@ -305,11 +301,6 @@ void handleMainMgr(Game::MainMgr* mainMgr) {
             Game::PaintUtl::requestAllPaintWall(paintGameFrame, team);
         }
     }
-}
-
-bool isTriggered(Lp::Sys::Ctrl *controller, unsigned long id){
-    bool buttonHeld = controller->data & id;
-    return buttonHeld & !(controller->data & lastInputs & id);
 }
 
 char const* modeToText(Modes mode){

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "simplemenu.hpp"
 #include "operator.h"
+#include "simplemenu.hpp"
 #include "../view.hpp"
 
 namespace starlight {

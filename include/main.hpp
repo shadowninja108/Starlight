@@ -5,7 +5,6 @@
 #include <math.h>
 #include "svc.h"
 #include "types.h"
-#include "string.h"
 #include "operator.h"
 #include "agl/lyr/renderinfo.h"
 #include "agl/lyr/renderer.h"
