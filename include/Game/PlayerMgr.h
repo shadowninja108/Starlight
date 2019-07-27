@@ -8,19 +8,18 @@
 namespace Game {
     class Player;
 
-    class PlayerMgr : public Cmn::Actor {
+    class PlayerMgr : public Cmn::Actor, public sead::IDisposer {
         public:
         
         static Game::PlayerMgr *sInstance;
 
-        sead::IDisposer mDisposer;
         Game::PlayerModelResource mModelResource; // Game::PlayerModelResource
         unsigned int mCurrentPlayerIndex;
         signed int mControlledArray[10];
         int PlayerMgr_x5F4[2];
         int mPlayerIndexes[10];
         int mTotalPlayers;
-        _DWORD validInfoNum;
+        u32 mValidInfo;
         sead::PtrArrayImpl mAllKindPlayerArry;
         sead::PtrArrayImpl mCustomMgrArry;
         sead::PtrArrayImpl mPerformerArry;
