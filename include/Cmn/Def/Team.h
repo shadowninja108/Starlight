@@ -5,7 +5,7 @@
 namespace Cmn
 {
     namespace Def {
-        enum Team : u32{
+        enum Team : u32 {
             Alpha, Bravo, Neutral
         };
     };

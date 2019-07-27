@@ -20,7 +20,7 @@ namespace sead
        // void project(sead::Vector2<f32> *, sead::Vector3<f32> const &) const;
 
         f32 _8;
-        f32 _C;
+        f32 Viewport_xC;
         f32 _10;
         f32 _14;
     };

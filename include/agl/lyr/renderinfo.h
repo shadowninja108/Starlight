@@ -12,7 +12,7 @@ namespace agl {
 
   namespace lyr {
 
-      enum FrameworkType : int {
+      enum FrameworkType : u32 {
         FRAMEWORK_DEFAULT = 0
       };
 
@@ -22,11 +22,13 @@ namespace agl {
         RenderInfo(agl::DrawContext*, int, agl::RenderBuffer const*);
         RenderInfo(agl::DrawContext*, int, FrameworkType, agl::RenderBuffer const*, bool, agl::lyr::Layer const*);
 
-        virtual agl::RenderBuffer* getFrameBuffer();
-        virtual void bindFrameBufferAndApplyViewport(agl::DrawContext *drawContext);
-        virtual void setUpPrimitiveRenderer();
+        agl::RenderBuffer* getFrameBuffer();
+        void bindFrameBufferAndApplyViewport(agl::DrawContext *drawContext);
+        void setUpPrimitiveRenderer();
 
-        char RenderInfo_x8;
+        u32 RenderInfo_x0;
+        agl::lyr::FrameworkType mFrameworkType;
+        bool RenderInfo_x8;
         agl::RenderBuffer *mRenderBuffer;
         agl::lyr::Layer *mLayer;
         Lp::Sys::DbgTextWriter::Info *mDbgInfo;

@@ -29,11 +29,11 @@ namespace Game {
         Cmn::PlayerInfo *mPlayerInfo;
         Game::PlayerMgr *mPlayerMgr;
         _BYTE moarstuff[0x2B0];
-        sead::Vector3<float> position;
+        sead::Vector3<float> mPosition;
         _BYTE morestuff[0x81C];
-        Game::PlayerModel *model;
+        Game::PlayerModel *mPlayerModel;
         __int64 silhouette; // Game::PlayerSilhouette *
-        Game::PlayerMotion *motion;
+        Game::PlayerMotion *mPlayerMotion;
     };
 };
 #endif
