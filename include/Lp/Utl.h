@@ -3,6 +3,9 @@
 #include "types.h"
 #include "Sys/ctrl.h"
 #include "sead/color.h"
+#include "sead/camera.h"
+#include "agl/lyr/layer.h"
+#include "agl/lyr/renderinfo.h"
 #include "Cmn/Def/Mode.h"
 
 namespace Lp
