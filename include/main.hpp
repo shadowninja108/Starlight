@@ -48,9 +48,7 @@ void handleMushDataHolder(Cmn::MushDataHolder* mushDataHolder);
 void handleMainMgr(Game::MainMgr* mainMgr);
 void handleGfxSetting(Cmn::GfxSetting*);
 
-void addRainbow(gsys::Model*);
-
-bool worldToScreenPos(sead::Vector3<float>*, sead::Vector3<float>*, agl::lyr::RenderInfo*);
+char const* modeToText(Modes);
 
 enum Buttons {
     A = 1 << 0,

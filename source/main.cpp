@@ -120,9 +120,7 @@ void handlePlayerMgr(Game::PlayerMgr* playerMgr){
         if(info->mPlayerIndex == 0){
             info->setPlayerName(u"Shadów");
         }
-    }
-    
-                
+    }     
 
     Game::PlayerMotion *playerMotion = player->mPlayerMotion;
 
