@@ -12,12 +12,13 @@ namespace starlight {
     };
 
     class View {
-        public:
+        private:
+        starlight::menu::BaseMenu* mPushMenu;
         std::stack<starlight::menu::BaseMenu*> mMenuStack;
-
         bool mIsRendering;
         bool mPop;
-        starlight::menu::BaseMenu* mPushMenu;
+        
+        public:
 
         View();
 

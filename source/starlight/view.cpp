@@ -22,17 +22,14 @@ namespace starlight {
 
         if(!mMenuStack.empty()){
             menu::BaseMenu *peek = mMenuStack.top();
-            
-            if(peek != NULL)
-                peek->update(this);
+            peek->update(this);
         }
     }
 
     void View::render(sead::TextWriter* textWritter){
         if(!mMenuStack.empty()){
             menu::BaseMenu* peek = mMenuStack.top();
-            if(peek != NULL)
-                peek->render(textWritter);
+            peek->render(textWritter);
         }
     }
 

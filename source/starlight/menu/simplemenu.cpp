@@ -64,7 +64,7 @@ namespace starlight {
 
         std::string SimpleMenuEntry::render(){
             if(mRenderCallback != NULL)
-                mRenderCallback();
+                return mRenderCallback();
             else
                 return std::string();
         }

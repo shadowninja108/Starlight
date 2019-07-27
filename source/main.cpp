@@ -44,6 +44,7 @@ void renderEntrypoint(agl::DrawContext *drawContext, sead::TextWriter *textWrite
         menu::SimpleMenuEntry* sceneDisplayEntry = new menu::SimpleMenuEntry();
         sceneDisplayEntry->mRenderCallback = renderCallback; 
         m->mEntries.push_back(sceneDisplayEntry);
+
         mView->pushMenu(m);
         
         init = true;
