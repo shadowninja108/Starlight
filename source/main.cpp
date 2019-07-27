@@ -108,7 +108,7 @@ void handleStaticMem(Cmn::StaticMem *staticMem){
     if(playerInfoAry != NULL){
         mTextWriter->printf("PlayerInfoAry ptr: 0x%x\n", playerInfoAry);
     }
-};
+}
 
 void handlePlayerMgr(Game::PlayerMgr* playerMgr){
     Game::Player* player = playerMgr->getControlledPerformer();
@@ -121,8 +121,8 @@ void handlePlayerMgr(Game::PlayerMgr* playerMgr){
             info->setPlayerName(u"Shadów");
         }
     }
-        }
-    }
+    
+                
 
     Game::PlayerMotion *playerMotion = player->mPlayerMotion;
 
