@@ -18,7 +18,6 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
 {
     mDrawContext = drawContext;
     mTextWriter = textWriter;
-    mController =  Lp::Utl::getCtrl(0);
 
     if(isTriggered(mController, Buttons::Minus1))
         showMenu = !showMenu;
@@ -32,7 +31,7 @@ void render(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
         textWriter->printf("Welcome to Starlight!\n");
         textWriter->printf("This is a demonstration of C/C++ code running in the context of a Switch game!\n");
         textWriter->printf("Credit to shibboleet, Khangaroo, Thog, Retr0id, and the libnx maintainers!\n");
-
+        
         textWriter->printf("Current scene name: %s\n", Lp::Utl::getCurSceneName());
 
         if(isTriggered(mController, Buttons::RStick))
@@ -100,74 +99,70 @@ void drawBackground(){
 }
 
 void handleStaticMem(Cmn::StaticMem *staticMem){
-    mTextWriter->printf("StaticMem ptr: 0x%x\n", staticMem);
     sead::SafeStringBase<char> *stageName = &staticMem->mMapFileName1;
     if(stageName->mCharPtr != NULL){
         mTextWriter->printf("Loaded stage: %s\n", stageName->mCharPtr);
     }
-    
+
     Cmn::PlayerInfoAry *playerInfoAry = staticMem->mPlayerInfoAry;
     if(playerInfoAry != NULL){
         mTextWriter->printf("PlayerInfoAry ptr: 0x%x\n", playerInfoAry);
+    }
+};
 
-        /*if(mode == Modes::PLAYER_SWITCHER){
-            for(int i = 1; i < 0xA; i++){
-                Cmn::PlayerInfo *info = playerInfoAry->infos[i];
-                Cmn::PlayerInfoUtil::setPlayerInfoByDummy(info, Cmn::Def::Mode::cNone);
-            }
-        }*/
+void handlePlayerMgr(Game::PlayerMgr* playerMgr){
+    Game::Player* player = playerMgr->getControlledPerformer();
 
-        Cmn::PlayerInfo* info = player->mPlayerInfo;
-        if(info != NULL){
-            mTextWriter->printf("Controlled player team: %x\n", info->mTeam);
-            mTextWriter->printf(u"Controlled player name: %s\n", info->mPlayerName);
-            if(info->mPlayerIndex == 0){
-                info->setPlayerName(u"Shadów");
-            }
+    Cmn::PlayerInfo* info = player->mPlayerInfo;
+    if(info != NULL){
+        mTextWriter->printf("Controlled player team: %x\n", info->mTeam);
+        mTextWriter->printf(u"Controlled player name: %s\n", info->mPlayerName);
+        if(info->mPlayerIndex == 0){
+            info->setPlayerName(u"Shadów");
         }
     }
-}
-
-        Game::PlayerMotion *playerMotion = player->mPlayerMotion;
-
-        if(mode == Modes::EVENT_VIEWER) {
-            static long scroll = 0;
-
-            if(isTriggered(mController, Buttons::UpDpad))
-                scroll++;
-            if(isTriggered(mController, Buttons::DownDpad))
-                scroll--;
-
-            if(isTriggered(mController, Buttons::LeftDpad))
-                scroll-=0x10;
-            if(isTriggered(mController, Buttons::RightDpad))
-                scroll+=0x10;
-
-            if(scroll < 0)
-                scroll = 0;
-
-            mTextWriter->printf("Event ID: 0x%x\n", scroll);
-
-            if(isTriggered(mController, Buttons::LStick))
-                playerMotion->startEventAnim((Game::PlayerMotion::AnimID) scroll, 0, 1.0);
-
-        } else if(mode == Modes::PLAYER_SWITCHER){
-
-            signed int currentPlayer = playerMgr->mCurrentPlayerIndex;
-            mTextWriter->printf("Current player: %i\n", currentPlayer);
-
-            if(isTriggered(mController, Buttons::UpDpad))
-                currentPlayer++;
-            if(isTriggered(mController, Buttons::DownDpad))
-                currentPlayer--;
-            if(currentPlayer < 0)
-                currentPlayer = playerMgr->mTotalPlayerArry.mBufferSize;
-            if(playerMgr->mTotalPlayerArry.mBufferSize <= currentPlayer)
-                currentPlayer = 0;
-            
-            playerMgr->mCurrentPlayerIndex = currentPlayer;
-            playerMgr->onChangeControlledPlayer();
         }
+    }
+
+    Game::PlayerMotion *playerMotion = player->mPlayerMotion;
+
+    if(mode == Modes::EVENT_VIEWER) {
+        static long scroll = 0;
+
+        if(isTriggered(mController, Buttons::UpDpad))
+            scroll++;
+        if(isTriggered(mController, Buttons::DownDpad))
+            scroll--;
+
+        if(isTriggered(mController, Buttons::LeftDpad))
+            scroll-=0x10;
+        if(isTriggered(mController, Buttons::RightDpad))
+            scroll+=0x10;
+
+        if(scroll < 0)
+            scroll = 0;
+
+        mTextWriter->printf("Event ID: 0x%x\n", scroll);
+
+        if(isTriggered(mController, Buttons::LStick))
+            playerMotion->startEventAnim((Game::PlayerMotion::AnimID) scroll, 0, 1.0);
+
+    } else if(mode == Modes::PLAYER_SWITCHER){
+
+        signed int currentPlayer = playerMgr->mCurrentPlayerIndex;
+        mTextWriter->printf("Current player: %i\n", currentPlayer);
+
+        if(isTriggered(mController, Buttons::UpDpad))
+            currentPlayer++;
+        if(isTriggered(mController, Buttons::DownDpad))
+            currentPlayer--;
+        if(currentPlayer < 0)
+            currentPlayer = playerMgr->mTotalPlayerArry.mBufferSize;
+        if(playerMgr->mTotalPlayerArry.mBufferSize <= currentPlayer)
+            currentPlayer = 0;
+        
+        playerMgr->mCurrentPlayerIndex = currentPlayer;
+        playerMgr->onChangeControlledPlayer();
     }
 }
 
@@ -187,7 +182,7 @@ void handlePlayerControl(Cmn::PlayerCtrl* playerCtrl){
     static bool entered = false;
     if(mode == 1 && mCurrentPlayer != NULL){
         static float x, y, z;
-        sead::Vector3<float> *playerPos = &mCurrentPlayer->position;
+        sead::Vector3<float> *playerPos = &mCurrentPlayer->mPosition;
         if(!entered){
             x = playerPos->mX;
             y = playerPos->mY;
@@ -219,9 +214,6 @@ void handlePlayerControl(Cmn::PlayerCtrl* playerCtrl){
 }
 
 void handleMushDataHolder(Cmn::MushDataHolder* mushDataHolder){
-    mTextWriter->printf("MushDataHolder ptr: 0x%x\n", mushDataHolder);
-    mTextWriter->printf("MushWeaponInfo ptr: 0x%x\n", mushDataHolder->mMushWeaponInfo);
-    
     static bool entered = false;
 
     if(!entered){
@@ -238,14 +230,13 @@ void handleMushDataHolder(Cmn::MushDataHolder* mushDataHolder){
         for(int i = 0; i < 230; i++){
             Cmn::MushMapInfo::Data* mapData = mushDataHolder->mMushMapInfo->getByMushOrder(i);
             if(strcmp(mapData->mStr1.mCharPtr, "Fld_Plaza00_Plz") != 0) // plaza crashes when using night mode for whatever reason
-            if(mapData != NULL){
-                mapData->mEnvHour = 2;
-            }
+                if(mapData != NULL){
+                    mapData->mEnvHour = 2;
+                }
         }
 
         entered = true;
     }
-
 }
 
 void handleMainMgr(Game::MainMgr* mainMgr) {
