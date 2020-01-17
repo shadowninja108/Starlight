@@ -20,7 +20,7 @@
 #include "Cmn/StaticMem.h"
 #include "Cmn/CameraUtl.h"
 #include "Cmn/PlayerInfoUtil.h"
-#include "Cmn/PlayerCtrl.h"
+#include "Cmn/Player/PlayerCtrl.h"
 #include "Cmn/Mush/MushDataHolder.h"
 #include "Cmn/GfxSetting.h"
 #include "Cmn/AppUBOMgr.h"
