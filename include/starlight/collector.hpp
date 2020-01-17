@@ -5,7 +5,7 @@
 #include "Game/MainMgr.h"
 #include "Game/PlayerMgr.h"
 #include "Game/Player/Player.h"
-#include "Cmn/PlayerCtrl.h"
+#include "Cmn/Player/PlayerCtrl.h"
 #include "Cmn/StaticMem.h"
 #include "Cmn/GfxSetting.h"
 #include "Cmn/Mush/MushDataHolder.h"
@@ -42,6 +42,7 @@ namespace starlight
 
         static void init();
         static void collect();
+        static void clear();
     };
 }
 

@@ -35,7 +35,9 @@ TARGET		?=	$(notdir $(CURDIR))$(S2VER)
 BUILD		?=	build$(S2VER)
 SOURCES		:= 	source \
 					source/starlight \
-					source/starlight/menu
+					source/starlight/menu \
+					source/starlight/mush \
+					source/starlight/logger
 DATA		:=	data
 INCLUDES	:=	include
 

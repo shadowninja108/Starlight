@@ -16,6 +16,7 @@
 #include "sead/matrix.h"
 #include "sead/arena.h"
 #include "sead/system.h"
+#include "sead/thread.h"
 #include "Cmn/StaticMem.h"
 #include "Cmn/CameraUtl.h"
 #include "Cmn/PlayerInfoUtil.h"
@@ -23,8 +24,10 @@
 #include "Cmn/Mush/MushDataHolder.h"
 #include "Cmn/GfxSetting.h"
 #include "Cmn/AppUBOMgr.h"
+#include "Cmn/CtrlChecker.h"
 #include "Cmn/Def/util.h"
 #include "Cmn/GfxUtl.h"
+#include "Cmn/IPlayerCustomInfo.h"
 #include "Lp/Utl.h"
 #include "Lp/Sys/ctrl.h"
 #include "Lp/Sys/heapgroup.h"
@@ -35,13 +38,17 @@
 #include "Game/PlayerMgr.h"
 #include "Game/MainMgr.h"
 #include "Game/PaintUtl.h"
+#include "Game/RivalMgr.h"
 #include "MiniGame/gfx.h"
 #include "aal/debugdrawer.h"
+#include "nn/hid.h"
 #include "ModuleObject.hpp"
 #include "starlight/collector.hpp"
 #include "starlight/view.hpp"
+#include "starlight/logger/TcpLogger.hpp"
 #include "starlight/menu/simplemenu.hpp"
 #include "starlight/menu/popmenuentry.hpp"
+#include "starlight/menu/mushmenu.hpp"
 
 enum Modes {
     NONE, FLY, EVENT_VIEWER, INPUT_VIEWER,  PLAYER_SWITCHER, PAINT_ALL, END
@@ -50,6 +57,9 @@ enum Modes {
 void renderEntrypoint(agl::DrawContext *drawContext, sead::TextWriter *textWriter);
 
 void allocHeap();
+
+nn::os::Tick nnSocketInitHook();
+void loggerMain(sead::Thread* thread, s64);
 
 void drawBackground();
 void handleStaticMem(Cmn::StaticMem *staticMem);

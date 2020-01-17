@@ -13,7 +13,6 @@ namespace starlight {
 
         class PopMenuEntry : public SimpleMenuEntry {
             public: 
-            std::string str;
 
             PopMenuEntry();
 

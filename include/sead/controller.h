@@ -23,9 +23,9 @@ namespace sead
     public:
 
         // todo -- do me
-        enum AddonId;
-        enum ControllerId;
-        enum DeviceId;
+        enum AddonId {};
+        enum ControllerId {};
+        enum DeviceId {};
     };
 
     class ControllerBase
@@ -129,6 +129,18 @@ namespace sead
         sead::PtrArrayImpl _188;
 
         static ControllerMgr* sInstance;
+    };
+
+    class NinJoyNpadDevice {
+        public:
+        virtual bool checkDerivedRuntimeTypeInfo(sead::RuntimeTypeInfo::Interface const*);
+        virtual sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo();
+        virtual ~NinJoyNpadDevice();
+        virtual void calc();
+
+        void setNpadJoyAssignmentModeDual(int);
+        void setNpadJoyAssignmentModeSingle(int);
+        void setNpadIdUpdateNum(uint);
     };
 
     class ControllerAddon

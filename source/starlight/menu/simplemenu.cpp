@@ -7,9 +7,9 @@ namespace starlight {
         void SimpleMenu::update(starlight::View* view) {
             // handle inputs
             if(Collector::mController.isPressed(Controller::Buttons::UpDpad))
-                mSelectedIndex++;
-            if(Collector::mController.isPressed(Controller::Buttons::DownDpad))
                 mSelectedIndex--;
+            if(Collector::mController.isPressed(Controller::Buttons::DownDpad))
+                mSelectedIndex++;
 
             // handle under/overflow
             int size = mEntries.size();
@@ -23,7 +23,7 @@ namespace starlight {
             int i = 0;
             for (it = mEntries.begin(); it != mEntries.end(); ++it){
                 auto& entry = *it;
-                entry->update();
+                entry->update(view);
                 if(Collector::mController.isPressed(Controller::Buttons::L))
                     if(i == mSelectedIndex)
                         entry->selected(view);
@@ -57,7 +57,7 @@ namespace starlight {
         SimpleMenuEntry::SimpleMenuEntry(){
         }
 
-        void SimpleMenuEntry::update() {
+        void SimpleMenuEntry::update(starlight::View*) {
             if(mUpdateCallback != NULL)
                 mUpdateCallback();
         }

@@ -9,15 +9,15 @@ namespace starlight {
     }
 
     void Controller::update(){
-        mLastPoll = mController->data;
+        mLastPoll = mController->mData1.mButtons;
     }
 
     long Controller::isHeld(Buttons inputs) {
-        return mController->data & inputs;
+        return mController->mData1.mButtons & inputs;
     }
 
     long Controller::isPressed(Buttons inputs) {
-        bool buttonHeld = mController->data & inputs;
-        return buttonHeld & !(mController->data & mLastPoll & inputs);
+        bool buttonHeld = mController->mData1.mButtons & inputs;
+        return buttonHeld & !(mController->mData1.mButtons & mLastPoll & inputs);
     }
 };

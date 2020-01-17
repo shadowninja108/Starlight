@@ -11,9 +11,11 @@ extern "C" void __custom_fini(void) {}
 static agl::DrawContext *mDrawContext;
 static sead::TextWriter *mTextWriter;
 static sead::ExpHeap* mStarlightHeap;
+static sead::Thread* mLoggingThread;
 static View* mView;
 static int mode;
 static bool showMenu;
+static int nnSocketInit = false;
 
 void renderEntrypoint(agl::DrawContext *drawContext, sead::TextWriter *textWriter)
 {
@@ -35,19 +37,42 @@ void renderEntrypoint(agl::DrawContext *drawContext, sead::TextWriter *textWrite
 
     static bool init = false;
     if(!init){
+        TcpLogger::Log("renderEntrypoint init\n");
+
+        sead::SafeStringBase<char> loggingThreadName;
+        loggingThreadName.mCharPtr = "starlight::LoggingThread";
+        sead::Delegate2<sead::TaskMgr, sead::Thread *,s64> loggingDelegate;
+
+        loggingDelegate.mCallback = loggerMain;
+
+        mLoggingThread = new sead::DelegateThread(loggingThreadName, &loggingDelegate, mStarlightHeap, 4, sead::MessageQueue::BlockType::DEFAULT, 0x7FFFFFFF, 0x10000, 20);
+        mLoggingThread->start();
+        TcpLogger::Log("Logging thread started\n");
 
         mView = new View();
         menu::SimpleMenu* m = new menu::SimpleMenu();
-        auto renderCallback = []() {
-            return std::string("Current scene name: ") + std::string(Lp::Utl::getCurSceneName());
+
+        auto loadMushCallback = [](starlight::View* view) {
+            view->pushMenu(new menu::MushViewMenu());
         };
+
         menu::SimpleMenuEntry* sceneDisplayEntry = new menu::SimpleMenuEntry();
-        sceneDisplayEntry->mRenderCallback = renderCallback; 
+        sceneDisplayEntry->mRenderCallback = [](){ 
+            return "Current scene name: " + std::string(Lp::Utl::getCurSceneName()); };
+
+        menu::SimpleMenuEntry* mushEntry = new menu::SimpleMenuEntry();
+        mushEntry->mSelectedCallback = loadMushCallback;
+        mushEntry->mRenderCallback = []() {return "Mush viewer";};
+
         m->mEntries.push_back(sceneDisplayEntry);
+        m->mEntries.push_back(mushEntry);
+        m->mEntries.push_back(testEntry);
 
         mView->pushMenu(m);
         
         init = true;
+
+        TcpLogger::Log("Starlight init complete.\n");
     }
     
     textWriter->printf("Current heap name: %s\n", Collector::mHeapMgr->getCurrentHeap()->mName.mCharPtr);
@@ -119,6 +144,28 @@ void allocHeap() {
     }
 }
 
+nn::os::Tick nnSocketInitHook(){
+    nnSocketInit++;
+    return nn::os::GetSystemTick(); // expected result of replaced call
+}
+
+void loggerMain(sead::Thread* thread, s64){
+    Collector::init();
+    Collector::collect();
+
+    Collector::mHeapMgr->setCurrentHeap_(mStarlightHeap);
+
+    while(nnSocketInit != 2) {
+        Lp::Utl::sleepCurThreadMilliSec(10);
+    };
+
+    TcpLogger::Initialize();
+
+    while(true){
+        TcpLogger::ClearQueue();
+        Lp::Utl::sleepCurThreadMilliSec(1);
+    }
+}
 void drawBackground(){
     sead::Vector3<float> p1; // top left
     p1.mX = -1.0;
@@ -149,7 +196,7 @@ void drawBackground(){
 }
 
 void handleStaticMem(Cmn::StaticMem *staticMem){
-    sead::SafeStringBase<char> *stageName = &staticMem->mMapFileName1;
+    sead::SafeStringBase<char> *stageName = &staticMem->mMapFileName[0];
     if(stageName->mCharPtr != NULL){
         mTextWriter->printf("Loaded stage: %s\n", stageName->mCharPtr);
     }

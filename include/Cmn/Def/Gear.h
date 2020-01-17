@@ -6,6 +6,13 @@ namespace Cmn
 {
     namespace Def
     {
+        enum GearKind {
+            GearKind_cNone = 0,
+            GearKind_cShoes = 1,
+            GearKind_cClothes = 2,
+            GearKind_cHead = 3 
+        };
+
         class Gear
         {
         public:

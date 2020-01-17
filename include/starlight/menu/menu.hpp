@@ -24,7 +24,7 @@ namespace starlight {
         class BaseMenuEntry {
             public:
 
-            virtual void update() = 0;
+            virtual void update(starlight::View*) = 0;
             virtual std::string render() = 0;
             virtual void selected(starlight::View*) = 0;
         };

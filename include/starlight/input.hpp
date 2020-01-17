@@ -5,8 +5,8 @@ namespace starlight {
     class Controller {
         public:
         enum Buttons {
-            B = 1 << 0,
-            A = 1 << 1,
+            A = 1 << 0,
+            B = 1 << 1,
             ZL = 1 << 2,
             Y = 1 << 3,
             X = 1 << 4,

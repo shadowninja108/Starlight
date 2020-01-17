@@ -1,18 +1,17 @@
 #pragma once
 
 #include "types.h"
-#include "sead/vector.h"
-#include "Lp/Sys/ctrl.h"
+#include "Lp/Utl.h"
 
 namespace Cmn {
-    class PlayerCtrl {
+    class PlayerCtrl {        
         public:
         static Cmn::PlayerCtrl* sInstance;
 
-        float getAngleVel();
-        sead::Vector3<float>* getPostureX(void);
-        sead::Vector3<float>* getPostureY(void);
-        sead::Vector3<float>* getPostureZ(void);
+        sead::Vector3<float>* getAngleVel() const;
+        sead::Vector3<float>* getPostureX(void) const;
+        sead::Vector3<float>* getPostureY(void) const;
+        sead::Vector3<float>* getPostureZ(void) const;
         sead::Vector2<float>* getRightStick(void) const;
         bool isHold(unsigned long) const;
         bool isHoldAllAndTrigAny(unsigned long) const;
@@ -22,6 +21,7 @@ namespace Cmn {
         bool isTrigWithRepeat(unsigned long) const;
         bool isTrigWithRepeat(unsigned long, int, int) const;
 
-        Lp::Sys::Ctrl *lpController;
+        Lp::Utl::CtrlMaskConvert mMaskConverter;
+        char PlaterCtrl_x108[0x20];
     };
 };

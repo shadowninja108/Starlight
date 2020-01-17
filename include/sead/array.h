@@ -49,4 +49,14 @@ namespace sead
     public:
         bool compareT(T const *, T const *);
     };
+
+    
+    template<typename T, u64 size>
+    class SafeArray
+    {
+    public:
+        SafeArray();
+
+        T mArray[size];
+    };
 };

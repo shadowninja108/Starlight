@@ -12,6 +12,5 @@ namespace starlight {
         void PopMenuEntry::selected(View* view){
             view->popMenu();
         }
-
     };
 };

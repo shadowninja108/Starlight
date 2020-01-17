@@ -20,7 +20,7 @@ namespace Cmn
         char16_t mPlayerName[17];
         Cmn::Def::Team mTeam;
         u32 mModelType;
-        u32 mModelId;
+        u32 mHairId;
         u32 mSkinColorId;
         u32 mEyeColorId;
         Cmn::Def::Weapon mWeapon;

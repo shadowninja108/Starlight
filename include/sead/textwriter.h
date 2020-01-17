@@ -8,6 +8,8 @@
 #include "types.h"
 #include "sead/projection.h"
 #include "sead/bound.h"
+#include "sead/color.h"
+#include "sead/context.h"
 
 namespace sead
 {

@@ -15,8 +15,8 @@ namespace sead
         T mX;
         T mY;
 
-        static T zero;
-        static T ex;
+        static Vector2<T> zero;
+        static Vector2<T> ex;
     };
 
     template<typename T>
@@ -27,6 +27,8 @@ namespace sead
         T mX;
         T mY;
         T mZ;
+
+        static Vector3<T> zero;
     };
 
     template<typename T>

@@ -37,5 +37,11 @@ namespace Lp {
           u64 LpActor_x2D8;
           u64 LpActor_x2E0;
       };
+
+      class ActorClassIterNodeBase {
+        public:
+        Lp::Sys::Actor* derivedFrontActor();
+        Lp::Sys::Actor* derivedNextActor(Lp::Sys::Actor*);
+      };
   };
 };

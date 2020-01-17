@@ -6,3 +6,4 @@ gsys::SystemTask::invokeDrawTV_+390:
 	BL renderEntrypoint
 	B #0x2B8
 	
+enl::NinInetMatchingManagerPlatformImpl::internetInitialize+BC BL nnSocketInitHook

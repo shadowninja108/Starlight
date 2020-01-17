@@ -40,14 +40,14 @@ namespace sead
     };
 
     template<char16_t T>
-    class FixedSafeString : public sead::BufferedSafeStringBase<char16_t>
+    class FixedSafeString : public sead::BufferedSafeStringBase<char>
     {
     public:
         virtual void assureTerminationImpl_();
     };
 
     template <char16_t T>
-    class WFixedSafeString : public sead::BufferedSafeStringBase<char16_t>
+    class WFixedSafeString : public sead::BufferedSafeStringBase<char>
     {
     public:
         virtual ~WFixedSafeString();

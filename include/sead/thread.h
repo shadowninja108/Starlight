@@ -13,6 +13,7 @@
 #include "list.h"
 #include "string.h"
 #include "tick.h"
+#include "messagequeue.h"
 
 namespace sead
 {
@@ -21,7 +22,7 @@ namespace sead
     class Thread : public sead::IDisposer
     {
     public:
-        Thread(sead::SafeStringBase<char> const &, sead::Heap *, s32, u32, s64, s32, s32);
+        Thread(sead::SafeStringBase<char> const &, sead::Heap *, int, sead::MessageQueue::BlockType, long, int, int);
         Thread(sead::Heap *, nn::os::ThreadType *, u32);
         virtual ~Thread();
         
@@ -124,7 +125,7 @@ namespace sead
     class DelegateThread : public sead::Thread
     {
     public:
-        DelegateThread(sead::SafeStringBase<char> const &, sead::IDelegate2<sead::Thread *,s64> *, sead::Heap *, s32, s64, s64, s32, s32);
+        DelegateThread(sead::SafeStringBase<char> const&, sead::IDelegate2<sead::Thread*, long>*, sead::Heap*, int, sead::MessageQueue::BlockType, long, int, int);
         virtual ~DelegateThread();
 
         virtual void calc_(s64);

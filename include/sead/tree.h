@@ -59,7 +59,7 @@ namespace sead
         sead::MethodTreeNode* find(sead::MethodTreeNode::Condition &);
 
         sead::TreeNode mRootNode; // _20
-        u8 _40[0x78-0x40]; // not sure whats here
+        u8 _48[0x78-0x48]; // not sure whats here
         sead::CriticalSection* mCritSection; // _78
     };
 

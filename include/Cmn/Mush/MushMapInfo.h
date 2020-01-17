@@ -59,9 +59,9 @@ namespace Cmn
         int MushMapInfo_x8;
         int MushMapInfo_xC;
         Data *mMapInfoArray;
-        u32 mMapInfoArrayCount;
+        u32 mMaxMapInfoArrayCount;
         int MushMapInfo_x1C;
-        int MushMapInfo_x20;
+        u32 mMapInfoCount;
         int MushMapInfo_x24;
         Data mDefaultData;
     };

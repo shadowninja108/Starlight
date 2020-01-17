@@ -30,15 +30,15 @@ namespace sead
         u8 b; // _2
         u8 a; // _3
 
-        static u32 cBlack;
-        static u32 cGrey;
-        static u32 cWhite;
-        static u32 cRed;
-        static u32 cGreen;
-        static u32 cBlue;
-        static u32 cYellow;
-        static u32 cMagenta;
-        static u32 cCyan;
+        static Color4u8 cBlack;
+        static Color4u8 cGrey;
+        static Color4u8 cWhite;
+        static Color4u8 cRed;
+        static Color4u8 cGreen;
+        static Color4u8 cBlue;
+        static Color4u8 cYellow;
+        static Color4u8 cMagenta;
+        static Color4u8 cCyan;
     };
 
     class Color4f

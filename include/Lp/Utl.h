@@ -4,6 +4,7 @@
 #include "Sys/ctrl.h"
 #include "sead/color.h"
 #include "sead/camera.h"
+#include "Lp/Sys/ctrl.h"
 #include "agl/lyr/layer.h"
 #include "agl/lyr/renderinfo.h"
 #include "Cmn/Def/Mode.h"
@@ -21,14 +22,29 @@ namespace Lp
         static void convertWorldToScreen(sead::Vector2<float> *,sead::Vector3<float> const&,agl::lyr::Layer const*,sead::Camera const*);
         static void convertWorldToScreen(sead::Vector2<float> *,sead::Vector3<float> const&,sead::Camera const*,sead::Projection const*,sead::Viewport const*);
         
+        static void sleepCurThreadMilliSec(long);
+        static void sleepCurThreadMicroSec(long);
+        
         class ByamlIter {
             
         };
         class ByamlWriter {
             
         };
-         class YamlWriter {
+        class YamlWriter {
             
+        };
+
+        class CtrlMaskConvert {
+            public:
+            Lp::Sys::Ctrl *mController;
+            u32 mData[64];
+        };
+        
+        class Matching {
+            public:
+            static bool isInetMode();
+            static bool isConnectNetwork();
         };
     };
 };

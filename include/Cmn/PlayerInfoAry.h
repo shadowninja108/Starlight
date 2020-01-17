@@ -7,7 +7,10 @@ namespace Cmn
 {
     class PlayerInfoAry {
         public:
-        __int64 vtable;
         Cmn::PlayerInfo *infos[10];
+
+        int getValidInfoNum() const;
+
+        virtual ~PlayerInfoAry();
     };
 };

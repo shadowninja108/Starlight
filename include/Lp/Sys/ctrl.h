@@ -1,53 +1,46 @@
 #pragma once 
 
 #include "types.h"
+#include "sead/matrix.h"
+#include "sead/array.h"
+#include "sead/controller.h"
+#include "ctrldata.h"
 
 namespace Lp
 {
   namespace Sys {
+      #pragma pack(push, 4)
       class Ctrl{
-         public:
-          enum Key {
-              KEY_A = 1 << 0,
-              KEY_B = 1 << 1,
-              KEY_ZL = 1 << 2,
-              KEY_Y = 1 << 3,
-              KEY_X = 1 << 4,
-              KEY_ZR = 1 << 5,
-              KEY_RSTICK = 1 << 6,
-              KEY_LSTICK = 1 << 7,
+        public:
 
-              KEY_UNK1 = 1 << 8,
-              KEY_MINUS = 1 << 9,
-              KEY_PLUS = 1 << 10,
-              KEY_PLUS_ALT = 1 << 11,
-              KEY_MINUS_ALT = 1 << 12,
-              KEY_L = 1 << 13,
-              KEY_R = 1 << 14,
-              KEY_UNK2 = 1 << 15,
+        virtual ~Ctrl();
+        virtual bool checkDerivedRuntimeTypeInfo(sead::RuntimeTypeInfo const*);
+        virtual sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo();
+        virtual void setEnableGyroDirRevise();
+        virtual void setGyroDirReviseBaseMtx(sead::Matrix34<float> const&);
+        virtual void setGyroDirReviseParam(float);
+        virtual void updateData();
+        virtual void updateData200Hz();
 
-              KEY_DUP = 1 << 16,
-              KEY_DDOWN = 1 << 17,
-              KEY_DLEFT = 1 << 18,
-              KEY_DRIGHT = 1 << 19,
-              KEY_LSTICK_UP = 1 << 20,
-              KEY_LSTICK_DOWN = 1 << 21,
-              KEY_LSTICK_LEFT = 1 << 22,
-              KEY_LSTICK_RIGHT = 1 << 23,
+        bool isHoldContinue(unsigned int, int) const;
+        bool isTrigWithRepeat(unsigned int, int, int) const;
 
-              KEY_RSTICK_UP = 1 << 24,
-              KEY_RSTICK_DOWN = 1 << 25,
-              KEY_RSTICK_LEFT = 1 << 26,
-              KEY_RSTICK_RIGHT = 1 << 27,
-          };
-
-          bool isHoldContinue(unsigned int, int) const;
-          bool isTrigWithRepeat(unsigned int, int, int) const;
-
-          __int32 dword0;
-          __int32 dword4;
-          __int64 qword8;
-          __int64 data;
+        u64 Ctrl_x8;
+        CtrlData mData1;
+        CtrlData mData2;
+        u64 Ctrl_x150;
+        u32 Ctrl_x158;
+        sead::SafeArray<CtrlData200Hz, 16> m200hzData;
+        u32 Ctrl_xBDC;
+        u16 Ctrl_xBE0;
+        u16 Ctrl_xBE2; // padding?
+        u32 mIndex;
+        u32 Ctrl_xBE8;
+        sead::BufferedSafeStringBase<char> Ctrl_xBF0;
+        char Ctrl_xC04[32];
+        u32 Ctrl_xC24;
+        sead::NinJoyNpadDevice* mBaseDevice;
       };
+      #pragma pack(pop)
   };
 };

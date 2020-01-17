@@ -25,12 +25,7 @@ namespace Cmn
         Cmn::PlayerInfoAry *mPlayerInfoAry;
         Cmn::Def::Team mTeam;
         u32 staticMem_x44;
-        sead::BufferedSafeStringBase<char> mMapFileName1;
-        char mMapFileNameData1[0x100];
-        sead::BufferedSafeStringBase<char> mMapFileName2;
-        char mMapFileNameData2[0x100];
-        sead::BufferedSafeStringBase<char> mMapFileName3;
-        char mMapFileNameData3[0x100];
+        sead::FixedSafeString<0x100> mMapFileName[3];
         u64 staticMem_x390;
         u32 *mSceneHistory;
         u64 staticMem_x3A0;

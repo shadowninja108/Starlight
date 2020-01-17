@@ -33,5 +33,8 @@ typedef __uint128_t         u128;
 typedef float               f32;
 typedef double              f64;
 
+typedef unsigned char uchar;
+typedef u32 uint;
+
 // stores a result on a lot of OS-related functions
 typedef u32 Result;

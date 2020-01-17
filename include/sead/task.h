@@ -148,7 +148,6 @@ namespace sead
         void attachMethodWithCheck(s32, sead::MethodTreeNode *);
 
         sead::TreeNode mRootTaskNode; // _20
-        u64 _40;
         u64 _48; 
         u64* _50;
         u64* _58;

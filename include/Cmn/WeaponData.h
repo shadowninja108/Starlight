@@ -67,7 +67,6 @@ namespace Cmn {
         int mCoopAddition;
         int mUIRefId;
         bool mIsPressRelease;
-        char padd[3];
         int WeaponData_x1FC;
         ParamEntry mParams[3];
         int CL;

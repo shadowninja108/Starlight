@@ -31,7 +31,7 @@ namespace starlight {
 
             SimpleMenuEntry();
 
-            virtual void update();
+            virtual void update(starlight::View*);
             virtual std::string render();
             virtual void selected(starlight::View*);
         };

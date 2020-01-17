@@ -15,9 +15,59 @@ namespace sead
     class Delegate
     {
     public:
-        void invoke();
-        void clone(sead::Heap *) const;
+        virtual void invoke();
+        virtual void clone(sead::Heap *) const;
+
+        T* mInstance;
+        void (*mCallback)(T);
+        u64 mUnk;
     };
+
+    
+    template<typename T>
+    class IDelegate1
+    {
+    public:
+        virtual void invoke(T);
+        virtual void clone(sead::Heap *) const;
+        virtual bool isNoDummy();
+
+        T* mInstance;
+        void (*mCallback)(T);
+        u64 mUnk;
+    };
+
+    template<typename T, typename T2>
+    class IDelegate2
+    {
+        public:
+        virtual void invoke(T, T2) = 0;
+        virtual void clone(sead::Heap *) const = 0;
+        virtual bool isNoDummy();
+
+        T* mInstance;
+        void (*mCallback)(T, T2);
+        u64 mUnk;
+    };
+
+    template<typename T, typename T2>
+    class Delegate1 : public IDelegate1<T>
+    {
+    public:
+        virtual void invoke(T2);
+        virtual void clone(sead::Heap *) const;
+        virtual bool isNoDummy();
+    };
+
+    template<typename T, typename T2, typename T3>
+    class Delegate2 : public IDelegate2<T2, T3>
+    {
+    public:
+        virtual void invoke(T2, T3);
+        virtual void clone(sead::Heap *) const;
+        virtual bool isNoDummy();
+    };
+
 
     template<typename T>
     class DelegateEvent
@@ -40,36 +90,6 @@ namespace sead
         };
 
         virtual ~DelegateEvent();
-    };
-
-    template<typename T, typename T2>
-    class Delegate1
-    {
-    public:
-        void invoke(T2 *);
-        void clone(sead::Heap *) const;
-    };
-
-    template<typename T, typename T2, typename T3>
-    class Delegate2
-    {
-    public:
-        void invoke(T2 *, T3);
-        void clone(sead::Heap *) const;
-    };
-
-    template<typename T>
-    class IDelegate1
-    {
-    public:
-        u64* clone(sead::Heap *);
-    };
-
-    template<typename T, typename T2>
-    class IDelegate2
-    {
-        public:
-        u64* clone(sead::Heap *);
     };
 
     template<typename T>
