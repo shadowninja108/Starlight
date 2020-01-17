@@ -66,7 +66,6 @@ void renderEntrypoint(agl::DrawContext *drawContext, sead::TextWriter *textWrite
 
         m->mEntries.push_back(sceneDisplayEntry);
         m->mEntries.push_back(mushEntry);
-        m->mEntries.push_back(testEntry);
 
         mView->pushMenu(m);
         

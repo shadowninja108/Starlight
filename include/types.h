@@ -34,7 +34,9 @@ typedef float               f32;
 typedef double              f64;
 
 typedef unsigned char uchar;
+typedef u16 ushort;
 typedef u32 uint;
+typedef u64 ulong;
 
 // stores a result on a lot of OS-related functions
 typedef u32 Result;
