@@ -83,12 +83,12 @@ for patchDir in patchDirectories:
             print(f'Sending {sdPath}')
             ftp.storbinary(f'STOR {sdPath}', open(fullPath, 'rb'))
 
-ensuredirectory(ftp, '/atmosphere', 'titles')
-ensuredirectory(ftp, '/atmosphere/titles', titleIdLookup[romType])
-ensuredirectory(ftp, f'/atmosphere/titles/{titleIdLookup[romType]}', 'exefs')
+ensuredirectory(ftp, '/atmosphere', 'contents')
+ensuredirectory(ftp, '/atmosphere/contents', titleIdLookup[romType])
+ensuredirectory(ftp, f'/atmosphere/contents/{titleIdLookup[romType]}', 'exefs')
 
 binaryPath = f'{os.path.basename(os.getcwd())}{version}.nso'
 if os.path.isfile(binaryPath):
-    sdPath = f'/atmosphere/titles/{titleIdLookup[romType]}/exefs/subsdk0'
+    sdPath = f'/atmosphere/contents/{titleIdLookup[romType]}/exefs/subsdk0'
     print(f'Sending {sdPath}')
     ftp.storbinary(f'STOR {sdPath}', open(binaryPath, 'rb'))
