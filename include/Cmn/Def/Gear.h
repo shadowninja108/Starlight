@@ -20,5 +20,7 @@ namespace Cmn
             s32 mSubSkillIds[3];
             u32 mGearExp;
         };
+
+        enum class GearKind : int { cShoes, cClothes, cHead, cNone };
     };
 };
